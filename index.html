@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAPA CAFE' - Official Website</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#1A1A1A] text-[#f4efe9] font-sans min-h-screen flex flex-col justify-between" onload="loadProductsFromServer()">
+
+    <nav class="bg-[#1f1610] border-b border-[#3d2a1d] sticky top-0 z-50 px-4 py-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-center md:text-left">
+                <h1 class="text-2xl md:text-3xl font-bold text-[#d4a373] tracking-wide cursor-pointer" onclick="switchTab('home')">CAPA CAFE'</h1>
+                <p class="text-[10px] md:text-xs text-[#c4b7a6] mt-0.5">Amarapura, Mandalay</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 text-xs md:text-sm font-semibold">
+                <button id="tab-home" onclick="switchTab('home')" class="px-3 py-2 rounded bg-[#d4a373] text-[#150e0a] font-bold transition-all cursor-pointer">Home</button>
+                <button id="tab-order" onclick="switchTab('order')" class="px-3 py-2 rounded text-[#c4b7a6] bg-[#1a120c] border border-[#3d2a1d] md:border-0 md:bg-transparent hover:text-[#f4efe9] transition-all cursor-pointer">Order Online</button>
+                <button id="tab-about" onclick="switchTab('about')" class="px-3 py-2 rounded text-[#c4b7a6] bg-[#1a120c] border border-[#3d2a1d] md:border-0 md:bg-transparent hover:text-[#f4efe9] transition-all cursor-pointer">About Us</button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="page-home" class="max-w-6xl mx-auto px-4 py-8 md:py-12 flex-1 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center w-full">
+        <div class="space-y-4 md:space-y-6 order-2 md:order-1 text-center md:text-left">
+            <span class="text-[#d4a373] text-xs md:text-sm font-bold tracking-widest uppercase block">Welcome to Capa Cafe'</span>
+            <h2 class="text-3xl md:text-5xl font-extrabold leading-normal md:leading-relaxed">
+    အမရပူရမြို့ရဲ့ အကောင်းဆုံး <span class="text-[#d4a373]">ကော်ဖီနှင့် မုန့်များ</span>
+</h2>
+            <p class="text-[#c4b7a6] leading-relaxed text-sm md:text-base px-2 md:px-0">
+                လတ်ဆတ်ပြီး အရည်အသွေးမြင့် ကော်ဖီစေ့များကိုသာ အချိုးကျဖော်စပ်ထားပြီး စိတ်အပန်းပြေစေမည့် ပတ်ဝန်းကျင်ကောင်းတစ်ခုကို ဖန်တီးပေးထားပါတယ်။ ဆိုင်သို့ ကိုယ်တိုင်လာရောက်၍ဖြစ်စေ၊ အိမ်အရောက် Delivery စနစ်ဖြင့်ဖြစ်စေ သုံးဆောင်နိုင်ပါပြီ။
+            </p>
+            <div class="pt-2 flex flex-col sm:flex-row gap-3 justify-center md:justify-start px-4 md:px-0">
+                <button onclick="switchTab('order')" class="w-full sm:w-auto bg-[#d4a373] text-[#150e0a] font-bold px-6 py-3 rounded-md hover:bg-[#b88555] transition-all shadow-lg cursor-pointer text-sm">Order Now (မှာယူရန်)</button>
+                <button onclick="switchTab('about')" class="w-full sm:w-auto border border-[#3d2a1d] text-[#f4efe9] font-bold px-6 py-3 rounded-md hover:bg-[#1f1610] transition-all cursor-pointer text-sm">Read Our Story</button>
+            </div>
+        </div>
+        <div class="order-1 md:order-2 px-2 md:px-0">
+            <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=800" alt="Cafe Hero Image" class="rounded-2xl shadow-2xl border border-[#3d2a1d] object-cover w-full h-[240px] sm:h-[320px] md:h-[400px]">
+        </div>
+    </section>
+
+    <section id="page-order" class="hidden max-w-6xl mx-auto px-4 py-6 md:py-10 flex-1 grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+        <div class="md:col-span-2 space-y-4">
+            <h2 class="text-lg md:text-xl font-bold border-b border-[#3d2a1d] pb-2 text-[#d4a373]">☕️ Menu List</h2>
+            <div id="product-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <p class="text-[#c4b7a6] animate-pulse text-sm p-4">မီနူးစာရင်းများကို ဆွဲယူနေပါသည်...</p>
+            </div>
+        </div>
+        <div class="bg-[#1f1610] p-4 md:p-5 rounded-lg border border-[#3d2a1d] h-fit md:sticky md:top-28 shadow-xl">
+            <h2 class="text-lg md:text-xl font-bold border-b border-[#3d2a1d] pb-2 text-[#d4a373] mb-4">🛒 Your Cart</h2>
+            <div id="cart-items" class="space-y-3 max-h-48 overflow-y-auto mb-4 text-xs md:text-sm">
+                <p class="text-[#c4b7a6] text-center py-6">ခြင်းတောင်းထဲမှာ ပစ္စည်းမရှိသေးပါ။</p>
+            </div>
+            <div class="border-t border-[#3d2a1d] pt-3 flex justify-between font-bold text-base md:text-lg mb-4">
+                <span>Total:</span>
+                <span id="cart-total" class="text-[#d4a373]">0 MMK</span>
+            </div>
+            <div class="space-y-3 text-xs md:text-sm">
+                <div>
+                    <label class="block text-xs text-[#c4b7a6] mb-1 font-semibold">ဝယ်ယူသူအမည်</label>
+                    <input type="text" id="cus_name" class="w-full bg-[#150e0a] border border-[#3d2a1d] rounded px-3 py-2 text-white focus:outline-none focus:border-[#d4a373]">
+                </div>
+                <div>
+                    <label class="block text-xs text-[#c4b7a6] mb-1 font-semibold">ဖုန်းနံပါတ်</label>
+                    <input type="tel" id="cus_phone" class="w-full bg-[#150e0a] border border-[#3d2a1d] rounded px-3 py-2 text-white focus:outline-none focus:border-[#d4a373]">
+                </div>
+                <div>
+                    <label class="block text-xs text-[#c4b7a6] mb-1 font-semibold">ပို့ဆောင်ရမည့်လိပ်စာ</label>
+                    <textarea id="cus_address" rows="2" class="w-full bg-[#150e0a] border border-[#3d2a1d] rounded px-3 py-2 text-white focus:outline-none focus:border-[#d4a373]" placeholder="အိမ်အမှတ်၊ လမ်း..."></textarea>
+                </div>
+                <div class="border-t border-[#3d2a1d] pt-3">
+                    <label class="block text-xs text-[#d4a373] font-bold mb-1.5">ငွေလွှဲပြေစာ တင်ရန်</label>
+                    <input type="file" id="payment_screenshot" accept="image/*" onchange="previewImage(event)" class="w-full text-xs text-[#c4b7a6] file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:text-xs file:bg-[#3d2a1d] file:text-[#f4efe9]">
+                    <img id="screenshot_preview" class="hidden mt-3 w-full h-32 object-contain bg-[#150e0a] p-1 rounded border border-[#3d2a1d]">
+                </div>
+                <button onclick="submitOrder()" id="btn-submit" class="w-full bg-[#d4a373] text-[#150e0a] py-3 rounded-md font-bold hover:bg-[#b88555] transition-all cursor-pointer text-sm mt-2">Confirm Order (မှာယူမည်)</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="page-about" class="hidden max-w-4xl mx-auto px-4 py-8 md:py-12 flex-1 space-y-8 w-full">
+        <div class="text-center space-y-3">
+            <h2 class="text-2xl md:text-3xl font-bold text-[#d4a373]">Our Story (ကျွန်ုပ်တို့အကြောင်း)</h2>
+            <p class="text-[#c4b7a6] text-sm md:text-base max-w-2xl mx-auto px-2">
+                CAPA CAFE' ကို မန္တလေးတိုင်း၊ အမရပူရမြို့နယ်တွင် ကော်ဖီချစ်သူများအတွက် ပရီမီယံအရသာကို သင့်တင့်သော ဈေးနှုန်းဖြင့် ပေးစွမ်းနိုင်ရန် ရည်ရွယ်၍ တည်ထောင်ခဲ့ခြင်း ဖြစ်ပါသည်။
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-[#1f1610] p-5 md:p-8 rounded-2xl border border-[#3d2a1d] mx-2">
+            <div class="space-y-4 order-2 md:order-1">
+                <h3 class="text-lg md:text-xl font-bold text-[#d4a373]">📍 ဆိုင်တည်နေရာနှင့် ဖွင့်ချိန်</h3>
+                <p class="text-xs md:text-sm text-[#c4b7a6] leading-relaxed">
+                    <b>လိပ်စာ:</b> အမရပူရမြို့၊ မန္တလေးမြို့။<br>
+                    <b>ဖွင့်လှစ်ချိန်:</b> နေ့စဉ် နံနက် ၇:०० နာရီ မှ ည ၈:०० နာရီထိ။
+                </p>
+                <h3 class="text-lg md:text-xl font-bold text-[#d4a373] pt-2">🌟 ကျွန်ုပ်တို့၏ ကတိကဝတ်</h3>
+                <p class="text-xs md:text-sm text-[#c4b7a6] leading-relaxed">
+                    ကျွန်ုပ်တို့ဆိုင်မှ ရောင်းချသော မုန့်နှင့် ကော်ဖီများအားလုံးသည် တစ်နေ့တာအတွင်း လတ်လတ်ဆတ်ဆတ် ပြင်ဆင်ထားသော ပစ္စည်းများသာ ဖြစ်ပြီး ကျန်းမာရေးနှင့် ညီညွတ်မှုကို အဓိက ဦးစားပေးပါသည်။
+                </p>
+            </div>
+            <div class="order-1 md:order-2">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=600" alt="Cafe Shop View" class="rounded-xl object-cover w-full h-[180px] sm:h-[240px] md:h-full border border-[#3d2a1d]">
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1f1610] text-center p-4 border-t border-[#3d2a1d] text-[10px] md:text-xs text-[#c4b7a6] w-full mt-8">
+        &copy; 2026 CAPA CAFE'. All Rights Reserved. Fully Mobile Responsive.
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function switchTab(tabName) {
+            document.getElementById('page-home').classList.add('hidden');
+            document.getElementById('page-order').classList.add('hidden');
+            document.getElementById('page-about').classList.add('hidden');
+            
+            // Unactive State Button Styles
+            const unactiveStyle = "px-3 py-2 rounded text-[#c4b7a6] bg-[#1a120c] border border-[#3d2a1d] md:border-0 md:bg-transparent hover:text-[#f4efe9] transition-all cursor-pointer";
+            document.getElementById('tab-home').className = unactiveStyle;
+            document.getElementById('tab-order').className = unactiveStyle;
+            document.getElementById('tab-about').className = unactiveStyle;
+
+            // Active State Button Style
+            document.getElementById('page-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-' + tabName).className = "px-3 py-2 rounded bg-[#d4a373] text-[#150e0a] font-bold transition-all cursor-pointer";
+            
+            // Scroll to top when changing tab on mobile
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function loadProductsFromServer() {
+            fetch('/api/products')
+            .then(res => res.json())
+            .then(products => {
+                const container = document.getElementById('product-list-container');
+                if (products.length === 0) {
+                    container.innerHTML = '<p class="text-[#c4b7a6] p-4 text-sm">လက်ရှိ ရောင်းချမည့် ပစ္စည်းမရှိသေးပါဗျာ (Admin Bot တွင် /add ဖြင့် တင်ပေးပါ)။</p>';
+                    return;
+                }
+                let html = '';
+                products.forEach(p => {
+                    html += `
+                        <div class="bg-[#1f1610] rounded-lg border border-[#3d2a1d] overflow-hidden flex flex-col justify-between shadow-md mx-1">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-40 md:h-44 object-cover">
+                            <div class="p-4 flex-1 flex flex-col justify-between">
+                                <h3 class="text-sm md:text-base font-bold">${p.name}</h3>
+                                <div class="flex justify-between items-center mt-3">
+                                    <span class="text-[#d4a373] font-bold text-xs md:text-sm">${p.price.toLocaleString()} MMK</span>
+                                    <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#d4a373] text-[#150e0a] px-3 py-1.5 rounded text-xs font-bold hover:bg-[#b88555] cursor-pointer">Add</button>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+                container.innerHTML = html;
+            }).catch(() => {
+                document.getElementById('product-list-container').innerHTML = '<p class="text-red-400 p-4 text-sm">Server ချိတ်ဆက်မှု မရနိုင်သေးပါ။</p>';
+            });
+        }
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) { existingItem.qty += 1; } 
+            else { cart.push({ name, price, qty: 1 }); }
+            updateCartUI();
+        }
+
+        function changeQty(name, amount) {
+            const item = cart.find(item => item.name === name);
+            if (item) {
+                item.qty += amount;
+                if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-items');
+            const totalContainer = document.getElementById('cart-total');
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p class="text-[#c4b7a6] text-center py-6 text-xs">ခြင်းတောင်းထဲမှာ ပစ္စည်းမရှိသေးပါ။</p>';
+                totalContainer.innerText = '0 MMK';
+                return;
+            }
+            let html = ''; let total = 0;
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                html += `
+                    <div class="flex justify-between items-center bg-[#150e0a] p-2 rounded border border-[#3d2a1d]">
+                        <div><p class="font-semibold text-xs">${item.name}</p><p class="text-[10px] text-[#d4a373]">${item.price.toLocaleString()} x ${item.qty}</p></div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="changeQty('${item.name}', -1)" class="bg-[#3d2a1d] px-2 py-0.5 rounded text-xs cursor-pointer font-bold">-</button>
+                            <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                            <button onclick="changeQty('${item.name}', 1)" class="bg-[#3d2a1d] px-2 py-0.5 rounded text-xs cursor-pointer font-bold">+</button>
+                        </div>
+                    </div>`;
+            });
+            cartContainer.innerHTML = html;
+            totalContainer.innerText = total.toLocaleString() + ' MMK';
+        }
+
+        function previewImage(event) {
+            const preview = document.getElementById('screenshot_preview');
+            if(event.target.files.length > 0) {
+                preview.src = URL.createObjectURL(event.target.files[0]);
+                preview.classList.remove('hidden');
+            }
+        }
+
+        function submitOrder() {
+            const name = document.getElementById('cus_name').value.trim();
+            const phone = document.getElementById('cus_phone').value.trim();
+            const address = document.getElementById('cus_address').value.trim();
+            const fileInput = document.getElementById('payment_screenshot');
+            const submitBtn = document.getElementById('btn-submit');
+
+            if (cart.length === 0 || !name || !phone || !address || fileInput.files.length === 0) return alert('အချက်အလက်များနှင့် ပြေစာပုံ ပြည့်စုံစွာ ဖြည့်စွက်ပေးပါ။');
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Processing Order...";
+
+            const formData = new FormData();
+            formData.append('customer_name', name);
+            formData.append('customer_phone', phone);
+            formData.append('customer_address', address);
+            formData.append('items', JSON.stringify(cart));
+            formData.append('screenshot', fileInput.files[0]);
+
+            fetch('/api/order', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert('🎉 အော်ဒါတင်ခြင်း အောင်မြင်ပါသည်။ ဆိုင်၏ Telegram သို့ ပို့ပြီးပါပြီ။');
+                    cart = []; updateCartUI();
+                    document.getElementById('cus_name').value = ''; document.getElementById('cus_phone').value = ''; document.getElementById('cus_address').value = '';
+                    fileInput.value = ''; document.getElementById('screenshot_preview').classList.add('hidden');
+                    switchTab('home');
+                } else { alert('❌ စနစ်ချို့ယွင်းချက် ရှိနေပါသည်။'); }
+            })
+            .catch(() => alert('❌ Server Error.'))
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Confirm Order (မှာယူမည်)";
+            });
+        }
+    </script>
+</body>
+</html>

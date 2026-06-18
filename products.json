@@ -1,0 +1,14 @@
+[
+    {
+        "id": "1781756982",
+        "name": "latte",
+        "price": 5500,
+        "image": "https://i.ibb.co/hRf0YW0d/latte.jpg"
+    },
+    {
+        "id": "1781757063",
+        "name": "coffee",
+        "price": 5500,
+        "image": "https://i.ibb.co/zh4wYKrW/coffee.jpg"
+    }
+]
