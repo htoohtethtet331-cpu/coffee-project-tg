@@ -7,8 +7,8 @@ from flask import Flask, request, jsonify, send_from_directory
 app = Flask(__name__)
 
 # ==================== [ ⚠️ API KEYS CONFIGURATION ] ====================
-TELEGRAM_BOT_TOKEN = "8947073943:AAEUOXzSnXpXWYg4p60ohdsmownW5dU0wsw"   
-TELEGRAM_CHAT_ID = "1967155608"       
+TELEGRAM_BOT_TOKEN = "8142082008:AAFdWGm7K4Ql7l-ytZON6-FjMtoLAGQlgT4"   
+TELEGRAM_CHAT_ID = "7345558963"       
 IMGBB_API_KEY = "371d33f4a13209017e739a26fdb50c89"             
 # =====================================================================
 
