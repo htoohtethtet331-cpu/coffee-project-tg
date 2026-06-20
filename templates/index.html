@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Capa Cafe' - Immersive 3D</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- Three.js Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <style>
+        /* Mobile-First Reset */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --cream: #f5ede0;
+            --brown: #3b1f0e;
+            --mocha: #7b4a2d;
+            --gold: #c9973a;
+            --dark: #100b07;
+        }
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            background: var(--dark);
+            font-family: 'Inter', sans-serif;
+            color: var(--cream);
+            overflow: hidden; /* Hide main scrollbar, we will use snap container */
+            overscroll-behavior-y: none;
+        }
+
+        /* ─── FIXED LOGO ─── */
+        #fixed-logo {
+            position: fixed;
+            top: 25px;
+            left: 20px;
+            width: 70px;
+            height: auto;
+            z-index: 9500;
+            pointer-events: none;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+            opacity: 0;
+        }
+
+        /* ─── LOADER ─── */
+        #loader {
+            position: fixed; inset: 0; z-index: 9000;
+            background: var(--dark);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+        }
+        .steam-line { stroke: var(--gold); stroke-width: 2.5; fill: none; animation: steam 1.4s ease-in-out infinite; opacity: 0.7; }
+        .steam-line:nth-child(2) { animation-delay: 0.3s; }
+        .steam-line:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes steam {
+            0% { transform: translateY(0) scaleX(1); opacity: 0.7; }
+            50% { transform: translateY(-10px) scaleX(1.3); opacity: 0.4; }
+            100% { transform: translateY(-20px) scaleX(0.8); opacity: 0; }
+        }
+        .loader-label { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); letter-spacing: 0.1em; }
+        .progress-wrap { width: 200px; height: 3px; background: rgba(255, 255, 255, 0.1); border-radius: 99px; overflow: hidden; }
+        #progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--mocha), var(--gold)); border-radius: 99px; transition: width 0.2s ease; }
+        #progress-pct { font-size: 0.85rem; color: #a08070; letter-spacing: 0.05em; }
+
+        /* ─── SNAP CONTAINER ─── */
+        #app-container {
+            width: 100vw;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            opacity: 0; /* Hidden until loaded */
+        }
+        /* Hide scrollbar */
+        #app-container::-webkit-scrollbar { display: none; }
+
+        /* ─── SNAP PAGE (Shared) ─── */
+        .snap-page {
+            width: 100vw;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            background: radial-gradient(circle at center, #2a1b12 0%, #100b07 100%);
+            padding-top: 8vh;
+            padding-bottom: 5vh;
+            overflow: hidden;
+        }
+
+        .classic-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--gold);
+            text-align: center;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .canvas-container {
+            width: 100%;
+            flex-grow: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .canvas-container canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+            outline: none;
+        }
+
+        /* ─── GLASS UI CARDS ─── */
+        .glass-ui {
+            background: rgba(25, 18, 14, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+        .glass-ui p {
+            font-size: 1rem;
+            color: var(--cream);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .tag {
+            display: inline-block; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+            background: rgba(201, 151, 58, 0.15); border: 1px solid rgba(201, 151, 58, 0.3);
+            color: var(--gold); padding: 0.4rem 1rem; border-radius: 99px; margin-bottom: 1rem;
+        }
+        .order-btn {
+            background: linear-gradient(135deg, var(--gold), #D97736);
+            color: var(--dark); border: none; padding: 0.8rem 2rem; font-size: 1rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em; border-radius: 99px;
+            box-shadow: 0 4px 15px rgba(201,151,58,0.4); cursor: pointer; transition: transform 0.2s;
+        }
+        .order-btn:active { transform: scale(0.95); }
+
+        /* ─── PAGE 1 SCROLL HINT ─── */
+        .scroll-hint {
+            position: absolute;
+            bottom: 3.5rem;
+            right: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 10;
+            opacity: 0.7;
+        }
+        .scroll-arrow {
+            width: 12px; height: 12px;
+            border-right: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            transform: rotate(45deg);
+            animation: bounce 1.6s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(8px); }
+        }
+
+        /* ─── PAGE 2 SPECIFIC ─── */
+        /* Floating content blocks placed around the base cup */
+        .floating-content {
+            position: absolute;
+            z-index: 10;
+            background: rgba(25, 18, 14, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(201,151,58, 0.2);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            width: 40%;
+            min-width: 140px;
+            text-align: center;
+        }
+        .floating-content h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .floating-content p {
+            font-size: 0.8rem;
+            color: var(--cream);
+            line-height: 1.4;
+        }
+        .float-tl { top: 10%; left: 5%; }
+        .float-br { bottom: 10%; right: 5%; }
+
+    </style>
+</head>
+<body>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="steam-line" d="M28 18 Q26 12 28 6" />
+            <path class="steam-line" d="M40 20 Q38 13 40 5" />
+            <path class="steam-line" d="M52 18 Q50 12 52 6" />
+            <path d="M16 28 L22 70 H58 L64 28 Z" fill="#3b1f0e" stroke="#7b4a2d" stroke-width="2" />
+            <ellipse cx="40" cy="28" rx="24" ry="6" fill="#7b4a2d" />
+            <path d="M64 36 Q76 36 76 48 Q76 60 64 60" stroke="#7b4a2d" stroke-width="5" fill="none" stroke-linecap="round" />
+            <ellipse cx="40" cy="72" rx="28" ry="5" fill="#3b1f0e" stroke="#7b4a2d" stroke-width="1.5" />
+        </svg>
+        <div class="loader-label">Brewing your experience…</div>
+        <div class="progress-wrap">
+            <div id="progress-bar"></div>
+        </div>
+        <div id="progress-pct">0%</div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-container">
+        
+        <img id="fixed-logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Capa Cafe" />
+
+        <!-- PAGE 1: Coffee Cup -->
+        <section class="snap-page" id="page-1">
+            <h1 class="classic-title">Capa Cafe'</h1>
+            <div id="canvas-1" class="canvas-container"></div>
+            <div class="glass-ui">
+                <span class="tag">Golden Hour Experience</span>
+                <p>တောင်သမန်အင်းရေပြင်ရဲ့ အေးချမ်းမှုနဲ့ ဦးပိန်တံတားရဲ့ ရှေးဟောင်းအငွေ့အသက်တွေကြားမှာ အရည်အသွေးမြင့် ကော်ဖီတစ်ခွက်နဲ့အတူ သင့်ရဲ့ အဖိုးတန်အချိန်တွေကို ကုန်ဆုံးလိုက်ပါ။</p>
+                <button class="order-btn" onclick="window.location.href='First.html'">Order Now</button>
+            </div>
+            <!-- Swipe up hint -->
+            <div class="scroll-hint">
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: Base Coffee Cup -->
+        <section class="snap-page" id="page-2">
+            <h1 class="classic-title" style="font-size: 2.2rem;">The Origin</h1>
+            <div id="canvas-2" class="canvas-container">
+                <!-- Floating Info blocks around the 3D model -->
+                <div class="floating-content float-tl">
+                    <h3>Sunset Vibe</h3>
+                    <p>နေ့စဉ် နံနက် ၇:၀၀ မှ ည ၈:၀၀ အထိ ဖွင့်လှစ်ထားပါသည်။</p>
+                </div>
+                <div class="floating-content float-br">
+                    <h3>Our Promise</h3>
+                    <p>လတ်လတ်ဆတ်ဆတ် ပြင်ဆင်ထားသော ပစ္စည်းများသာ သုံးစွဲပါသည်။</p>
+                </div>
+            </div>
+            <div class="glass-ui" style="margin-top: 1rem;">
+                <span class="tag">Heritage Meets Modernity</span>
+                <p>ကမ္ဘာကျော် ဦးပိန်တံတားရဲ့ သမိုင်းဝင်အလှတရားတွေနဲ့အတူ သင့်ရဲ့မောပန်းမှုတွေကို CAPA CAFE' မှာ ဖြေဖျောက်လိုက်ပါ။</p>
+                <button class="order-btn" onclick="window.location.href='First.html'" style="font-size: 0.9rem; padding: 0.6rem 1.5rem;">Explore More</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // --- Loading Logic ---
+        const modelsToLoad = 2;
+        let modelsLoadedCount = 0;
+        let totalProgress = { model1: 0, model2: 0 };
+
+        function updateProgress() {
+            const pct = Math.round((totalProgress.model1 + totalProgress.model2) / 2);
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-pct').textContent = pct + '%';
+        }
+
+        function checkReveal() {
+            modelsLoadedCount++;
+            if (modelsLoadedCount >= modelsToLoad) {
+                // Fade out loader and fade in app
+                gsap.to('#loader', {
+                    opacity: 0, duration: 0.8, ease: 'power2.in',
+                    onComplete: () => { document.getElementById('loader').style.display = 'none'; }
+                });
+                gsap.to('#app-container', {
+                    opacity: 1, duration: 1, delay: 0.4, ease: 'power2.out'
+                });
+                
+                // Animate elements in the first page
+                gsap.to('#fixed-logo', { opacity: 1, duration: 1, delay: 0.8 });
+                gsap.fromTo('#page-1 .classic-title', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 1, delay: 0.8, ease: 'power3.out' });
+                gsap.fromTo('#page-1 .glass-ui', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 1.1, ease: 'power3.out' });
+            }
+        }
+
+        // --- Three.js Setup Function ---
+        function create3DScene(containerId, modelPath, scaleDivisor, progressKey) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.set(0, 0, 5);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            // Improve rendering colors
+            renderer.outputColorSpace = THREE.SRGBColorSpace;
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            container.appendChild(renderer.domElement);
+
+            const controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.enableZoom = false;
+            controls.enablePan = false;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 2.0;
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0xffffff, 2);
+            dirLight.position.set(5, 5, 5);
+            scene.add(dirLight);
+
+            const loader = new GLTFLoader();
+            loader.load(
+                modelPath,
+                (gltf) => {
+                    const model = gltf.scene;
+                    const box = new THREE.Box3().setFromObject(model);
+                    const size = box.getSize(new THREE.Vector3());
+                    const center = box.getCenter(new THREE.Vector3());
+                    model.position.sub(center); 
+                    
+                    const maxDim = Math.max(size.x, size.y, size.z);
+                    const scale = scaleDivisor / maxDim;
+                    model.scale.set(scale, scale, scale);
+
+                    scene.add(model);
+                    
+                    totalProgress[progressKey] = 100;
+                    updateProgress();
+                    checkReveal();
+                },
+                (xhr) => {
+                    if (xhr.lengthComputable) {
+                        totalProgress[progressKey] = (xhr.loaded / xhr.total) * 100;
+                        updateProgress();
+                    }
+                },
+                (error) => {
+                    console.error("Error loading " + modelPath, error);
+                    checkReveal(); // fail gracefully
+                }
+            );
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                if(container.clientWidth > 0) {
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                }
+            });
+        }
+
+        // Initialize both scenes
+        // Use a scaleDivisor of 3.5 to fit nicely in the view.
+        create3DScene('canvas-1', "{{ url_for('static', filename='models/coffee_cup.glb') }}", 3.5, 'model1');
+        create3DScene('canvas-2', "{{ url_for('static', filename='models/base_coffee_cup.glb') }}", 3.5, 'model2');
+
+    </script>
+</body>
+</html>

@@ -12,10 +12,11 @@
         body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         .glass-nav {
-            background: rgba(8, 8, 8, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            background: rgba(10, 10, 10, 0.4);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
         
         /* U Bein Sunset Gradient */
@@ -46,9 +47,44 @@
             transition: all 0.3s ease;
         }
         input[type="file"]::file-selector-button:hover { opacity: 0.9; }
+
+        /* Apple Glassmorphism Classes */
+        .glass-card {
+            background: rgba(25, 18, 14, 0.25);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        }
+        
+        .glass-input {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e5e5e5;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+        .glass-input:focus {
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(0, 0, 0, 0.4);
+            outline: none;
+            box-shadow: 0 0 15px rgba(217, 119, 54, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
-<body class="text-[#e5e5e5] min-h-screen flex flex-col" onload="loadProductsFromServer()">
+<body class="text-[#e5e5e5] min-h-screen flex flex-col relative" onload="loadProductsFromServer()">
+
+    <!-- Abstract Glow Background -->
+    <div class="fixed inset-0 z-[-1] bg-[#050505] overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#D97736] rounded-full blur-[150px] opacity-20"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#D4AF37] rounded-full blur-[180px] opacity-[0.12]"></div>
+        <div class="absolute top-[40%] left-[60%] w-[40%] h-[40%] bg-[#8a6e1c] rounded-full blur-[120px] opacity-[0.15]"></div>
+    </div>
 
     <!-- Premium Glassmorphism Navbar -->
     <nav class="glass-nav fixed top-0 w-full z-50 px-4 py-3 md:py-4 transition-all">
@@ -94,7 +130,7 @@
             <div class="w-full md:w-1/2 relative slide-up" style="animation-delay: 0.2s;">
                 <div class="absolute inset-0 bg-gradient-to-tr from-[#D97736]/30 to-[#D4AF37]/10 blur-3xl rounded-full"></div>
                 <!-- Using a moody sunset over a wooden bridge/lake image to represent U Bein -->
-                <img src="capa.jpg" alt="Capa Coffee Cafe amarapura" class="relative z-10 rounded-2xl shadow-2xl border border-[#2a2a2a] object-cover w-full h-[400px] md:h-[550px] grayscale-[15%] hover:grayscale-0 sepia-[20%] transition-all duration-700">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000" alt="Capa Coffee Cafe amarapura" class="relative z-10 rounded-2xl shadow-2xl border border-[#2a2a2a] object-cover w-full h-[400px] md:h-[550px] grayscale-[15%] hover:grayscale-0 sepia-[20%] transition-all duration-700">
             </div>
         </section>
 
@@ -109,14 +145,14 @@
                 
                 <div id="product-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <!-- Loading skeleton -->
-                    <div class="animate-pulse bg-[#111] rounded-2xl h-64 border border-[#222]"></div>
-                    <div class="animate-pulse bg-[#111] rounded-2xl h-64 border border-[#222]"></div>
+                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#222]"></div>
+                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#222]"></div>
                 </div>
             </div>
 
             <!-- Right: Sticky Glass Cart -->
             <div class="lg:sticky lg:top-32 h-fit">
-                <div class="bg-[#0f0f0f]/90 backdrop-blur-xl p-6 rounded-3xl border border-[#2a2a2a] shadow-2xl relative overflow-hidden group">
+                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D4AF37] via-[#D97736] to-[#8a6e1c]"></div>
                     
                     <h2 class="text-xl font-bold mb-5 flex items-center gap-2 text-[#e5e5e5]">
@@ -138,13 +174,17 @@
                     <!-- Checkout Form -->
                     <div class="space-y-4">
                         <div class="space-y-3">
-                            <input type="text" id="cus_name" placeholder="Full Name" class="w-full bg-[#080808] border border-[#2a2a2a] rounded-xl px-4 py-3 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#D97736] transition-colors">
-                            <input type="tel" id="cus_phone" placeholder="Phone Number" class="w-full bg-[#080808] border border-[#2a2a2a] rounded-xl px-4 py-3 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#D97736] transition-colors">
-                            <textarea id="cus_address" rows="2" placeholder="Delivery Address (Around Amarapura)" class="w-full bg-[#080808] border border-[#2a2a2a] rounded-xl px-4 py-3 text-sm text-[#e5e5e5] focus:outline-none focus:border-[#D97736] transition-colors resize-none"></textarea>
+                            <input type="text" id="cus_name" placeholder="Full Name" class="w-full glass-input rounded-xl px-4 py-3 text-sm">
+                            <input type="tel" id="cus_phone" placeholder="Phone Number" class="w-full glass-input rounded-xl px-4 py-3 text-sm">
+                            <textarea id="cus_address" rows="2" placeholder="Delivery Address (Around Amarapura)" class="w-full glass-input rounded-xl px-4 py-3 text-sm resize-none"></textarea>
+                            <button type="button" onclick="getLocation()" id="location-btn" class="w-full flex items-center justify-center gap-2 bg-[#1a1a1a] border border-[#333] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Use My Current Location
+                            </button>
                         </div>
 
                         <!-- Payment Gateways -->
-                        <div class="bg-[#080808] p-4 rounded-xl border border-[#222] space-y-3">
+                        <div class="glass-card p-4 rounded-xl border border-white/10 space-y-3">
                             <p class="text-[10px] text-[#D97736] font-bold tracking-widest uppercase mb-2">Secure Payments</p>
                             
                             <div class="flex justify-between items-center">
@@ -193,8 +233,8 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden border border-[#2a2a2a] shadow-2xl slide-up" style="animation-delay: 0.2s;">
-                <div class="bg-[#111] p-8 md:p-12 flex flex-col justify-center space-y-8 relative overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden glass-card shadow-2xl slide-up" style="animation-delay: 0.2s;">
+                <div class="p-8 md:p-12 flex flex-col justify-center space-y-8 relative overflow-hidden bg-black/20">
                     <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#D97736] rounded-full blur-[80px] opacity-20"></div>
                     <div>
                         <h3 class="text-sm font-bold text-[#D4AF37] uppercase tracking-widest mb-3 flex items-center gap-2">
@@ -220,7 +260,7 @@
                 </div>
                 <div class="h-[350px] md:h-auto relative">
                     <!-- U Bein Silhouette Vibe Image -->
-                    <img src="u-being.jpeg" class="absolute inset-0 w-full h-full object-cover sepia-[30%] brightness-75">
+                    <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=1000" class="absolute inset-0 w-full h-full object-cover sepia-[30%] brightness-75">
                 </div>
             </div>
         </section>
@@ -228,8 +268,8 @@
     </main>
 
     <!-- Minimalist Footer -->
-    <footer class="bg-[#050505] border-t border-[#1a1a1a] py-8 text-center mt-auto">
-        <p class="text-[10px] text-[#555] tracking-[0.2em] uppercase">
+    <footer class="glass-card border-t-0 border-b-0 border-l-0 border-r-0 border-[#D4AF37]/20 py-8 text-center mt-auto bg-black/40">
+        <p class="text-[10px] text-[#888] tracking-[0.2em] uppercase">
             &copy; 2026 CAPA CAFE'. All Rights Reserved. <br class="md:hidden"> The Spirit of Taung Tha Man.
         </p>
     </footer>
@@ -275,7 +315,7 @@
 
             const container = document.getElementById('product-list-container');
             
-            fetch('http://localhost:5000/api/products')
+            fetch('/api/products')
             .then(res => res.json())
             .then(products => renderProducts(products.length ? products : dummyData))
             .catch(() => renderProducts(dummyData)); // Use dummy if API fails for local preview
@@ -285,10 +325,10 @@
                 products.forEach((p, index) => {
                     const delay = index * 0.1;
                     html += `
-                        <div class="group bg-[#111] rounded-2xl border border-[#2a2a2a] overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(0,0,0,0.6)] slide-up" style="animation-delay: ${delay}s">
+                        <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${delay}s">
                             <div class="relative h-48 md:h-56 overflow-hidden">
                                 <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                             </div>
                             <div class="p-5 relative">
                                 <h3 class="text-lg font-bold text-[#e5e5e5] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
@@ -332,12 +372,12 @@
             cart.forEach(item => {
                 total += item.price * item.qty;
                 html += `
-                    <div class="flex justify-between items-center bg-[#080808] p-3 rounded-xl border border-[#2a2a2a] group hover:border-[#444] transition-colors">
+                    <div class="flex justify-between items-center glass-card p-3 rounded-xl border border-white/5 group hover:border-[#D4AF37]/40 transition-colors">
                         <div>
                             <p class="font-semibold text-sm text-[#e5e5e5]">${item.name}</p>
                             <p class="text-xs font-mono text-[#D4AF37] mt-1">${item.price.toLocaleString()} x ${item.qty}</p>
                         </div>
-                        <div class="flex items-center space-x-2 bg-[#151515] p-1 rounded-lg border border-[#2a2a2a]">
+                        <div class="flex items-center space-x-2 bg-black/40 p-1 rounded-lg border border-white/5">
                             <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-[#888] hover:text-[#D97736] transition-colors">-</button>
                             <span class="text-xs font-bold w-4 text-center text-[#e5e5e5]">${item.qty}</span>
                             <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-[#888] hover:text-[#D97736] transition-colors">+</button>
@@ -396,7 +436,7 @@
             formData.append('items', JSON.stringify(cart));
             formData.append('screenshot', fileInput.files[0]);
 
-            fetch('http://localhost:5000/api/order', { method: 'POST', body: formData })
+            fetch('/api/order', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if(data.success) {
@@ -412,6 +452,59 @@
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Place Order";
             });
+        }
+
+        // ════════════════════════════════════════════════════
+        // Geolocation Logic
+        // ════════════════════════════════════════════════════
+        function getLocation() {
+            const btn = document.getElementById('location-btn');
+            const addrInput = document.getElementById('cus_address');
+            
+            if (navigator.geolocation) {
+                // Show loading state
+                btn.innerHTML = 'Getting location... <svg class="animate-spin ml-2 h-4 w-4 text-[#D4AF37]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+                
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+                        
+                        // Append to the address input
+                        if (addrInput.value.trim() !== '') {
+                            addrInput.value += '\n' + mapsLink;
+                        } else {
+                            addrInput.value = mapsLink;
+                        }
+                        
+                        // Show success state
+                        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Location Attached!';
+                        btn.classList.add('text-green-500', 'border-green-500');
+                        btn.classList.remove('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#333]');
+                        
+                        // Reset button after 3 seconds
+                        setTimeout(() => {
+                            btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Use My Current Location';
+                            btn.classList.remove('text-green-500', 'border-green-500');
+                            btn.classList.add('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#333]');
+                        }, 3000);
+                    },
+                    function(error) {
+                        let errMsg = "Error getting location.";
+                        if(error.code === 1) errMsg = "Please allow location access in your browser to use this feature.";
+                        else if(error.code === 2) errMsg = "Location information is unavailable.";
+                        else if(error.code === 3) errMsg = "The request to get user location timed out.";
+                        alert(errMsg);
+                        
+                        // Reset button
+                        btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Use My Current Location';
+                    },
+                    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                );
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
         }
     </script>
 </body>

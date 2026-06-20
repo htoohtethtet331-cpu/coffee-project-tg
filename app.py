@@ -2,20 +2,29 @@ import requests
 import json
 import os
 import time
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, render_template
 
 app = Flask(__name__)
 
 # ==================== [ ⚠️ API KEYS CONFIGURATION ] ====================
-TELEGRAM_BOT_TOKEN = "8142082008:AAFdWGm7K4Ql7l-ytZON6-FjMtoLAGQlgT4"   
-TELEGRAM_CHAT_ID = "7345558963"       
+TELEGRAM_BOT_TOKEN = "8947073943:AAEUOXzSnXpXWYg4p60ohdsmownW5dU0wsw"   
+TELEGRAM_CHAT_ID = "1967155608"       
 IMGBB_API_KEY = "371d33f4a13209017e739a26fdb50c89"             
 # =====================================================================
 
-DB_FILE = "products.json"
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_FILE = os.path.join(BASE_DIR, "data", "products.json")
+ORDERS_FILE = os.path.join(BASE_DIR, "data", "orders.json")
 
+# ── Products DB ──
 if not os.path.exists(DB_FILE):
     with open(DB_FILE, "w") as f:
+        json.dump([], f)
+
+# ── Orders DB ──
+if not os.path.exists(ORDERS_FILE):
+    with open(ORDERS_FILE, "w") as f:
         json.dump([], f)
 
 def load_products():
@@ -25,6 +34,14 @@ def load_products():
 def save_products(data):
     with open(DB_FILE, "w") as f:
         json.dump(data, f, indent=4)
+
+def load_orders():
+    with open(ORDERS_FILE, "r") as f:
+        return json.load(f)
+
+def save_orders(data):
+    with open(ORDERS_FILE, "w") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
 
 def upload_to_imgbb(file_bytes, filename):
     try:
@@ -50,7 +67,6 @@ def send_message(chat_id, text):
 
 @app.route('/setwebhook', methods=['GET'])
 def set_webhook():
-    # URL ကို အလိုအလျောက် Webhook အဖြစ် သတ်မှတ်ပေးမည့် Route
     host_url = request.host_url.rstrip('/')
     webhook_url = f"{host_url}/webhook"
     res = requests.get(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/setWebhook?url={webhook_url}")
@@ -69,27 +85,107 @@ def webhook():
     if chat_id != TELEGRAM_CHAT_ID:
         return "OK", 200
         
+    # ── /start or /help ──
     if text in ["/start", "/help"]:
         help_text = (
             "🏪 *CAPA CAFE - Admin Control Bot*\n\n"
-            "💡 *အသုံးပြုနိုင်သော Commands များ:*\n"
-            "• `/list` - ပစ္စည်းစာရင်းအားလုံး ကြည့်ရန်\n"
-            "• `/add နာမည်,ဈေးနှုန်း` - ပစ္စည်းအသစ်တင်ရန် (ဓာတ်ပုံကို Caption တွင် ဤစာသားထည့်၍ ပို့ပါ)\n"
-            "• `/delete ပစ္စည်းနံပါတ်` - ပစ္စည်းကို ဖျက်ရန်\n\n"
+            "💡 *Menu Commands:*\n"
+            "• `/list` - Menu ပစ္စည်းစာရင်း ကြည့်ရန်\n"
+            "• `/add နာမည်,ဈေးနှုန်း` - Menu ပစ္စည်းအသစ် တင်ရန်\n"
+            "• `/delete နံပါတ်` - Menu ပစ္စည်း ဖျက်ရန်\n\n"
+            "📦 *Order Commands:*\n"
+            "• `/orders` - အော်ဒါအားလုံး ကြည့်ရန်\n"
+            "• `/pending` - စောင့်ဆိုင်းဆဲ အော်ဒါများ ကြည့်ရန်\n"
+            "• `/done နံပါတ်` - အော်ဒါ ပြီးဆုံးကြောင်း မှတ်ရန်\n"
+            "• `/cancel နံပါတ်` - အော်ဒါ ပယ်ဖျက်ရန်\n\n"
             "ℹ️ _ဥပမာ- ပုံတစ်ပုံကို ရွေးပြီး Caption တွင် `/add Latte,3500` ဟု ရေး၍ ပို့ပေးပါ။_"
         )
         send_message(chat_id, help_text)
-        
+    
+    # ── /list (products) ──
     elif text == "/list":
         products = load_products()
         if not products:
-            send_message(chat_id, "❌ ဆိုင်မှာ ပစ္စည်းစာရင်း မရှိသေးပါဗျာ။")
+            send_message(chat_id, "❌ ဆိုင်မှာ Menu ပစ္စည်းစာရင်း မရှိသေးပါဗျာ။")
         else:
-            msg = "📋 *လက်ရှိ ပစ္စည်းစာရင်းများ:*\n━━━━━━━━━━━━━━━\n"
+            msg = "📋 *လက်ရှိ Menu စာရင်းများ:*\n━━━━━━━━━━━━━━━\n"
             for idx, p in enumerate(products):
-                msg += f"{idx + 1}. *{p['name']}* - {p['price']:,} MMK\nID: `{p['id']}`\n\n"
+                msg += f"{idx + 1}. *{p['name']}* - {p['price']:,} MMK\n"
             send_message(chat_id, msg)
-            
+    
+    # ── /orders (all orders) ──
+    elif text == "/orders":
+        orders = load_orders()
+        if not orders:
+            send_message(chat_id, "📭 အော်ဒါ မရှိသေးပါ။")
+        else:
+            msg = f"📦 *အော်ဒါစာရင်း (စုစုပေါင်း {len(orders)} ခု):*\n━━━━━━━━━━━━━━━\n"
+            for idx, o in enumerate(orders[-10:]):  # နောက်ဆုံး ၁၀ ခုပဲ ပြ
+                status_icon = "✅" if o['status'] == 'done' else ("❌" if o['status'] == 'cancelled' else "⏳")
+                msg += (
+                    f"{idx+1}. {status_icon} *{o['name']}*\n"
+                    f"   📞 {o['phone']} | 💰 {o['total']:,} MMK\n"
+                    f"   🕐 {o['time']}\n\n"
+                )
+            send_message(chat_id, msg)
+    
+    # ── /pending (pending orders only) ──
+    elif text == "/pending":
+        orders = load_orders()
+        pending = [o for o in orders if o['status'] == 'pending']
+        if not pending:
+            send_message(chat_id, "✅ စောင့်ဆိုင်းဆဲ အော်ဒါ မရှိတော့ပါ!")
+        else:
+            msg = f"⏳ *စောင့်ဆိုင်းဆဲ အော်ဒါများ ({len(pending)} ခု):*\n━━━━━━━━━━━━━━━\n"
+            for idx, o in enumerate(pending):
+                msg += (
+                    f"{idx+1}. *{o['name']}* (ID: `{o['id']}`)\n"
+                    f"   📞 {o['phone']}\n"
+                    f"   📍 {o['address']}\n"
+                    f"   💰 {o['total']:,} MMK\n\n"
+                )
+            msg += "_/done နံပါတ် သို့မဟုတ် /cancel နံပါတ် ဖြင့် စီမံပါ_"
+            send_message(chat_id, msg)
+    
+    # ── /done <number> ──
+    elif text.startswith("/done"):
+        try:
+            idx = int(text.split(" ")[1]) - 1
+            orders = load_orders()
+            pending = [o for o in orders if o['status'] == 'pending']
+            if 0 <= idx < len(pending):
+                order_id = pending[idx]['id']
+                for o in orders:
+                    if o['id'] == order_id:
+                        o['status'] = 'done'
+                        save_orders(orders)
+                        send_message(chat_id, f"✅ *{o['name']}* ရဲ့ အော်ဒါကို ပြီးဆုံးကြောင်း မှတ်လိုက်ပါပြီ!")
+                        break
+            else:
+                send_message(chat_id, "❌ နံပါတ် မှားနေပါသည်။ `/pending` တွင် ပြန်စစ်ပါ။")
+        except:
+            send_message(chat_id, "❌ ဥပမာ - `/done 1` ဟု သုံးပါ။")
+
+    # ── /cancel <number> ──
+    elif text.startswith("/cancel"):
+        try:
+            idx = int(text.split(" ")[1]) - 1
+            orders = load_orders()
+            pending = [o for o in orders if o['status'] == 'pending']
+            if 0 <= idx < len(pending):
+                order_id = pending[idx]['id']
+                for o in orders:
+                    if o['id'] == order_id:
+                        o['status'] = 'cancelled'
+                        save_orders(orders)
+                        send_message(chat_id, f"❌ *{o['name']}* ရဲ့ အော်ဒါကို ပယ်ဖျက်လိုက်ပါပြီ!")
+                        break
+            else:
+                send_message(chat_id, "❌ နံပါတ် မှားနေပါသည်။ `/pending` တွင် ပြန်စစ်ပါ။")
+        except:
+            send_message(chat_id, "❌ ဥပမာ - `/cancel 1` ဟု သုံးပါ။")
+
+    # ── /delete <number> (product) ──
     elif text.startswith("/delete"):
         try:
             idx_to_del = int(text.split(" ")[1]) - 1
@@ -97,12 +193,13 @@ def webhook():
             if 0 <= idx_to_del < len(products):
                 removed = products.pop(idx_to_del)
                 save_products(products)
-                send_message(chat_id, f"✅ *{removed['name']}* ကို စနစ်ထဲမှ ဖျက်လိုက်ပါပြီ။")
+                send_message(chat_id, f"✅ *{removed['name']}* ကို Menu ထဲမှ ဖျက်လိုက်ပါပြီ။")
             else:
                 send_message(chat_id, "❌ ပစ္စည်းနံပါတ် မှားယွင်းနေပါသည်။ `/list` တွင် ပြန်စစ်ပါ။")
         except Exception:
             send_message(chat_id, "❌ ပုံစံမမှန်ပါ။ ဥပမာ- `/delete 1` ဟု သုံးပါ။")
             
+    # ── /add (with photo) ──
     elif "photo" in message and message.get("caption", "").startswith("/add"):
         caption = message.get("caption", "")
         try:
@@ -127,7 +224,7 @@ def webhook():
                 }
                 products.append(new_product)
                 save_products(products)
-                send_message(chat_id, f"📊 *သိမ်းဆည်းမှု အောင်မြင်ပါသည်!*\n• ပစ္စည်း: {p_name}\n• ဈေးနှုန်း: {p_price:,} MMK")
+                send_message(chat_id, f"✅ *{p_name}* ({p_price:,} MMK) ကို Menu တွင် ထည့်သွင်းပြီးပါပြီ!")
             else:
                 send_message(chat_id, "❌ ပုံကို Server ပေါ်တင်ရတာ မအောင်မြင်ပါ။")
         except Exception as e:
@@ -139,7 +236,11 @@ def webhook():
 
 @app.route('/')
 def serve_frontend():
-    return send_from_directory(os.path.dirname(os.path.abspath(__file__)), 'index.html')
+    return render_template('index.html')
+
+@app.route('/First.html')
+def serve_first():
+    return render_template('First.html')
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
@@ -167,6 +268,23 @@ def handle_order():
         grand_total += item_total
         items_text += f"• <b>{item['name']}</b> ({int(item['price']):,} x {item['qty']}) = {item_total:,} MMK\n"
 
+    # ── Save Order to orders.json ──
+    orders = load_orders()
+    new_order = {
+        "id": str(int(time.time())),
+        "name": name,
+        "phone": phone,
+        "address": address,
+        "items": items,
+        "total": grand_total,
+        "screenshot": uploaded_img_url,
+        "status": "pending",
+        "time": time.strftime("%Y-%m-%d %H:%M", time.localtime())
+    }
+    orders.append(new_order)
+    save_orders(orders)
+
+    # ── Send to Telegram ──
     telegram_message = (
         "☕️ <b>CAPA CAFE - အော်ဒါအသစ် ရောက်ရှိပါပြီ။</b>\n"
         "━━━━━━━━━━━━━━━━━━━━━\n"
@@ -179,6 +297,7 @@ def handle_order():
         "━━━━━━━━━━━━━━━━━━━━━\n"
         f"💰 <b>စုစုပေါင်း ကျသင့်ငွေ:</b> <code>{grand_total:,} MMK</code>\n"
         "━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🆔 Order ID: <code>{new_order['id']}</code>\n"
         "👉 <i>ငွေလွှဲပြေစာအား စစ်ဆေးပြီး အော်ဒါအား အတည်ပြုပေးပါ။</i>"
     )
 
@@ -190,4 +309,4 @@ def handle_order():
     return jsonify({"success": False}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=8080, debug=True)
