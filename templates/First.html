@@ -274,6 +274,51 @@
         </p>
     </footer>
 
+    <!-- ================= RECEIPT MODAL ================= -->
+    <div id="receipt-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 print:bg-white print:p-0 print:items-start">
+        <div class="bg-[#f5ede0] w-full max-w-sm rounded-xl shadow-2xl overflow-hidden animate-[slideUp_0.4s_ease-out] print:shadow-none print:w-full print:max-w-full">
+            <!-- Receipt Content -->
+            <div class="p-6 text-[#100b07] font-mono text-sm relative">
+                <div class="text-center mb-6 border-b border-dashed border-[#7b4a2d] pb-4">
+                    <h2 class="text-2xl font-black uppercase tracking-widest text-[#3b1f0e]">Capa Cafe'</h2>
+                    <p class="text-[10px] uppercase tracking-widest mt-1 text-[#7b4a2d]">Order Receipt</p>
+                    <p id="receipt-date" class="text-[10px] mt-2 font-bold"></p>
+                </div>
+                
+                <div class="mb-4 space-y-1 text-xs">
+                    <p><strong>Customer:</strong> <span id="receipt-name"></span></p>
+                    <p><strong>Phone:</strong> <span id="receipt-phone"></span></p>
+                </div>
+                
+                <div class="border-b border-dashed border-[#7b4a2d] pb-2 mb-2">
+                    <div class="flex justify-between font-bold mb-2 text-[#3b1f0e]">
+                        <span>Item</span>
+                        <span>Amt</span>
+                    </div>
+                    <div id="receipt-items" class="space-y-2 text-xs">
+                        <!-- Items go here -->
+                    </div>
+                </div>
+                
+                <div class="flex justify-between font-bold text-lg text-[#3b1f0e] mt-4">
+                    <span>TOTAL</span>
+                    <span id="receipt-total"></span>
+                </div>
+                
+                <div class="text-center mt-8 text-[10px] text-[#7b4a2d]">
+                    <p>Thank you for your visit!</p>
+                    <p>Enjoy the Taung Tha Man breeze.</p>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="bg-[#100b07] p-4 flex gap-3 print:hidden">
+                <button onclick="window.print()" class="flex-1 bg-[#2a2a2a] text-[#e5e5e5] py-2.5 rounded-lg font-bold text-xs hover:bg-[#444] transition-colors border border-[#444]">PRINT</button>
+                <button onclick="closeReceipt()" class="flex-1 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#100b07] py-2.5 rounded-lg font-bold text-xs hover:opacity-90 transition-colors">DONE</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ================= JAVASCRIPT ================= -->
     <script>
         let cart = [];
@@ -436,15 +481,18 @@
             formData.append('items', JSON.stringify(cart));
             formData.append('screenshot', fileInput.files[0]);
 
+            let orderTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            // Save current cart copy for receipt before clearing
+            const receiptCart = JSON.parse(JSON.stringify(cart));
+
             fetch('/api/order', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if(data.success) {
-                    alert('Order confirmed successfully. Enjoy the Taung Tha Man breeze!');
+                    showReceipt(name, phone, receiptCart, orderTotal);
                     cart = []; updateCartUI();
                     document.getElementById('cus_name').value = ''; document.getElementById('cus_phone').value = ''; document.getElementById('cus_address').value = '';
                     fileInput.value = ''; document.getElementById('preview-container').classList.add('hidden');
-                    switchTab('home');
                 } else { alert('System error occurred.'); }
             })
             .catch(() => alert('Server connection failed. Ensure backend is running.'))
@@ -452,6 +500,36 @@
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Place Order";
             });
+        }
+
+        // Receipt Logic
+        function showReceipt(name, phone, items, totalAmt) {
+            const now = new Date();
+            document.getElementById('receipt-date').innerText = now.toLocaleString('en-US');
+            document.getElementById('receipt-name').innerText = name;
+            document.getElementById('receipt-phone').innerText = phone;
+            
+            let itemsHtml = '';
+            items.forEach(item => {
+                itemsHtml += `
+                <div class="flex justify-between items-center">
+                    <span class="truncate pr-2">${item.qty}x ${item.name}</span>
+                    <span class="whitespace-nowrap">${(item.price * item.qty).toLocaleString()} MMK</span>
+                </div>`;
+            });
+            document.getElementById('receipt-items').innerHTML = itemsHtml;
+            document.getElementById('receipt-total').innerText = totalAmt.toLocaleString() + ' MMK';
+            
+            const modal = document.getElementById('receipt-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeReceipt() {
+            const modal = document.getElementById('receipt-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            switchTab('home');
         }
 
         // ════════════════════════════════════════════════════
