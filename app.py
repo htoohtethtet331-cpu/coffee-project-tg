@@ -27,6 +27,10 @@ if not os.path.exists(ORDERS_FILE):
     with open(ORDERS_FILE, "w") as f:
         json.dump([], f)
 
+# ── Orders DB Optimization ──
+ORDERS_CACHE = None
+ORDERS_LAST_MTIME = 0
+
 def load_products():
     with open(DB_FILE, "r") as f:
         return json.load(f)
@@ -36,12 +40,26 @@ def save_products(data):
         json.dump(data, f, indent=4)
 
 def load_orders():
-    with open(ORDERS_FILE, "r") as f:
-        return json.load(f)
+    global ORDERS_CACHE, ORDERS_LAST_MTIME
+    current_mtime = os.path.getmtime(ORDERS_FILE) if os.path.exists(ORDERS_FILE) else 0
+    if ORDERS_CACHE is None or current_mtime > ORDERS_LAST_MTIME:
+        if os.path.exists(ORDERS_FILE):
+            try:
+                with open(ORDERS_FILE, "r") as f:
+                    ORDERS_CACHE = json.load(f)
+            except Exception:
+                ORDERS_CACHE = []
+        else:
+            ORDERS_CACHE = []
+        ORDERS_LAST_MTIME = current_mtime
+    return ORDERS_CACHE
 
 def save_orders(data):
+    global ORDERS_CACHE, ORDERS_LAST_MTIME
+    ORDERS_CACHE = data
     with open(ORDERS_FILE, "w") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
+    ORDERS_LAST_MTIME = os.path.getmtime(ORDERS_FILE)
 
 def upload_to_imgbb(file_bytes, filename):
     try:
@@ -75,7 +93,49 @@ def set_webhook():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     update = request.get_json()
-    if not update or "message" not in update:
+    if not update:
+        return "OK", 200
+
+    # ── Handle Callback Queries (Inline Buttons) ──
+    if "callback_query" in update:
+        cb = update["callback_query"]
+        cb_id = cb.get("id")
+        data = cb.get("data", "")
+        message = cb.get("message", {})
+        chat_id = str(message.get("chat", {}).get("id"))
+        message_id = message.get("message_id")
+
+        if chat_id != TELEGRAM_CHAT_ID:
+            return "OK", 200
+
+        if data.startswith("accept_") or data.startswith("reject_"):
+            action, order_id = data.split("_", 1)
+            orders = load_orders()
+            found_order = None
+            for o in orders:
+                if o['id'] == order_id:
+                    o['status'] = 'done' if action == 'accept' else 'cancelled'
+                    found_order = o
+                    break
+            
+            if found_order:
+                save_orders(orders)
+                # Edit the message to remove buttons and show status
+                status_text = "✅ **Order Accepted**" if action == 'accept' else "❌ **Order Rejected**"
+                new_caption = message.get("caption", "") + f"\n\n{status_text}"
+                requests.post(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/editMessageCaption", json={
+                    "chat_id": chat_id,
+                    "message_id": message_id,
+                    "caption": new_caption,
+                    "parse_mode": "HTML"
+                })
+                requests.post(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/answerCallbackQuery", json={
+                    "callback_query_id": cb_id,
+                    "text": f"Order {order_id} marked as {action}!"
+                })
+            return "OK", 200
+
+    if "message" not in update:
         return "OK", 200
         
     message = update["message"]
@@ -246,6 +306,14 @@ def serve_first():
 def get_products():
     return jsonify(load_products()), 200
 
+@app.route('/api/order/status/<order_id>', methods=['GET'])
+def get_order_status(order_id):
+    orders = load_orders()
+    for o in orders:
+        if o['id'] == order_id:
+            return jsonify({"status": o['status']}), 200
+    return jsonify({"status": "not_found"}), 404
+
 @app.route('/api/order', methods=['POST'])
 def handle_order():
     name = request.form.get('customer_name')
@@ -302,10 +370,26 @@ def handle_order():
     )
 
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
-    res = requests.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "photo": uploaded_img_url, "caption": telegram_message, "parse_mode": "HTML"})
+    
+    reply_markup = {
+        "inline_keyboard": [
+            [
+                {"text": "❌ Reject (Delete)", "callback_data": f"reject_{new_order['id']}"},
+                {"text": "✅ Accept (Submit)", "callback_data": f"accept_{new_order['id']}"}
+            ]
+        ]
+    }
+    
+    res = requests.post(url, json={
+        "chat_id": TELEGRAM_CHAT_ID, 
+        "photo": uploaded_img_url, 
+        "caption": telegram_message, 
+        "parse_mode": "HTML",
+        "reply_markup": reply_markup
+    })
 
     if res.json().get("ok"):
-        return jsonify({"success": True}), 200
+        return jsonify({"success": True, "order_id": new_order['id']}), 200
     return jsonify({"success": False}), 500
 
 if __name__ == '__main__':

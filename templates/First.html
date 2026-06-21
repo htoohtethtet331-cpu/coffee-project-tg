@@ -277,6 +277,12 @@
     <!-- ================= RECEIPT MODAL ================= -->
     <div id="receipt-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 print:bg-white print:p-0 print:items-start">
         <div class="bg-[#f5ede0] w-full max-w-sm rounded-xl shadow-2xl overflow-hidden animate-[slideUp_0.4s_ease-out] print:shadow-none print:w-full print:max-w-full">
+            
+            <!-- Real-time Status Banner -->
+            <div id="receipt-status-banner" class="bg-yellow-500/20 text-[#8a6e1c] text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-yellow-500/30 print:hidden">
+                ⏳ Waiting for shop confirmation...
+            </div>
+
             <!-- Receipt Content -->
             <div class="p-6 text-[#100b07] font-mono text-sm relative">
                 <div class="text-center mb-6 border-b border-dashed border-[#7b4a2d] pb-4">
@@ -489,7 +495,7 @@
             .then(res => res.json())
             .then(data => {
                 if(data.success) {
-                    showReceipt(name, phone, receiptCart, orderTotal);
+                    showReceipt(name, phone, receiptCart, orderTotal, data.order_id);
                     cart = []; updateCartUI();
                     document.getElementById('cus_name').value = ''; document.getElementById('cus_phone').value = ''; document.getElementById('cus_address').value = '';
                     fileInput.value = ''; document.getElementById('preview-container').classList.add('hidden');
@@ -502,8 +508,10 @@
             });
         }
 
+        let statusPollInterval;
+
         // Receipt Logic
-        function showReceipt(name, phone, items, totalAmt) {
+        function showReceipt(name, phone, items, totalAmt, orderId) {
             const now = new Date();
             document.getElementById('receipt-date').innerText = now.toLocaleString('en-US');
             document.getElementById('receipt-name').innerText = name;
@@ -520,12 +528,37 @@
             document.getElementById('receipt-items').innerHTML = itemsHtml;
             document.getElementById('receipt-total').innerText = totalAmt.toLocaleString() + ' MMK';
             
+            // Reset and start polling
+            clearInterval(statusPollInterval);
+            const banner = document.getElementById('receipt-status-banner');
+            banner.className = "bg-yellow-500/20 text-[#8a6e1c] text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-yellow-500/30 print:hidden";
+            banner.innerHTML = '⏳ Waiting for shop confirmation...';
+            
+            if (orderId) {
+                statusPollInterval = setInterval(() => {
+                    fetch('/api/order/status/' + orderId)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'done') {
+                            banner.className = "bg-green-500/20 text-green-700 text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-green-500/30 print:hidden";
+                            banner.innerHTML = '✅ Order Accepted';
+                            clearInterval(statusPollInterval);
+                        } else if (data.status === 'cancelled') {
+                            banner.className = "bg-red-500/20 text-red-700 text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-red-500/30 print:hidden";
+                            banner.innerHTML = '❌ Order Rejected';
+                            clearInterval(statusPollInterval);
+                        }
+                    }).catch(err => console.error(err));
+                }, 3000); // Check every 3 seconds
+            }
+
             const modal = document.getElementById('receipt-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
 
         function closeReceipt() {
+            clearInterval(statusPollInterval);
             const modal = document.getElementById('receipt-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
