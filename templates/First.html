@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="my" class="scroll-smooth bg-[#080808]">
+<html lang="my" class="scroll-smooth bg-[#faf7f2]">
 
 <head>
     <meta charset="UTF-8">
@@ -17,11 +17,11 @@
         }
 
         .glass-nav {
-            background: rgba(10, 10, 10, 0.4);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
 
         /* U Bein Sunset Gradient */
@@ -88,39 +88,39 @@
 
         /* Apple Glassmorphism Classes */
         .glass-card {
-            background: rgba(25, 18, 14, 0.25);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(28px) saturate(180%);
             -webkit-backdrop-filter: blur(28px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            border-left: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
         }
 
         .glass-input {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(16px) saturate(180%);
             -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            color: #e5e5e5;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            color: #3b2a22;
             transition: all 0.3s ease;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .glass-input:focus {
-            border-color: rgba(255, 255, 255, 0.25);
-            background: rgba(0, 0, 0, 0.4);
+            border-color: rgba(217, 119, 54, 0.4);
+            background: rgba(255, 255, 255, 0.9);
             outline: none;
-            box-shadow: 0 0 15px rgba(217, 119, 54, 0.2), inset 0 2px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(217, 119, 54, 0.1), inset 0 2px 8px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
 
-<body class="text-[#e5e5e5] min-h-screen flex flex-col relative" onload="loadProductsFromServer()">
+<body class="text-[#3b2a22] min-h-screen flex flex-col relative" onload="loadProductsFromServer()">
 
     <!-- Abstract Glow Background -->
-    <div class="fixed inset-0 z-[-1] bg-[#050505] overflow-hidden">
+    <div class="fixed inset-0 z-[-1] bg-[#f5efe6] overflow-hidden">
         <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#D97736] rounded-full blur-[150px] opacity-20">
         </div>
         <div
@@ -136,18 +136,18 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
             <div class="text-center md:text-left cursor-pointer" onclick="switchTab('home')">
                 <h1 class="text-2xl md:text-3xl font-extrabold tracking-widest sunset-text uppercase">Capa Cafe'</h1>
-                <p class="text-[9px] md:text-[11px] text-[#888] tracking-[0.2em] uppercase mt-1">Taung Tha Man Lake .
+                <p class="text-[9px] md:text-[11px] text-[#6b584d] tracking-[0.2em] uppercase mt-1">Taung Tha Man Lake .
                     Amarapura</p>
             </div>
 
             <!-- Modern Pills Navigation -->
-            <div class="flex bg-[#121212] p-1.5 rounded-full border border-[#2a2a2a] shadow-lg">
+            <div class="flex bg-[#ffffff] p-1.5 rounded-full border border-[#e3dacc] shadow-lg">
                 <button id="tab-home" onclick="switchTab('home')"
                     class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-bold text-[#080808] bg-gradient-to-r from-[#D4AF37] to-[#D97736] transition-all duration-300">Home</button>
                 <button id="tab-order" onclick="switchTab('order')"
-                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#a3a3a3] hover:text-[#D4AF37] transition-all duration-300">Menu</button>
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">Menu</button>
                 <button id="tab-about" onclick="switchTab('about')"
-                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#a3a3a3] hover:text-[#D4AF37] transition-all duration-300">The
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">The
                     Lake Story</button>
             </div>
         </div>
@@ -166,7 +166,7 @@
                     Serenity by the <br><span class="sunset-text">Historic Bridge.</span>
                 </h2>
                 <p
-                    class="text-[#888] text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0 font-light border-l-2 border-[#D97736] pl-4">
+                    class="text-[#6b584d] text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0 font-light border-l-2 border-[#D97736] pl-4">
                     တောင်သမန်အင်းရေပြင်ရဲ့ အေးချမ်းမှုနဲ့ ဦးပိန်တံတားရဲ့ ရှေးဟောင်းအငွေ့အသက်တွေကြားမှာ အရည်အသွေးမြင့်
                     ကော်ဖီတစ်ခွက်နဲ့အတူ သင့်ရဲ့ အဖိုးတန်အချိန်တွေကို ကုန်ဆုံးလိုက်ပါ။ လူကြီးလူငယ်မရွေး
                     လွတ်လပ်ငြိမ်းချမ်းစွာ အနားယူနိုင်မယ့် Premium Vibe ကို CAPA မှာ ခံစားနိုင်ပါတယ်။
@@ -177,7 +177,7 @@
                         Explore Our Menu
                     </button>
                     <button onclick="switchTab('about')"
-                        class="border border-[#2a2a2a] text-[#e5e5e5] font-semibold px-8 py-4 rounded-xl hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 bg-[#111]">
+                        class="border border-[#e3dacc] text-[#3b2a22] font-semibold px-8 py-4 rounded-xl hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 bg-[#ffffff]">
                         The Lake Story
                     </button>
                 </div>
@@ -190,7 +190,7 @@
                 <!-- Using a moody sunset over a wooden bridge/lake image to represent U Bein -->
                 <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000"
                     alt="Capa Coffee Cafe amarapura"
-                    class="relative z-10 rounded-2xl shadow-2xl border border-[#2a2a2a] object-cover w-full h-[400px] md:h-[550px] grayscale-[15%] hover:grayscale-0 sepia-[20%] transition-all duration-700">
+                    class="relative z-10 rounded-2xl shadow-2xl border border-[#e3dacc] object-cover w-full h-[400px] md:h-[550px] grayscale-[15%] hover:grayscale-0 sepia-[20%] transition-all duration-700">
             </div>
         </section>
 
@@ -199,14 +199,14 @@
 
             <!-- Left: Product Grid -->
             <div class="lg:col-span-2 space-y-6">
-                <div class="flex justify-between items-end border-b border-[#2a2a2a] pb-4">
+                <div class="flex justify-between items-end border-b border-[#e3dacc] pb-4">
                     <h2 class="text-2xl md:text-3xl font-bold sunset-text">Taung Tha Man Specials</h2>
                 </div>
 
                 <div id="product-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <!-- Loading skeleton -->
-                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#222]"></div>
-                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#222]"></div>
+                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#e3dacc]"></div>
+                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#e3dacc]"></div>
                 </div>
             </div>
 
@@ -217,7 +217,7 @@
                         class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D4AF37] via-[#D97736] to-[#8a6e1c]">
                     </div>
 
-                    <h2 class="text-xl font-bold mb-5 flex items-center gap-2 text-[#e5e5e5]">
+                    <h2 class="text-xl font-bold mb-5 flex items-center gap-2 text-[#3b2a22]">
                         <svg class="w-5 h-5 text-[#D97736]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
@@ -227,12 +227,12 @@
 
                     <!-- Cart Items -->
                     <div id="cart-items" class="space-y-3 max-h-48 overflow-y-auto no-scrollbar mb-6">
-                        <p class="text-[#555] text-center py-8 text-sm font-light">Select your evening treats.</p>
+                        <p class="text-[#8a7566] text-center py-8 text-sm font-light">Select your evening treats.</p>
                     </div>
 
                     <!-- Total -->
-                    <div class="flex justify-between items-center py-4 border-t border-[#2a2a2a] mb-6">
-                        <span class="text-[#888] font-medium text-sm uppercase tracking-wider">Total Amount</span>
+                    <div class="flex justify-between items-center py-4 border-t border-[#e3dacc] mb-6">
+                        <span class="text-[#6b584d] font-medium text-sm uppercase tracking-wider">Total Amount</span>
                         <span id="cart-total" class="text-xl font-bold sunset-text">0 MMK</span>
                     </div>
 
@@ -246,7 +246,7 @@
                             <textarea id="cus_address" rows="2" placeholder="Delivery Address (Around Amarapura)"
                                 class="w-full glass-input rounded-xl px-4 py-3 text-sm resize-none"></textarea>
                             <button type="button" onclick="getLocation()" id="location-btn"
-                                class="w-full flex items-center justify-center gap-2 bg-[#1a1a1a] border border-[#333] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                                class="w-full flex items-center justify-center gap-2 bg-[#ffffff] border border-[#d1c7b8] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
@@ -265,32 +265,32 @@
 
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="text-[10px] text-[#888]">KBZ Pay</p>
-                                    <p class="text-sm font-mono text-[#e5e5e5]">09123456789</p>
+                                    <p class="text-[10px] text-[#6b584d]">KBZ Pay</p>
+                                    <p class="text-sm font-mono text-[#3b2a22]">09123456789</p>
                                 </div>
                                 <button type="button" onclick="copyText('09123456789', this)"
-                                    class="text-[#e5e5e5] bg-[#1a1a1a] border border-[#333] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
+                                    class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
                             </div>
 
                             <div class="w-full h-px bg-[#222]"></div>
 
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <p class="text-[10px] text-[#888]">Wave Pay</p>
-                                    <p class="text-sm font-mono text-[#e5e5e5]">09987654321</p>
+                                    <p class="text-[10px] text-[#6b584d]">Wave Pay</p>
+                                    <p class="text-sm font-mono text-[#3b2a22]">09987654321</p>
                                 </div>
                                 <button type="button" onclick="copyText('09987654321', this)"
-                                    class="text-[#e5e5e5] bg-[#1a1a1a] border border-[#333] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
+                                    class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
                             </div>
                         </div>
 
                         <!-- Screenshot -->
                         <div class="pt-2">
-                            <p class="text-[10px] text-[#888] tracking-widest uppercase mb-2">Upload Receipt</p>
+                            <p class="text-[10px] text-[#6b584d] tracking-widest uppercase mb-2">Upload Receipt</p>
                             <input type="file" id="payment_screenshot" accept="image/*" onchange="previewImage(event)"
-                                class="w-full text-xs text-[#888]">
+                                class="w-full text-xs text-[#6b584d]">
                             <div id="preview-container"
-                                class="hidden mt-3 relative rounded-xl overflow-hidden border border-[#2a2a2a]">
+                                class="hidden mt-3 relative rounded-xl overflow-hidden border border-[#e3dacc]">
                                 <img id="screenshot_preview" class="w-full h-32 object-cover opacity-80">
                             </div>
                         </div>
@@ -310,7 +310,7 @@
                 <span class="text-[#D97736] text-xs font-bold tracking-[0.3em] uppercase">Heritage Meets
                     Modernity</span>
                 <h2 class="text-3xl md:text-5xl font-extrabold sunset-text">The Taung Tha Man Story</h2>
-                <p class="text-[#888] leading-relaxed max-w-2xl mx-auto font-light">
+                <p class="text-[#6b584d] leading-relaxed max-w-2xl mx-auto font-light">
                     ကမ္ဘာကျော် ဦးပိန်တံတားရဲ့ သမိုင်းဝင်အလှတရားတွေနဲ့အတူ တောင်သမန်အင်းစပ်ရဲ့ လေပြေညင်းကို ခံစားရင်း
                     သင့်ရဲ့မောပန်းမှုတွေကို CAPA CAFE' မှာ ဖြေဖျောက်လိုက်ပါ။
                 </p>
@@ -333,7 +333,7 @@
                             </svg>
                             Location
                         </h3>
-                        <p class="text-base text-[#e5e5e5] font-light leading-relaxed">
+                        <p class="text-base text-[#3b2a22] font-light leading-relaxed">
                             တောင်သမန်အင်းစပ်၊ ဦးပိန်တံတားအနီး၊<br>
                             အမရပူရမြို့၊ မန္တလေးတိုင်း။
                         </p>
@@ -348,9 +348,9 @@
                             </svg>
                             Golden Hours
                         </h3>
-                        <p class="text-base text-[#e5e5e5] font-light leading-relaxed">
+                        <p class="text-base text-[#3b2a22] font-light leading-relaxed">
                             နေ့စဉ် နံနက် ၇:၀၀ - ည ၈:၀၀<br>
-                            <span class="text-[#888] text-sm">(Sunset Vibe အတွက် ညနေပိုင်း အထူးအကြံပြုပါသည်။)</span>
+                            <span class="text-[#6b584d] text-sm">(Sunset Vibe အတွက် ညနေပိုင်း အထူးအကြံပြုပါသည်။)</span>
                         </p>
                     </div>
                 </div>
@@ -367,7 +367,7 @@
     <!-- Minimalist Footer -->
     <footer
         class="glass-card border-t-0 border-b-0 border-l-0 border-r-0 border-[#D4AF37]/20 py-8 text-center mt-auto bg-black/40">
-        <p class="text-[10px] text-[#888] tracking-[0.2em] uppercase">
+        <p class="text-[10px] text-[#6b584d] tracking-[0.2em] uppercase">
             &copy; 2026 CAPA CAFE'. All Rights Reserved. <br class="md:hidden"> The Spirit of Taung Tha Man.
         </p>
     </footer>
@@ -434,7 +434,7 @@
                 <!-- Actions -->
                 <div class="bg-[#100b07] p-4 flex gap-3 print:hidden shrink-0">
                     <button id="btn-receipt-download" onclick="downloadReceipt()"
-                        class="flex-1 bg-[#2a2a2a] text-[#e5e5e5] py-2.5 rounded-lg font-bold text-xs hover:bg-[#444] transition-colors border border-[#444] disabled:opacity-50 disabled:cursor-not-allowed">DOWNLOAD</button>
+                        class="flex-1 bg-[#f0ebe1] text-[#3b2a22] py-2.5 rounded-lg font-bold text-xs hover:bg-[#444] transition-colors border border-[#d1c7b8] disabled:opacity-50 disabled:cursor-not-allowed">DOWNLOAD</button>
                     <button id="btn-receipt-done" onclick="closeReceipt()"
                         class="flex-1 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#100b07] py-2.5 rounded-lg font-bold text-xs hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">DONE</button>
                 </div>
@@ -449,7 +449,7 @@
             function switchTab(tabName) {
                 const pages = ['home', 'order', 'about'];
                 const activeClass = "nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-bold text-[#080808] bg-gradient-to-r from-[#D4AF37] to-[#D97736] shadow-lg transition-all duration-300";
-                const inactiveClass = "nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#a3a3a3] hover:text-[#D4AF37] transition-all duration-300";
+                const inactiveClass = "nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300";
 
                 pages.forEach(page => {
                     const el = document.getElementById('page-' + page);
@@ -498,10 +498,10 @@
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                             </div>
                             <div class="p-5 relative">
-                                <h3 class="text-lg font-bold text-[#e5e5e5] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
+                                <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
                                 <div class="flex justify-between items-center mt-4">
                                     <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
-                                    <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#1a1a1a] border border-[#333] text-[#e5e5e5] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Add</button>
+                                    <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Add</button>
                                 </div>
                             </div>
                         </div>`;
@@ -531,7 +531,7 @@
                 const cartContainer = document.getElementById('cart-items');
                 const totalContainer = document.getElementById('cart-total');
                 if (cart.length === 0) {
-                    cartContainer.innerHTML = '<p class="text-[#555] text-center py-8 text-sm font-light">Select your evening treats.</p>';
+                    cartContainer.innerHTML = '<p class="text-[#8a7566] text-center py-8 text-sm font-light">Select your evening treats.</p>';
                     totalContainer.innerText = '0 MMK';
                     return;
                 }
@@ -541,13 +541,13 @@
                     html += `
                     <div class="flex justify-between items-center glass-card p-3 rounded-xl border border-white/5 group hover:border-[#D4AF37]/40 transition-colors">
                         <div>
-                            <p class="font-semibold text-sm text-[#e5e5e5]">${item.name}</p>
+                            <p class="font-semibold text-sm text-[#3b2a22]">${item.name}</p>
                             <p class="text-xs font-mono text-[#D4AF37] mt-1">${item.price.toLocaleString()} x ${item.qty}</p>
                         </div>
                         <div class="flex items-center space-x-2 bg-black/40 p-1 rounded-lg border border-white/5">
-                            <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-[#888] hover:text-[#D97736] transition-colors">-</button>
-                            <span class="text-xs font-bold w-4 text-center text-[#e5e5e5]">${item.qty}</span>
-                            <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-[#888] hover:text-[#D97736] transition-colors">+</button>
+                            <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] transition-colors">-</button>
+                            <span class="text-xs font-bold w-4 text-center text-[#3b2a22]">${item.qty}</span>
+                            <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] transition-colors">+</button>
                         </div>
                     </div>`;
                 });
@@ -560,13 +560,13 @@
                 navigator.clipboard.writeText(text).then(() => {
                     const originalText = btnElement.innerText;
                     btnElement.innerText = "COPIED";
-                    btnElement.classList.replace("bg-[#1a1a1a]", "bg-[#D4AF37]");
-                    btnElement.classList.replace("text-[#e5e5e5]", "text-[#080808]");
+                    btnElement.classList.replace("bg-[#ffffff]", "bg-[#D4AF37]");
+                    btnElement.classList.replace("text-[#3b2a22]", "text-[#080808]");
 
                     setTimeout(() => {
                         btnElement.innerText = originalText;
-                        btnElement.classList.replace("bg-[#D4AF37]", "bg-[#1a1a1a]");
-                        btnElement.classList.replace("text-[#080808]", "text-[#e5e5e5]");
+                        btnElement.classList.replace("bg-[#D4AF37]", "bg-[#ffffff]");
+                        btnElement.classList.replace("text-[#080808]", "text-[#3b2a22]");
                     }, 2000);
                 }).catch(() => alert("Copy Failed."));
             }
@@ -787,13 +787,13 @@
                             // Show success state
                             btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Location Attached!';
                             btn.classList.add('text-green-500', 'border-green-500');
-                            btn.classList.remove('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#333]');
+                            btn.classList.remove('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#d1c7b8]');
 
                             // Reset button after 3 seconds
                             setTimeout(() => {
                                 btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Use My Current Location';
                                 btn.classList.remove('text-green-500', 'border-green-500');
-                                btn.classList.add('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#333]');
+                                btn.classList.add('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#d1c7b8]');
                             }, 3000);
                         },
                         function (error) {
