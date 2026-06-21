@@ -143,9 +143,9 @@
             <!-- Modern Pills Navigation -->
             <div class="flex bg-[#ffffff] p-1.5 rounded-full border border-[#e3dacc] shadow-lg">
                 <button id="tab-home" onclick="switchTab('home')"
-                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-bold text-[#080808] bg-gradient-to-r from-[#D4AF37] to-[#D97736] transition-all duration-300">Home</button>
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-bold text-[#080808] bg-gradient-to-r from-[#D4AF37] to-[#D97736] transition-all duration-300">ပင်မစာမျက်နှာ</button>
                 <button id="tab-order" onclick="switchTab('order')"
-                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">Menu</button>
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">မီနူး</button>
                 <button id="tab-about" onclick="switchTab('about')"
                     class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">The
                     Lake Story</button>
@@ -163,7 +163,7 @@
                 <span class="text-[#D97736] text-xs font-bold tracking-[0.3em] uppercase block">Golden Hour
                     Experience</span>
                 <h2 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
-                    Serenity by the <br><span class="sunset-text">Historic Bridge.</span>
+                    ရှေးဟောင်းတံတားလေးနံဘေးက <br><span class="sunset-text">အေးချမ်းမှုများ။</span>
                 </h2>
                 <p
                     class="text-[#6b584d] text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0 font-light border-l-2 border-[#D97736] pl-4">
@@ -174,7 +174,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
                     <button onclick="switchTab('order')"
                         class="bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] font-bold px-8 py-4 rounded-xl hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(217,119,54,0.3)]">
-                        Explore Our Menu
+                        မီနူးများကို ကြည့်ရန်
                     </button>
                     <button onclick="switchTab('about')"
                         class="border border-[#e3dacc] text-[#3b2a22] font-semibold px-8 py-4 rounded-xl hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 bg-[#ffffff]">
@@ -200,7 +200,7 @@
             <!-- Left: Product Grid -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="flex justify-between items-end border-b border-[#e3dacc] pb-4">
-                    <h2 class="text-2xl md:text-3xl font-bold sunset-text">Taung Tha Man Specials</h2>
+                    <h2 class="text-2xl md:text-3xl font-bold sunset-text">တောင်သမန် အထူးအစီအစဉ်များ</h2>
                 </div>
 
                 <div id="product-list-container" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -222,28 +222,28 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                         </svg>
-                        Your Order
+                        သင့်ရဲ့အော်ဒါ
                     </h2>
 
                     <!-- Cart Items -->
                     <div id="cart-items" class="space-y-3 max-h-48 overflow-y-auto no-scrollbar mb-6">
-                        <p class="text-[#8a7566] text-center py-8 text-sm font-light">Select your evening treats.</p>
+                        <p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>
                     </div>
 
                     <!-- Total -->
                     <div class="flex justify-between items-center py-4 border-t border-[#e3dacc] mb-6">
-                        <span class="text-[#6b584d] font-medium text-sm uppercase tracking-wider">Total Amount</span>
+                        <span class="text-[#6b584d] font-medium text-sm uppercase tracking-wider">စုစုပေါင်း ကျသင့်ငွေ</span>
                         <span id="cart-total" class="text-xl font-bold sunset-text">0 MMK</span>
                     </div>
 
                     <!-- Checkout Form -->
                     <div class="space-y-4">
                         <div class="space-y-3">
-                            <input type="text" id="cus_name" placeholder="Full Name"
+                            <input type="text" id="cus_name" placeholder="အမည်အပြည့်အစုံ"
                                 class="w-full glass-input rounded-xl px-4 py-3 text-sm">
-                            <input type="tel" id="cus_phone" placeholder="Phone Number"
+                            <input type="tel" id="cus_phone" placeholder="ဖုန်းနံပါတ်"
                                 class="w-full glass-input rounded-xl px-4 py-3 text-sm">
-                            <textarea id="cus_address" rows="2" placeholder="Delivery Address (Around Amarapura)"
+                            <textarea id="cus_address" rows="2" placeholder="ပို့ဆောင်ရမည့် လိပ်စာ (အမရပူရမြို့တွင်း)"
                                 class="w-full glass-input rounded-xl px-4 py-3 text-sm resize-none"></textarea>
                             <button type="button" onclick="getLocation()" id="location-btn"
                                 class="w-full flex items-center justify-center gap-2 bg-[#ffffff] border border-[#d1c7b8] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
@@ -297,7 +297,7 @@
 
                         <button onclick="submitOrder()" id="btn-submit"
                             class="w-full bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-[0_4px_20px_0_rgba(217,119,54,0.3)] uppercase tracking-wider text-sm mt-4">
-                            Place Order
+                            အော်ဒါတင်မည်
                         </button>
                     </div>
                 </div>
@@ -368,7 +368,7 @@
     <footer
         class="glass-card border-t-0 border-b-0 border-l-0 border-r-0 border-[#D4AF37]/20 py-8 text-center mt-auto bg-black/40">
         <p class="text-[10px] text-[#6b584d] tracking-[0.2em] uppercase">
-            &copy; 2026 CAPA CAFE'. All Rights Reserved. <br class="md:hidden"> The Spirit of Taung Tha Man.
+            &copy; 2026 CAPA CAFE'. မူပိုင်ခွင့်များ ရယူထားပြီးဖြစ်သည်။ <br class="md:hidden"> တောင်သမန်၏ အငွေ့အသက်များ။
         </p>
     </footer>
 
@@ -531,7 +531,7 @@
                 const cartContainer = document.getElementById('cart-items');
                 const totalContainer = document.getElementById('cart-total');
                 if (cart.length === 0) {
-                    cartContainer.innerHTML = '<p class="text-[#8a7566] text-center py-8 text-sm font-light">Select your evening treats.</p>';
+                    cartContainer.innerHTML = '<p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>';
                     totalContainer.innerText = '0 MMK';
                     return;
                 }
@@ -656,7 +656,7 @@
                         .catch((e) => alert('Server connection failed. Ensure backend is running. ' + e.message))
                         .finally(() => {
                             submitBtn.disabled = false;
-                            submitBtn.innerText = "Place Order";
+                            submitBtn.innerText = "အော်ဒါတင်မည်";
                         });
                 });
             }
