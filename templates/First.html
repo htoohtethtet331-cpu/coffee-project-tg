@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CAPA CAFE' | U Bein Sunset Experience</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         /* Modern Animations & Custom Styles */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
@@ -278,54 +279,58 @@
     <div id="receipt-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4 print:bg-white print:p-0 print:items-start">
         <div class="bg-[#f5ede0] w-full max-w-sm rounded-xl shadow-2xl overflow-hidden animate-[slideUp_0.4s_ease-out] print:shadow-none print:w-full print:max-w-full flex flex-col max-h-[90vh]">
             
-            <!-- Real-time Status Banner -->
-            <div id="receipt-status-banner" class="bg-yellow-500/20 text-[#8a6e1c] text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-yellow-500/30 print:hidden">
-                ⏳ ဆိုင်မှ အတည်ပြုချက် စောင့်ဆိုင်းနေပါသည်...
-            </div>
-
-            <!-- Receipt Content -->
-            <div class="p-6 text-[#100b07] font-mono text-sm relative overflow-y-auto no-scrollbar">
-                <div class="text-center mb-6 border-b border-dashed border-[#7b4a2d] pb-4">
-                    <h2 class="text-2xl font-black uppercase tracking-widest text-[#3b1f0e]">Capa Cafe'</h2>
-                    <p class="text-[11px] font-bold mt-1 text-[#7b4a2d]">ငွေရှင်းပြေစာ (Voucher)</p>
-                    <p id="receipt-date" class="text-[10px] mt-2 font-bold"></p>
-                </div>
-                
-                <div class="mb-4 space-y-1 text-xs">
-                    <p><strong>ဝယ်ယူသူ -</strong> <span id="receipt-name"></span></p>
-                    <p><strong>ဖုန်းနံပါတ် -</strong> <span id="receipt-phone"></span></p>
-                </div>
-                
-                <div class="border-b border-dashed border-[#7b4a2d] pb-2 mb-2">
-                    <div class="flex justify-between font-bold mb-2 text-[#3b1f0e]">
-                        <span>ပစ္စည်းအမည်</span>
-                        <span>ကျသင့်ငွေ</span>
-                    </div>
-                    <div id="receipt-items" class="space-y-2 text-xs">
-                        <!-- Items go here -->
-                    </div>
-                </div>
-                
-                <div class="flex justify-between font-bold text-lg text-[#3b1f0e] mt-4 mb-6">
-                    <span>စုစုပေါင်း</span>
-                    <span id="receipt-total"></span>
+            <!-- Snapshot Area Start -->
+            <div id="receipt-snapshot-area" class="bg-[#f5ede0] flex flex-col overflow-y-auto no-scrollbar pb-4">
+                <!-- Real-time Status Banner -->
+                <div id="receipt-status-banner" class="bg-yellow-500/20 text-[#8a6e1c] text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-yellow-500/30 print:hidden">
+                    ⏳ ဆိုင်မှ အတည်ပြုချက် စောင့်ဆိုင်းနေပါသည်...
                 </div>
 
-                <!-- Payment Screenshot -->
-                <div class="border-t border-dashed border-[#7b4a2d] pt-4 text-center">
-                    <p class="text-[10px] font-bold text-[#7b4a2d] mb-2 uppercase">ငွေလွှဲပြေစာ</p>
-                    <img id="receipt-screenshot" src="" class="w-full h-32 object-cover rounded-lg border border-[#7b4a2d]/30" alt="Payment Receipt">
-                </div>
-                
-                <div class="text-center mt-6 text-[10px] text-[#7b4a2d]">
-                    <p>အားပေးမှုကို ကျေးဇူးတင်ပါသည်!</p>
-                    <p>တောင်သမန်လေညင်းနှင့်အတူ အနားယူလိုက်ပါ။</p>
+                <!-- Receipt Content -->
+                <div class="p-6 text-[#100b07] font-mono text-sm relative">
+                    <div class="text-center mb-6 border-b border-dashed border-[#7b4a2d] pb-4">
+                        <h2 class="text-2xl font-black uppercase tracking-widest text-[#3b1f0e]">Capa Cafe'</h2>
+                        <p class="text-[11px] font-bold mt-1 text-[#7b4a2d]">ငွေရှင်းပြေစာ (Voucher)</p>
+                        <p id="receipt-date" class="text-[10px] mt-2 font-bold"></p>
+                    </div>
+                    
+                    <div class="mb-4 space-y-1 text-xs">
+                        <p><strong>ဝယ်ယူသူ -</strong> <span id="receipt-name"></span></p>
+                        <p><strong>ဖုန်းနံပါတ် -</strong> <span id="receipt-phone"></span></p>
+                    </div>
+                    
+                    <div class="border-b border-dashed border-[#7b4a2d] pb-2 mb-2">
+                        <div class="flex justify-between font-bold mb-2 text-[#3b1f0e]">
+                            <span>ပစ္စည်းအမည်</span>
+                            <span>ကျသင့်ငွေ</span>
+                        </div>
+                        <div id="receipt-items" class="space-y-2 text-xs">
+                            <!-- Items go here -->
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between font-bold text-lg text-[#3b1f0e] mt-4 mb-6">
+                        <span>စုစုပေါင်း</span>
+                        <span id="receipt-total"></span>
+                    </div>
+
+                    <!-- Payment Screenshot -->
+                    <div class="border-t border-dashed border-[#7b4a2d] pt-4 text-center">
+                        <p class="text-[10px] font-bold text-[#7b4a2d] mb-2 uppercase">ငွေလွှဲပြေစာ</p>
+                        <img id="receipt-screenshot" src="" class="w-full h-32 object-cover rounded-lg border border-[#7b4a2d]/30" alt="Payment Receipt">
+                    </div>
+                    
+                    <div class="text-center mt-6 text-[10px] text-[#7b4a2d]">
+                        <p>အားပေးမှုကို ကျေးဇူးတင်ပါသည်!</p>
+                        <p>တောင်သမန်လေညင်းနှင့်အတူ အနားယူလိုက်ပါ။</p>
+                    </div>
                 </div>
             </div>
+            <!-- Snapshot Area End -->
             
             <!-- Actions -->
-            <div class="bg-[#100b07] p-4 flex gap-3 print:hidden">
-                <button id="btn-receipt-print" onclick="window.print()" class="flex-1 bg-[#2a2a2a] text-[#e5e5e5] py-2.5 rounded-lg font-bold text-xs hover:bg-[#444] transition-colors border border-[#444] disabled:opacity-50 disabled:cursor-not-allowed">PRINT</button>
+            <div class="bg-[#100b07] p-4 flex gap-3 print:hidden shrink-0">
+                <button id="btn-receipt-download" onclick="downloadReceipt()" class="flex-1 bg-[#2a2a2a] text-[#e5e5e5] py-2.5 rounded-lg font-bold text-xs hover:bg-[#444] transition-colors border border-[#444] disabled:opacity-50 disabled:cursor-not-allowed">DOWNLOAD</button>
                 <button id="btn-receipt-done" onclick="closeReceipt()" class="flex-1 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#100b07] py-2.5 rounded-lg font-bold text-xs hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">DONE</button>
             </div>
         </div>
@@ -576,7 +581,7 @@
             document.getElementById('receipt-total').innerText = totalAmt.toLocaleString() + ' MMK';
             
             // Disable actions while pending
-            document.getElementById('btn-receipt-print').disabled = true;
+            document.getElementById('btn-receipt-download').disabled = true;
             document.getElementById('btn-receipt-done').disabled = true;
 
             // Reset and start polling
@@ -611,8 +616,34 @@
         }
 
         function enableReceiptButtons() {
-            document.getElementById('btn-receipt-print').disabled = false;
+            document.getElementById('btn-receipt-download').disabled = false;
             document.getElementById('btn-receipt-done').disabled = false;
+        }
+
+        function downloadReceipt() {
+            const btn = document.getElementById('btn-receipt-download');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<span class="animate-pulse">DOWNLOADING...</span>`;
+            btn.disabled = true;
+
+            const targetArea = document.getElementById('receipt-snapshot-area');
+            
+            html2canvas(targetArea, {
+                scale: 2, // High resolution
+                backgroundColor: '#f5ede0',
+                useCORS: true
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `CapaCafe_Voucher_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                console.error("Screenshot error:", err);
+                alert("Download failed.");
+            }).finally(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
         }
 
         function closeReceipt() {
