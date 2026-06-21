@@ -66,11 +66,13 @@ def upload_to_imgbb(file_bytes, filename):
         url = "https://api.imgbb.com/1/upload"
         payload = {"key": IMGBB_API_KEY}
         files = {"image": (filename, file_bytes)}
-        response = requests.post(url, data=payload, files=files, timeout=20)
+        response = requests.post(url, data=payload, files=files, timeout=60)
         res_data = response.json()
         if res_data.get("success"):
             return res_data["data"]["url"]
-        return None
+        else:
+            print("DEBUG: ImgBB returned error:", res_data)
+            return None
     except Exception as e:
         print(f"Imgbb Error: {e}")
         return None
@@ -327,6 +329,7 @@ def handle_order():
 
     uploaded_img_url = upload_to_imgbb(screenshot_file.stream.read(), screenshot_file.filename)
     if not uploaded_img_url:
+        print("DEBUG: Image upload to imgbb failed.")
         return jsonify({"success": False, "message": "Image upload failed"}), 500
 
     items_text = ""
@@ -388,9 +391,11 @@ def handle_order():
         "reply_markup": reply_markup
     })
 
+    print("DEBUG: Telegram sendPhoto response:", res.status_code, res.text)
+
     if res.json().get("ok"):
         return jsonify({"success": True, "order_id": new_order['id']}), 200
-    return jsonify({"success": False}), 500
+    return jsonify({"success": False, "message": res.text}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
