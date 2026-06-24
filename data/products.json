@@ -5,7 +5,12 @@
         "price": 5500,
         "category": "coffee",
         "image": "../../static/images/Logo.png",
-        "flavors": ["Normal", "Less Sweet", "Vanilla", "Caramel"]
+        "flavors": [
+            "Normal",
+            "Less Sweet",
+            "Vanilla",
+            "Caramel"
+        ]
     },
     {
         "id": "2",
@@ -13,7 +18,11 @@
         "price": 4500,
         "category": "coffee",
         "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500",
-        "flavors": ["Normal", "Less Sweet", "Extra Strong"]
+        "flavors": [
+            "Normal",
+            "Less Sweet",
+            "Extra Strong"
+        ]
     },
     {
         "id": "3",
@@ -21,7 +30,11 @@
         "price": 6000,
         "category": "coffee",
         "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=500",
-        "flavors": ["Normal", "Less Sweet", "Extra Chocolate"]
+        "flavors": [
+            "Normal",
+            "Less Sweet",
+            "Extra Chocolate"
+        ]
     },
     {
         "id": "4",
@@ -48,7 +61,322 @@
         "id": "7",
         "name": "Sandwich",
         "price": 2500,
-        "category": "food",
+        "category": "cake",
         "image": "../../static/images/cake/Sandwich - 2500.png"
+    },
+    {
+        "id": "8",
+        "name": "ထမင်းဖြူ",
+        "price": 2000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "9",
+        "name": "ထမင်းဆီဆမ်း",
+        "price": 2000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "10",
+        "name": "လက်ဖက်ထမင်း",
+        "price": 3000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "11",
+        "name": "ထမင်းသုပ်",
+        "price": 3000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "12",
+        "name": "ဆိတ်ထောင်းထမင်း",
+        "price": 6000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "13",
+        "name": "ပုန်းရည်ကြီးထမင်း",
+        "price": 3000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "14",
+        "name": "ရှမ်းခေါက်ဆွဲ",
+        "price": 2500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "15",
+        "name": "ဆန်စီး",
+        "price": 2500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "16",
+        "name": "ခိုတောင်",
+        "price": 2500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "17",
+        "name": "ကြာဇံဟင်းခါး",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "18",
+        "name": "ယိုးဒယားစပ်",
+        "price": 2000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "19",
+        "name": "ယိုးဒယားချဉ်",
+        "price": 2500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "20",
+        "name": "Ultra အစပ်သုပ်",
+        "price": 4000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "21",
+        "name": "ဆိတ်ထောင်း",
+        "price": 7000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "22",
+        "name": "ဆိတ်လက်ဖက်ထောင်း",
+        "price": 8000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "23",
+        "name": "ပဲပြားအစာသွပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "24",
+        "name": "ငါးဖယ်အစာသွပ်",
+        "price": 5500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "25",
+        "name": "လက်ဖက်သုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "26",
+        "name": "ဂျင်းသုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "27",
+        "name": "ပဲခြမ်းသုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "28",
+        "name": "ခရမ်းချဉ်သီးသုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "29",
+        "name": "မုန်လာချဉ်သုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "30",
+        "name": "ကျောက်ဖယုံသုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "31",
+        "name": "ရှောက်သီးသုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "32",
+        "name": "ခါကျက်ဥသုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "33",
+        "name": "မြင်းခွာရွက်သုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "34",
+        "name": "ငါးသေတ္တာသုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "35",
+        "name": "ပီတန်သုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "36",
+        "name": "ငါးဖယ်ကြော်သုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "37",
+        "name": "ငါးဖယ်ရခိုင်သုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "38",
+        "name": "ဆိတ်မွှားသုပ်",
+        "price": 5500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "39",
+        "name": "ပဲပြားသုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "40",
+        "name": "ပြောင်းဖူးလက်ဖက်သုပ်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "41",
+        "name": "ကြက်ဥကင်",
+        "price": 3000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "42",
+        "name": "ကြက်ဥသုပ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "43",
+        "name": "ငါးဖယ်လုံးဟင်းရည်",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "44",
+        "name": "စွန်တန်ဟင်းရည်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "45",
+        "name": "တုန်ယမ်းဟင်းရည်",
+        "price": 8500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "46",
+        "name": "ကြက်ဆုပ်ပြုတ်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "47",
+        "name": "ကြက်ဆုပ်ကြော်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "48",
+        "name": "ဆိတ်သားခြောက်ကြော်",
+        "price": 8000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "49",
+        "name": "ငါးဖယ်ကြော်",
+        "price": 4000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "50",
+        "name": "ကြက်ဥလိပ်ကြော်",
+        "price": 3500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "51",
+        "name": "ကော်ပြန့်ကြော် (သီးစုံ/ပြောင်းဖူး)",
+        "price": 4500,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "52",
+        "name": "ကော်ပြန့်ကြော် (ငါးဖယ်/ကြက်သား)",
+        "price": 5500,
+        "category": "food",
+        "image": ""
     }
 ]
