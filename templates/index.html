@@ -202,6 +202,13 @@
                     <h2 class="text-2xl md:text-3xl font-bold sunset-text">တောင်သမန် အထူးအစီအစဉ်များ</h2>
                 </div>
 
+                <!-- Category Navigation -->
+                <div class="sticky top-20 z-40 bg-[#faf7f2]/95 backdrop-blur-md py-4 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <div class="flex overflow-x-auto no-scrollbar gap-3 pb-2 snap-x" id="category-nav">
+                        <!-- Navigation items will be injected by JS -->
+                    </div>
+                </div>
+
                 <div id="dynamic-menu-container" class="space-y-12">
                     <!-- Loading skeleton -->
                     <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#e3dacc]"></div>
@@ -541,74 +548,120 @@
                     .then(products => renderProducts(products.length ? products : dummyData))
                     .catch(() => renderProducts(dummyData));
 
+                const CATEGORIES = [
+                    { id: "coffee", name: "Coffee", label: "ကော်ဖီ (Coffee)", color: "bg-blue-500" },
+                    { id: "non-coffee", name: "Non Coffee", label: "ကော်ဖီမဟုတ်သော (Non Coffee)", color: "bg-red-500" },
+                    { id: "tea", name: "Tea", label: "လက်ဖက်ရည် (Tea Series)", color: "bg-gray-200" },
+                    { id: "smoothies", name: "Smoothies", label: "Smoothies", color: "bg-purple-500" },
+                    { id: "milkshakes", name: "Milkshakes", label: "Milkshakes", color: "bg-pink-400" },
+                    { id: "cheese", name: "Cheese", label: "Cheese Series", color: "bg-yellow-400" },
+                    { id: "frappe", name: "Frappe", label: "Frappe", color: "bg-orange-400" },
+                    { id: "soda", name: "Soda", label: "Soda", color: "bg-teal-400" },
+                    { id: "bakery", name: "Bakery", label: "Bakery & Cakes", color: "bg-[#D97736]" },
+                    { id: "food", name: "Foods", label: "အစားအသောက် (Foods)", color: "bg-[#8a6e1c]" }
+                ];
+
+                function scrollToCategory(catId) {
+                    const el = document.getElementById(`section-${catId}`);
+                    if (el) {
+                        const yOffset = -120; // Adjust for sticky header
+                        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                        window.scrollTo({top: y, behavior: 'smooth'});
+                    }
+                }
+
                 function renderProducts(products) {
+                    const navContainer = document.getElementById('category-nav');
+                    const container = document.getElementById('dynamic-menu-container');
+                    
+                    if (!products || products.length === 0) {
+                        container.innerHTML = '<p class="text-[#8a7566] text-center italic py-10">No items available.</p>';
+                        return;
+                    }
+
+                    // Render Category Nav
+                    let navHtml = '';
+                    CATEGORIES.forEach(cat => {
+                        let count = products.filter(p => {
+                            let pc = p.category.toLowerCase();
+                            if(cat.id === 'bakery' && pc === 'cake') return true;
+                            return pc === cat.id;
+                        }).length;
+                        
+                        navHtml += `
+                        <button onclick="scrollToCategory('${cat.id}')" class="shrink-0 snap-center group flex items-center gap-3 bg-white hover:bg-[#faf7f2] border border-[#e3dacc] hover:border-[#D4AF37] px-4 py-2.5 rounded-full transition-all shadow-sm hover:shadow-md cursor-pointer">
+                            <span class="w-3.5 h-3.5 rounded-full ${cat.color} shadow-inner"></span>
+                            <div class="text-left flex flex-col justify-center leading-none">
+                                <span class="text-sm font-bold text-[#3b2a22] group-hover:text-[#D97736] transition-colors">${cat.name}</span>
+                                <span class="text-[10px] text-[#8a7566] font-mono mt-0.5">x ${count} items</span>
+                            </div>
+                        </button>
+                        `;
+                    });
+                    if(navContainer) navContainer.innerHTML = navHtml;
+
                     let html = '';
-                    const coffeeItems = products.filter(p => p.category === 'coffee');
-                    const cakeItems = products.filter(p => p.category === 'cake');
-                    const foodItems = products.filter(p => p.category === 'food');
+                    const isMobile = window.innerWidth < 768;
 
-                    // Coffee Section
-                    if (coffeeItems.length > 0) {
-                        html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D4AF37] pl-3">ကော်ဖီ (Coffee)</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
-                        coffeeItems.forEach((p, i) => {
-                            const flavorsStr = encodeURIComponent(JSON.stringify(p.flavors || ['Normal']));
-                            html += `
-                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i * 0.1}s">
-                                <div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}')">
-                                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                                </div>
-                                <div class="p-5 relative">
-                                    <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
-                                    <div class="flex justify-between items-center mt-4">
-                                        <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
-                                        <button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider relative z-10">Select</button>
-                                    </div>
-                                </div>
-                            </div>`;
+                    CATEGORIES.forEach(cat => {
+                        const catItems = products.filter(p => {
+                            let pc = p.category.toLowerCase();
+                            if(cat.id === 'bakery' && pc === 'cake') return true;
+                            return pc === cat.id;
                         });
-                        html += `</div></div>`;
-                    }
 
-                    // Cake Section
-                    if (cakeItems.length > 0) {
-                        html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D97736] pl-3">ကိတ်မုန့် (Cakes)</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
-                        cakeItems.forEach((p, i) => {
-                            html += `
-                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i * 0.1}s">
-                                <div class="relative h-48 md:h-56 overflow-hidden">
-                                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                                </div>
-                                <div class="p-5 relative">
-                                    <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
-                                    <div class="flex justify-between items-center mt-4">
-                                        <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
-                                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Add</button>
-                                    </div>
-                                </div>
-                            </div>`;
-                        });
-                        html += `</div></div>`;
-                    }
+                        html += `<div id="section-${cat.id}" class="scroll-mt-32 pt-4">
+                            <h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D4AF37] pl-3">${cat.label}</h3>`;
+                        
+                        if (catItems.length === 0) {
+                            html += `<div class="p-6 glass-card rounded-2xl text-center"><p class="text-[#8a7566] text-sm font-semibold italic">မကြာမီ ရနိုင်ပါမည် (Coming Soon...)</p></div>`;
+                        } else {
+                            if (cat.id === 'food') {
+                                html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                                catItems.forEach((p, i) => {
+                                    html += `
+                                    <div class="glass-card p-4 rounded-xl flex justify-between items-center hover:border-[#D97736]/50 transition-all duration-300 slide-up" style="animation-delay: ${i * 0.1}s">
+                                        <div>
+                                            <h3 class="text-base font-bold text-[#3b2a22]">${p.name}</h3>
+                                            <p class="text-[#D97736] font-mono text-sm font-semibold tracking-wide mt-1">${p.price.toLocaleString()} MMK</p>
+                                        </div>
+                                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] shadow-sm transition-all duration-300">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                        </button>
+                                    </div>`;
+                                });
+                                html += `</div>`;
+                            } else {
+                                html += `<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
+                                catItems.forEach((p, i) => {
+                                    let imageHtml = p.image ? `<div class="relative h-48 md:h-56 overflow-hidden"><img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div></div>` : `<div class="relative h-32 md:h-40 overflow-hidden bg-[#e3dacc]/30 flex items-center justify-center"><span class="text-[#8a7566] text-xs">No Image</span></div>`;
+                                    
+                                    let actionBtn = '';
+                                    if(cat.id === 'coffee' || p.flavors) {
+                                        const flavorsStr = encodeURIComponent(JSON.stringify(p.flavors || ['Normal']));
+                                        imageHtml = p.image ? `<div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}')"><img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div></div>` : imageHtml;
+                                        actionBtn = `<button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image || ''}', '${flavorsStr}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider relative z-10">Select</button>`;
+                                    } else {
+                                        actionBtn = `<button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Add</button>`;
+                                    }
 
-                    // Food Section
-                    if (foodItems.length > 0) {
-                        html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#8a6e1c] pl-3">အစားအသောက် (Food)</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
-                        foodItems.forEach((p, i) => {
-                            html += `
-                            <div class="glass-card p-4 rounded-xl flex justify-between items-center hover:border-[#D97736]/50 transition-all duration-300 slide-up" style="animation-delay: ${i * 0.1}s">
-                                <div>
-                                    <h3 class="text-base font-bold text-[#3b2a22]">${p.name}</h3>
-                                    <p class="text-[#D97736] font-mono text-sm font-semibold tracking-wide mt-1">${p.price.toLocaleString()} MMK</p>
-                                </div>
-                                <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] shadow-sm transition-all duration-300">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                </button>
-                            </div>`;
-                        });
-                        html += `</div></div>`;
-                    }
+                                    html += `
+                                    <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i * 0.1}s">
+                                        ${imageHtml}
+                                        <div class="p-5 relative">
+                                            <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
+                                            <div class="flex justify-between items-center mt-4">
+                                                <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
+                                                ${actionBtn}
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                });
+                                html += `</div>`;
+                            }
+                        }
+                        html += `</div>`;
+                    });
 
                     container.innerHTML = html;
                 }
