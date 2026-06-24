@@ -532,22 +532,6 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            // Fetch Products with Dummy Data Fallback for Preview
-            function loadProductsFromServer() {
-                const dummyData = [
-                    { name: "Sunset Gold Espresso", price: 4500, category: "coffee", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500", flavors: ["Normal", "Less Sweet"] },
-                    { name: "Taung Tha Man Latte", price: 5500, category: "coffee", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=500", flavors: ["Normal", "Vanilla", "Caramel"] },
-                    { name: "Chocolate Cake", price: 3500, category: "cake", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500" },
-                    { name: "Fried Rice with Chicken", price: 6000, category: "food", image: "" }
-                ];
-
-                const container = document.getElementById('dynamic-menu-container');
-
-                fetch('/api/products')
-                    .then(res => res.json())
-                    .then(products => renderProducts(products.length ? products : dummyData))
-                    .catch(() => renderProducts(dummyData));
-
                 const CATEGORIES = [
                     { id: "coffee", name: "Coffee", label: "ကော်ဖီ (Coffee)", color: "bg-blue-500" },
                     { id: "non-coffee", name: "Non Coffee", label: "ကော်ဖီမဟုတ်သော (Non Coffee)", color: "bg-red-500" },
@@ -569,6 +553,22 @@
                         window.scrollTo({top: y, behavior: 'smooth'});
                     }
                 }
+
+            // Fetch Products with Dummy Data Fallback for Preview
+            function loadProductsFromServer() {
+                const dummyData = [
+                    { name: "Sunset Gold Espresso", price: 4500, category: "coffee", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500", flavors: ["Normal", "Less Sweet"] },
+                    { name: "Taung Tha Man Latte", price: 5500, category: "coffee", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=500", flavors: ["Normal", "Vanilla", "Caramel"] },
+                    { name: "Chocolate Cake", price: 3500, category: "cake", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500" },
+                    { name: "Fried Rice with Chicken", price: 6000, category: "food", image: "" }
+                ];
+
+                const container = document.getElementById('dynamic-menu-container');
+
+                fetch('/api/products')
+                    .then(res => res.json())
+                    .then(products => renderProducts(products.length ? products : dummyData))
+                    .catch(() => renderProducts(dummyData));
 
                 function renderProducts(products) {
                     const navContainer = document.getElementById('category-nav');
