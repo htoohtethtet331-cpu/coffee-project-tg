@@ -1,516 +1,956 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my" class="scroll-smooth bg-[#faf7f2]">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Capa Cafe' - Immersive 3D</title>
-    <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap"
-        rel="stylesheet" />
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <!-- Three.js Import Map -->
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-            }
-        }
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CAPA CAFE' | U Bein Sunset Experience</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <style>
-        /* Mobile-First Reset */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* Modern Animations & Custom Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
-        :root {
-            --cream: #f5ede0;
-            --brown: #3b1f0e;
-            --mocha: #7b4a2d;
-            --gold: #c9973a;
-            --dark: #100b07;
-        }
-
-        html,
         body {
-            width: 100vw;
-            height: 100vh;
-            background: var(--dark);
             font-family: 'Inter', sans-serif;
-            color: var(--cream);
-            overflow: hidden;
-            /* Hide main scrollbar, we will use snap container */
-            overscroll-behavior-y: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* ─── FIXED LOGO ─── */
-        #fixed-logo {
-            position: fixed;
-            top: 25px;
-            left: 20px;
-            width: 70px;
-            height: auto;
-            z-index: 9500;
-            pointer-events: none;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
-            opacity: 0;
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
 
-        /* ─── LOADER ─── */
-        #loader {
-            position: fixed;
-            inset: 0;
-            z-index: 9000;
-            background: var(--dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
+        /* U Bein Sunset Gradient */
+        .sunset-text {
+            background: linear-gradient(135deg, #E6C27A 0%, #D4AF37 40%, #D97736 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .steam-line {
-            stroke: var(--gold);
-            stroke-width: 2.5;
-            fill: none;
-            animation: steam 1.4s ease-in-out infinite;
-            opacity: 0.7;
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .steam-line:nth-child(2) {
-            animation-delay: 0.3s;
+        .slide-up {
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .steam-line:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-
-        @keyframes steam {
-            0% {
-                transform: translateY(0) scaleX(1);
-                opacity: 0.7;
-            }
-
-            50% {
-                transform: translateY(-10px) scaleX(1.3);
-                opacity: 0.4;
-            }
-
-            100% {
-                transform: translateY(-20px) scaleX(0.8);
+        @keyframes fadeIn {
+            from {
                 opacity: 0;
             }
+
+            to {
+                opacity: 1;
+            }
         }
 
-        .loader-label {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            color: var(--gold);
-            letter-spacing: 0.1em;
-        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
 
-        .progress-wrap {
-            width: 200px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 99px;
-            overflow: hidden;
-        }
-
-        #progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--mocha), var(--gold));
-            border-radius: 99px;
-            transition: width 0.2s ease;
-        }
-
-        #progress-pct {
-            font-size: 0.85rem;
-            color: #a08070;
-            letter-spacing: 0.05em;
-        }
-
-        /* ─── SNAP CONTAINER ─── */
-        #app-container {
-            width: 100vw;
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            opacity: 0;
-            /* Hidden until loaded */
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Hide scrollbar */
-        #app-container::-webkit-scrollbar {
+        .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
 
-        /* ─── SNAP PAGE (Shared) ─── */
-        .snap-page {
-            width: 100vw;
-            height: 100vh;
-            scroll-snap-align: start;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            background: radial-gradient(circle at center, #2a1b12 0%, #100b07 100%);
-            padding-top: 8vh;
-            padding-bottom: 5vh;
-            overflow: hidden;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .classic-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            color: var(--gold);
-            text-align: center;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-        }
-
-        .canvas-container {
-            width: 100%;
-            flex-grow: 1;
-            position: relative;
-            z-index: 1;
-        }
-
-        .canvas-container canvas {
-            display: block;
-            width: 100% !important;
-            height: 100% !important;
-            outline: none;
-        }
-
-        /* ─── GLASS UI CARDS ─── */
-        .glass-ui {
-            background: rgba(25, 18, 14, 0.4);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            padding: 2rem;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            z-index: 10;
-        }
-
-        .glass-ui p {
-            font-size: 1rem;
-            color: var(--cream);
-            line-height: 1.5;
-            margin-bottom: 1.5rem;
-        }
-
-        .tag {
-            display: inline-block;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            background: rgba(201, 151, 58, 0.15);
-            border: 1px solid rgba(201, 151, 58, 0.3);
-            color: var(--gold);
-            padding: 0.4rem 1rem;
-            border-radius: 99px;
-            margin-bottom: 1rem;
-        }
-
-        .order-btn {
-            background: linear-gradient(135deg, var(--gold), #D97736);
-            color: var(--dark);
+        input[type="file"]::file-selector-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #D97736 100%);
+            color: #080808;
+            font-weight: bold;
             border: none;
-            padding: 0.8rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border-radius: 99px;
-            box-shadow: 0 4px 15px rgba(201, 151, 58, 0.4);
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
 
-        .order-btn:active {
-            transform: scale(0.95);
+        input[type="file"]::file-selector-button:hover {
+            opacity: 0.9;
         }
 
-        /* ─── PAGE 1 SCROLL HINT ─── */
-        .scroll-hint {
-            position: absolute;
-            bottom: 3.5rem;
-            right: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            z-index: 10;
-            opacity: 0.7;
+        /* Apple Glassmorphism Classes */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            border-left: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
         }
 
-        .scroll-arrow {
-            width: 12px;
-            height: 12px;
-            border-right: 2px solid var(--gold);
-            border-bottom: 2px solid var(--gold);
-            transform: rotate(45deg);
-            animation: bounce 1.6s ease-in-out infinite;
+        .glass-input {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-top: 1px solid rgba(255, 255, 255, 0.9);
+            color: #3b2a22;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: rotate(45deg) translateY(0);
-            }
-
-            50% {
-                transform: rotate(45deg) translateY(8px);
-            }
-        }
-
-        /* ─── PAGE 2 SPECIFIC ─── */
-        /* Floating content blocks placed around the base cup */
-        .floating-content {
-            position: absolute;
-            z-index: 10;
-            background: rgba(25, 18, 14, 0.3);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(201, 151, 58, 0.2);
-            border-radius: 16px;
-            padding: 1rem 1.5rem;
-            width: 40%;
-            min-width: 140px;
-            text-align: center;
-        }
-
-        .floating-content h3 {
-            font-family: 'Playfair Display', serif;
-            color: var(--gold);
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .floating-content p {
-            font-size: 0.8rem;
-            color: var(--cream);
-            line-height: 1.4;
-        }
-
-        .float-tl {
-            top: 10%;
-            left: 5%;
-        }
-
-        .float-br {
-            bottom: 10%;
-            right: 5%;
+        .glass-input:focus {
+            border-color: rgba(217, 119, 54, 0.4);
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
+            box-shadow: 0 0 15px rgba(217, 119, 54, 0.1), inset 0 2px 8px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
 
-<body>
+<body class="text-[#3b2a22] min-h-screen flex flex-col relative" onload="loadProductsFromServer()">
 
-    <!-- LOADER -->
-    <div id="loader">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="steam-line" d="M28 18 Q26 12 28 6" />
-            <path class="steam-line" d="M40 20 Q38 13 40 5" />
-            <path class="steam-line" d="M52 18 Q50 12 52 6" />
-            <path d="M16 28 L22 70 H58 L64 28 Z" fill="#3b1f0e" stroke="#7b4a2d" stroke-width="2" />
-            <ellipse cx="40" cy="28" rx="24" ry="6" fill="#7b4a2d" />
-            <path d="M64 36 Q76 36 76 48 Q76 60 64 60" stroke="#7b4a2d" stroke-width="5" fill="none"
-                stroke-linecap="round" />
-            <ellipse cx="40" cy="72" rx="28" ry="5" fill="#3b1f0e" stroke="#7b4a2d" stroke-width="1.5" />
-        </svg>
-        <div class="loader-label">Brewing your experience…</div>
-        <div class="progress-wrap">
-            <div id="progress-bar"></div>
+    <!-- Abstract Glow Background -->
+    <div class="fixed inset-0 z-[-1] bg-[#f5efe6] overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#D97736] rounded-full blur-[150px] opacity-20">
         </div>
-        <div id="progress-pct">0%</div>
+        <div
+            class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#D4AF37] rounded-full blur-[180px] opacity-[0.12]">
+        </div>
+        <div
+            class="absolute top-[40%] left-[60%] w-[40%] h-[40%] bg-[#8a6e1c] rounded-full blur-[120px] opacity-[0.15]">
+        </div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
-    <div id="app-container">
-
-        <img id="fixed-logo" src="{{ url_for('static', filename='images/Logo.png') }}" alt="Capa Cafe" />
-
-        <!-- PAGE 1: Coffee Cup -->
-        <section class="snap-page" id="page-1">
-            <h1 class="classic-title">Capa Cafe'</h1>
-            <div id="canvas-1" class="canvas-container"></div>
-            <div class="glass-ui">
-                <span class="tag">Golden Hour Experience</span>
-                <p>တောင်သမန်အင်းရေပြင်ရဲ့ အေးချမ်းမှုနဲ့ ဦးပိန်တံတားရဲ့ ရှေးဟောင်းအငွေ့အသက်တွေကြားမှာ အရည်အသွေးမြင့်
-                    ကော်ဖီတစ်ခွက်နဲ့အတူ သင့်ရဲ့ အဖိုးတန်အချိန်တွေကို ကုန်ဆုံးလိုက်ပါ။</p>
-                <button class="order-btn" onclick="window.location.href='First.html'">Order Now</button>
+    <!-- Premium Glassmorphism Navbar -->
+    <nav class="glass-nav fixed top-0 w-full z-50 px-4 py-3 md:py-4 transition-all">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
+            <div class="text-center md:text-left cursor-pointer" onclick="switchTab('home')">
+                <h1 class="text-2xl md:text-3xl font-extrabold tracking-widest sunset-text uppercase">Capa Cafe'</h1>
+                <p class="text-[9px] md:text-[11px] text-[#6b584d] tracking-[0.2em] uppercase mt-1">တောင်သမန်အင်း ၊
+                    အမရပူရ</p>
             </div>
-            <!-- Swipe up hint -->
-            <div class="scroll-hint">
-                <div class="scroll-arrow"></div>
+
+            <!-- Modern Pills Navigation -->
+            <div class="flex bg-[#ffffff] p-1.5 rounded-full border border-[#e3dacc] shadow-lg">
+                <button id="tab-home" onclick="switchTab('home')"
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-bold text-[#080808] bg-gradient-to-r from-[#D4AF37] to-[#D97736] transition-all duration-300">ပင်မစာမျက်နှာ</button>
+                <button id="tab-order" onclick="switchTab('order')"
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">မီနူး</button>
+                <button id="tab-about" onclick="switchTab('about')"
+                    class="nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300">ကျွန်ုပ်တို့အကြောင်း</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Wrapper -->
+    <main class="flex-1 pt-36 md:pt-32 pb-12 w-full max-w-7xl mx-auto px-4">
+
+        <!-- ================= HOME PAGE ================= -->
+        <section id="page-home"
+            class="fade-in flex flex-col md:flex-row items-center justify-between gap-10 md:gap-16 min-h-[75vh]">
+            <div class="w-full md:w-1/2 space-y-6 text-center md:text-left slide-up">
+                <span class="text-[#D97736] text-xs font-bold tracking-[0.3em] uppercase block">ရွှေရောင်ဆည်းဆာ
+                    အတွေ့အကြုံ</span>
+                <h2 class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight">
+                    ရှေးဟောင်းတံတားလေးနံဘေးက <br><span class="sunset-text">အေးချမ်းမှုများ။</span>
+                </h2>
+                <p
+                    class="text-[#6b584d] text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0 font-light border-l-2 border-[#D97736] pl-4">
+                    တောင်သမန်အင်းရေပြင်ရဲ့ အေးချမ်းမှုနဲ့ ဦးပိန်တံတားရဲ့ ရှေးဟောင်းအငွေ့အသက်တွေကြားမှာ အရည်အသွေးမြင့်
+                    ကော်ဖီတစ်ခွက်နဲ့အတူ သင့်ရဲ့ အဖိုးတန်အချိန်တွေကို ကုန်ဆုံးလိုက်ပါ။ လူကြီးလူငယ်မရွေး
+                    လွတ်လပ်ငြိမ်းချမ်းစွာ အနားယူနိုင်မယ့် Premium Vibe ကို CAPA မှာ ခံစားနိုင်ပါတယ်။
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4">
+                    <button onclick="switchTab('order')"
+                        class="bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] font-bold px-8 py-4 rounded-xl hover:scale-105 transition-all duration-300 shadow-[0_0_25px_rgba(217,119,54,0.3)]">
+                        မီနူးများကို ကြည့်ရန်
+                    </button>
+                    <button onclick="switchTab('about')"
+                        class="border border-[#e3dacc] text-[#3b2a22] font-semibold px-8 py-4 rounded-xl hover:border-[#D4AF37] hover:text-[#D4AF37] transition-all duration-300 bg-[#ffffff]">
+                        The Lake Story
+                    </button>
+                </div>
+            </div>
+
+            <!-- U Bein Mood Image -->
+            <div class="w-full md:w-1/2 relative slide-up" style="animation-delay: 0.2s;">
+                <div class="absolute inset-0 bg-gradient-to-tr from-[#D97736]/30 to-[#D4AF37]/10 blur-3xl rounded-full">
+                </div>
+                <!-- Using a moody sunset over a wooden bridge/lake image to represent U Bein -->
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000"
+                    alt="Capa Coffee Cafe amarapura"
+                    class="relative z-10 rounded-2xl shadow-2xl border border-[#e3dacc] object-cover w-full h-[400px] md:h-[550px] grayscale-[15%] hover:grayscale-0 sepia-[20%] transition-all duration-700">
             </div>
         </section>
 
-        <!-- PAGE 2: Base Coffee Cup -->
-        <section class="snap-page" id="page-2">
-            <h1 class="classic-title" style="font-size: 2.2rem;">The Origin</h1>
-            <div id="canvas-2" class="canvas-container">
-                <!-- Floating Info blocks around the 3D model -->
-                <div class="floating-content float-tl">
-                    <h3>Sunset Vibe</h3>
-                    <p>နေ့စဉ် နံနက် ၇:၀၀ မှ ည ၈:၀၀ အထိ ဖွင့်လှစ်ထားပါသည်။</p>
+        <!-- ================= ORDER / MENU PAGE ================= -->
+        <section id="page-order" class="hidden fade-in grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+
+            <!-- Left: Product Grid -->
+            <div class="lg:col-span-2 space-y-10">
+                <div class="flex justify-between items-end border-b border-[#e3dacc] pb-4">
+                    <h2 class="text-2xl md:text-3xl font-bold sunset-text">တောင်သမန် အထူးအစီအစဉ်များ</h2>
                 </div>
-                <div class="floating-content float-br">
-                    <h3>Our Promise</h3>
-                    <p>လတ်လတ်ဆတ်ဆတ် ပြင်ဆင်ထားသော ပစ္စည်းများသာ သုံးစွဲပါသည်။</p>
+
+                <div id="dynamic-menu-container" class="space-y-12">
+                    <!-- Loading skeleton -->
+                    <div class="animate-pulse glass-card rounded-2xl h-64 border border-[#e3dacc]"></div>
                 </div>
             </div>
-            <div class="glass-ui" style="margin-top: 1rem;">
-                <span class="tag">Heritage Meets Modernity</span>
-                <p>ကမ္ဘာကျော် ဦးပိန်တံတားရဲ့ သမိုင်းဝင်အလှတရားတွေနဲ့အတူ သင့်ရဲ့မောပန်းမှုတွေကို CAPA CAFE' မှာ
-                    ဖြေဖျောက်လိုက်ပါ။</p>
-                <button class="order-btn" onclick="window.location.href='First.html'"
-                    style="font-size: 0.9rem; padding: 0.6rem 1.5rem;">Explore More</button>
+
+            <!-- Right: Sticky Glass Cart -->
+            <div class="lg:sticky lg:top-32 h-fit">
+                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D4AF37] via-[#D97736] to-[#8a6e1c]">
+                    </div>
+
+                    <h2 class="text-xl font-bold mb-5 flex items-center gap-2 text-[#3b2a22]">
+                        <svg class="w-5 h-5 text-[#D97736]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        သင့်ရဲ့အော်ဒါ
+                    </h2>
+
+                    <!-- Cart Items -->
+                    <div id="cart-items" class="space-y-3 max-h-48 overflow-y-auto no-scrollbar mb-6">
+                        <p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>
+                    </div>
+
+                    <!-- Total -->
+                    <div class="flex justify-between items-center py-4 border-t border-[#e3dacc] mb-6">
+                        <span class="text-[#6b584d] font-medium text-sm uppercase tracking-wider">စုစုပေါင်း
+                            ကျသင့်ငွေ</span>
+                        <span id="cart-total" class="text-xl font-bold sunset-text">0 MMK</span>
+                    </div>
+
+                    <!-- Checkout Form -->
+                    <div class="space-y-4">
+                        <div class="space-y-3">
+                            <input type="text" id="cus_name" placeholder="အမည်အပြည့်အစုံ"
+                                class="w-full glass-input rounded-xl px-4 py-3 text-sm">
+                            <input type="tel" id="cus_phone" placeholder="ဖုန်းနံပါတ်"
+                                class="w-full glass-input rounded-xl px-4 py-3 text-sm">
+                            <textarea id="cus_address" rows="2" placeholder="ပို့ဆောင်ရမည့် လိပ်စာ (အမရပူရမြို့တွင်း)"
+                                class="w-full glass-input rounded-xl px-4 py-3 text-sm resize-none"></textarea>
+                            <button type="button" onclick="getLocation()" id="location-btn"
+                                class="w-full flex items-center justify-center gap-2 bg-[#ffffff] border border-[#d1c7b8] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                Use My Current Location
+                            </button>
+                        </div>
+
+                        <!-- Payment Gateways -->
+                        <div class="glass-card p-4 rounded-xl border border-white/10 space-y-3">
+                            <p class="text-[10px] text-[#D97736] font-bold tracking-widest uppercase mb-2">Secure
+                                Payments</p>
+
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-[10px] text-[#6b584d]">KBZ Pay</p>
+                                    <p class="text-sm font-mono text-[#3b2a22]">09123456789</p>
+                                </div>
+                                <button type="button" onclick="copyText('09123456789', this)"
+                                    class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
+                            </div>
+
+                            <div class="w-full h-px bg-[#222]"></div>
+
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-[10px] text-[#6b584d]">Wave Pay</p>
+                                    <p class="text-sm font-mono text-[#3b2a22]">09987654321</p>
+                                </div>
+                                <button type="button" onclick="copyText('09987654321', this)"
+                                    class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
+                            </div>
+                        </div>
+
+                        <!-- Screenshot -->
+                        <div class="pt-2">
+                            <p class="text-[10px] text-[#6b584d] tracking-widest uppercase mb-2">Upload Receipt</p>
+                            <input type="file" id="payment_screenshot" accept="image/*" onchange="previewImage(event)"
+                                class="w-full text-xs text-[#6b584d]">
+                            <div id="preview-container"
+                                class="hidden mt-3 relative rounded-xl overflow-hidden border border-[#e3dacc]">
+                                <img id="screenshot_preview" class="w-full h-32 object-cover opacity-80">
+                            </div>
+                        </div>
+
+                        <button onclick="submitOrder()" id="btn-submit"
+                            class="w-full bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-[0_4px_20px_0_rgba(217,119,54,0.3)] uppercase tracking-wider text-sm mt-4">
+                            အော်ဒါတင်မည်
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
+        <!-- ================= ABOUT US PAGE (U Bein Mood) ================= -->
+        <section id="page-about" class="hidden fade-in max-w-4xl mx-auto py-10">
+            <div class="text-center space-y-4 mb-12 slide-up">
+                <span class="text-[#D97736] text-xs font-bold tracking-[0.3em] uppercase">Heritage Meets
+                    Modernity</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold sunset-text">The Taung Tha Man Story</h2>
+                <p class="text-[#6b584d] leading-relaxed max-w-2xl mx-auto font-light">
+                    ကမ္ဘာကျော် ဦးပိန်တံတားရဲ့ သမိုင်းဝင်အလှတရားတွေနဲ့အတူ တောင်သမန်အင်းစပ်ရဲ့ လေပြေညင်းကို ခံစားရင်း
+                    သင့်ရဲ့မောပန်းမှုတွေကို CAPA CAFE' မှာ ဖြေဖျောက်လိုက်ပါ။
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-3xl overflow-hidden glass-card shadow-2xl slide-up"
+                style="animation-delay: 0.2s;">
+                <div class="p-8 md:p-12 flex flex-col justify-center space-y-8 relative overflow-hidden bg-black/20">
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#D97736] rounded-full blur-[80px] opacity-20">
+                    </div>
+                    <div>
+                        <h3
+                            class="text-sm font-bold text-[#D4AF37] uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                </path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Location
+                        </h3>
+                        <p class="text-base text-[#3b2a22] font-light leading-relaxed">
+                            တောင်သမန်အင်းစပ်၊ ဦးပိန်တံတားအနီး၊<br>
+                            အမရပူရမြို့၊ မန္တလေးတိုင်း။
+                        </p>
+                    </div>
+                    <div class="w-full h-px bg-gradient-to-r from-[#2a2a2a] via-[#444] to-[#2a2a2a]"></div>
+                    <div>
+                        <h3
+                            class="text-sm font-bold text-[#D4AF37] uppercase tracking-widest mb-3 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Golden Hours
+                        </h3>
+                        <p class="text-base text-[#3b2a22] font-light leading-relaxed">
+                            နေ့စဉ် နံနက် ၇:၀၀ - ည ၈:၀၀<br>
+                            <span class="text-[#6b584d] text-sm">(Sunset Vibe အတွက် ညနေပိုင်း အထူးအကြံပြုပါသည်။)</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="h-[350px] md:h-auto relative">
+                    <!-- U Bein Silhouette Vibe Image -->
+                    <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=1000"
+                        class="absolute inset-0 w-full h-full object-cover sepia-[30%] brightness-75">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Minimalist Footer -->
+    <footer
+        class="glass-card border-t-0 border-b-0 border-l-0 border-r-0 border-[#D4AF37]/20 py-8 text-center mt-auto bg-black/40">
+        <p class="text-[10px] text-[#6b584d] tracking-[0.2em] uppercase">
+            &copy; 2026 CAPA CAFE'. မူပိုင်ခွင့်များ ရယူထားပြီးဖြစ်သည်။ <br class="md:hidden"> တောင်သမန်၏ အငွေ့အသက်များ။
+        </p>
+    </footer>
+
+    <!-- ================= RECEIPT MODAL ================= -->
+    <div id="receipt-modal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 print:bg-white print:p-0 print:items-start">
+        <div
+            class="bg-[#fffaf0] w-full max-w-sm rounded-xl shadow-2xl overflow-hidden animate-[slideUp_0.4s_ease-out] print:shadow-none print:w-full print:max-w-full flex flex-col max-h-[90vh]">
+
+            <div class="overflow-y-auto no-scrollbar flex-1">
+                <!-- Snapshot Area Start -->
+                <div id="receipt-snapshot-area" class="bg-[#fffaf0] flex flex-col pb-4">
+                    <!-- Real-time Status Banner -->
+                    <div id="receipt-status-banner"
+                        class="bg-yellow-500/20 text-[#8a6e1c] text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-yellow-500/30 print:hidden">
+                        ⏳ ဆိုင်မှ အတည်ပြုချက် စောင့်ဆိုင်းနေပါသည်...
+                    </div>
+
+                    <!-- Receipt Content -->
+                    <div class="p-6 text-[#100b07] font-mono text-sm relative">
+                        <div class="text-center mb-6 border-b border-dashed border-[#7b4a2d] pb-4">
+                            <h2 class="text-2xl font-black uppercase tracking-widest text-[#3b1f0e]">Capa Cafe'</h2>
+                            <p class="text-[11px] font-bold mt-1 text-[#7b4a2d]">ငွေရှင်းပြေစာ (Voucher)</p>
+                            <p id="receipt-date" class="text-[10px] mt-2 font-bold"></p>
+                        </div>
+
+                        <div class="mb-4 space-y-1 text-xs">
+                            <p><strong>ဝယ်ယူသူ -</strong> <span id="receipt-name"></span></p>
+                            <p><strong>ဖုန်းနံပါတ် -</strong> <span id="receipt-phone"></span></p>
+                        </div>
+
+                        <div class="border-b border-dashed border-[#7b4a2d] pb-2 mb-2">
+                            <div class="flex justify-between font-bold mb-2 text-[#3b1f0e]">
+                                <span>ပစ္စည်းအမည်</span>
+                                <span>ကျသင့်ငွေ</span>
+                            </div>
+                            <div id="receipt-items" class="space-y-2 text-xs">
+                                <!-- Items go here -->
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between font-bold text-lg text-[#3b1f0e] mt-4 mb-6">
+                            <span>စုစုပေါင်း</span>
+                            <span id="receipt-total"></span>
+                        </div>
+
+                        <!-- Payment Screenshot -->
+                        <div class="border-t border-dashed border-[#7b4a2d] pt-4 text-center">
+                            <p class="text-[10px] font-bold text-[#7b4a2d] mb-2 uppercase">ငွေလွှဲပြေစာ</p>
+                            <img id="receipt-screenshot" src=""
+                                class="w-full h-32 object-cover rounded-lg border border-[#7b4a2d]/30"
+                                alt="Payment Receipt">
+                        </div>
+
+                        <div class="text-center mt-6 text-[10px] text-[#7b4a2d]">
+                            <p>အားပေးမှုကို ကျေးဇူးတင်ပါသည်!</p>
+                            <p>တောင်သမန်လေညင်းနှင့်အတူ အနားယူလိုက်ပါ။</p>
+                        </div>
+                    </div>
+                    <!-- Snapshot Area End -->
+                </div>
+
+                <!-- Actions -->
+                <div class="bg-[#100b07] p-4 flex gap-3 print:hidden shrink-0">
+                    <button id="btn-receipt-download" onclick="downloadReceipt()"
+                        class="flex-1 bg-[#f0ebe1] text-[#3b2a22] py-2.5 rounded-lg font-bold text-xs hover:bg-[#444] transition-colors border border-[#d1c7b8] disabled:opacity-50 disabled:cursor-not-allowed">DOWNLOAD</button>
+                    <button id="btn-receipt-done" onclick="closeReceipt()"
+                        class="flex-1 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#100b07] py-2.5 rounded-lg font-bold text-xs hover:opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">DONE</button>
+                </div>
+            </div>
+        </div>
+
+    <!-- ================= COFFEE VARIANT MODAL ================= -->
+    <div id="coffee-variant-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/50 backdrop-blur-md p-4">
+        <div class="bg-[#faf7f2] w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out]">
+            <!-- Header Image -->
+            <div class="h-32 w-full relative">
+                <img id="cvm-image" src="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#faf7f2] to-transparent"></div>
+                <button onclick="closeCoffeeModal()" class="absolute top-3 right-3 w-8 h-8 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/50">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="p-5 relative -mt-6">
+                <h2 id="cvm-name" class="text-2xl font-bold text-[#3b2a22]">Coffee Name</h2>
+                <p id="cvm-price" class="text-[#D97736] font-mono font-semibold mt-1">0 MMK</p>
+                
+                <!-- Options -->
+                <div class="mt-6 space-y-5">
+                    <!-- Temperature -->
+                    <div>
+                        <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အပူ / အအေး (Temperature)</label>
+                        <div class="flex gap-3">
+                            <button type="button" onclick="selectCvmTemp('Hot')" id="btn-cvm-temp-Hot" class="flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all">အပူ (Hot)</button>
+                            <button type="button" onclick="selectCvmTemp('Cold')" id="btn-cvm-temp-Cold" class="flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all">အအေး (Cold)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Flavor -->
+                    <div>
+                        <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အရသာ (Flavor Options)</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="selectCvmFlavor('Normal')" id="btn-cvm-flv-Normal" class="py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] text-sm font-semibold transition-all">ပုံမှန် (Normal)</button>
+                            <button type="button" onclick="selectCvmFlavor('Less Sweet')" id="btn-cvm-flv-Less_Sweet" class="py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all">အချိုလျှော့</button>
+                            <button type="button" onclick="selectCvmFlavor('Vanilla')" id="btn-cvm-flv-Vanilla" class="py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all">ဗာနီလာ</button>
+                            <button type="button" onclick="selectCvmFlavor('Caramel')" id="btn-cvm-flv-Caramel" class="py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all">ကာရာမဲလ်</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="confirmCoffeeModal()" class="w-full mt-8 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition-all uppercase tracking-wide">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
     </div>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        <!-- ================= JAVASCRIPT ================= -->
+        <script>
+            let cart = [];
 
-        // --- Loading Logic ---
-        const modelsToLoad = 2;
-        let modelsLoadedCount = 0;
-        let totalProgress = { model1: 0, model2: 0 };
+            // Smooth Tab Switching
+            function switchTab(tabName) {
+                const pages = ['home', 'order', 'about'];
+                const activeClass = "nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-bold text-[#080808] bg-gradient-to-r from-[#D4AF37] to-[#D97736] shadow-lg transition-all duration-300";
+                const inactiveClass = "nav-btn px-5 py-2 rounded-full text-xs md:text-sm font-semibold text-[#7d695c] hover:text-[#D4AF37] transition-all duration-300";
 
-        function updateProgress() {
-            const pct = Math.round((totalProgress.model1 + totalProgress.model2) / 2);
-            document.getElementById('progress-bar').style.width = pct + '%';
-            document.getElementById('progress-pct').textContent = pct + '%';
-        }
+                pages.forEach(page => {
+                    const el = document.getElementById('page-' + page);
+                    const btn = document.getElementById('tab-' + page);
 
-        function checkReveal() {
-            modelsLoadedCount++;
-            if (modelsLoadedCount >= modelsToLoad) {
-                // Fade out loader and fade in app
-                gsap.to('#loader', {
-                    opacity: 0, duration: 0.8, ease: 'power2.in',
-                    onComplete: () => { document.getElementById('loader').style.display = 'none'; }
-                });
-                gsap.to('#app-container', {
-                    opacity: 1, duration: 1, delay: 0.4, ease: 'power2.out'
-                });
-
-                // Animate elements in the first page
-                gsap.to('#fixed-logo', { opacity: 1, duration: 1, delay: 0.8 });
-                gsap.fromTo('#page-1 .classic-title', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 1, delay: 0.8, ease: 'power3.out' });
-                gsap.fromTo('#page-1 .glass-ui', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, delay: 1.1, ease: 'power3.out' });
-            }
-        }
-
-        // --- Three.js Setup Function ---
-        function create3DScene(containerId, modelPath, scaleDivisor, progressKey) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
-            camera.position.set(0, 0, 5);
-
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            // Improve rendering colors
-            renderer.outputColorSpace = THREE.SRGBColorSpace;
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            container.appendChild(renderer.domElement);
-
-            const controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.enableZoom = false;
-            controls.enablePan = false;
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 2.0;
-
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
-            scene.add(ambientLight);
-
-            const dirLight = new THREE.DirectionalLight(0xffffff, 2);
-            dirLight.position.set(5, 5, 5);
-            scene.add(dirLight);
-
-            const loader = new GLTFLoader();
-            loader.load(
-                modelPath,
-                (gltf) => {
-                    const model = gltf.scene;
-                    const box = new THREE.Box3().setFromObject(model);
-                    const size = box.getSize(new THREE.Vector3());
-                    const center = box.getCenter(new THREE.Vector3());
-                    model.position.sub(center);
-
-                    const maxDim = Math.max(size.x, size.y, size.z);
-                    const scale = scaleDivisor / maxDim;
-                    model.scale.set(scale, scale, scale);
-
-                    scene.add(model);
-
-                    totalProgress[progressKey] = 100;
-                    updateProgress();
-                    checkReveal();
-                },
-                (xhr) => {
-                    if (xhr.lengthComputable) {
-                        totalProgress[progressKey] = (xhr.loaded / xhr.total) * 100;
-                        updateProgress();
+                    if (page === tabName) {
+                        el.classList.remove('hidden');
+                        // Retrigger animation
+                        el.style.animation = 'none';
+                        el.offsetHeight;
+                        el.style.animation = null;
+                        btn.className = activeClass;
+                    } else {
+                        el.classList.add('hidden');
+                        btn.className = inactiveClass;
                     }
-                },
-                (error) => {
-                    console.error("Error loading " + modelPath, error);
-                    checkReveal(); // fail gracefully
-                }
-            );
-
-            function animate() {
-                requestAnimationFrame(animate);
-                controls.update();
-                renderer.render(scene, camera);
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
-            animate();
 
-            // Handle Resize
-            window.addEventListener('resize', () => {
-                if (container.clientWidth > 0) {
-                    camera.aspect = container.clientWidth / container.clientHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(container.clientWidth, container.clientHeight);
+            // Fetch Products with Dummy Data Fallback for Preview
+            function loadProductsFromServer() {
+                const dummyData = [
+                    { name: "Sunset Gold Espresso", price: 4500, category: "coffee", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500" },
+                    { name: "Taung Tha Man Latte", price: 5500, category: "coffee", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=500" },
+                    { name: "Chocolate Cake", price: 3500, category: "cake", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500" },
+                    { name: "Fried Rice with Chicken", price: 6000, category: "food", image: "" }
+                ];
+
+                const container = document.getElementById('dynamic-menu-container');
+
+                fetch('/api/products')
+                    .then(res => res.json())
+                    .then(products => renderProducts(products.length ? products : dummyData))
+                    .catch(() => renderProducts(dummyData));
+
+                function renderProducts(products) {
+                    let html = '';
+                    const coffeeItems = products.filter(p => p.category === 'coffee');
+                    const cakeItems = products.filter(p => p.category === 'cake');
+                    const foodItems = products.filter(p => p.category === 'food');
+
+                    // Coffee Section
+                    if (coffeeItems.length > 0) {
+                        html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D4AF37] pl-3">ကော်ဖီ (Coffee)</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
+                        coffeeItems.forEach((p, i) => {
+                            html += `
+                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i*0.1}s">
+                                <div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}')">
+                                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                                </div>
+                                <div class="p-5 relative">
+                                    <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
+                                    <div class="flex justify-between items-center mt-4">
+                                        <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
+                                        <button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Select</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+
+                    // Cake Section
+                    if (cakeItems.length > 0) {
+                        html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D97736] pl-3">ကိတ်မုန့် (Cakes)</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
+                        cakeItems.forEach((p, i) => {
+                            html += `
+                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i*0.1}s">
+                                <div class="relative h-48 md:h-56 overflow-hidden">
+                                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                                </div>
+                                <div class="p-5 relative">
+                                    <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
+                                    <div class="flex justify-between items-center mt-4">
+                                        <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
+                                        <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Add</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+
+                    // Food Section
+                    if (foodItems.length > 0) {
+                        html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#8a6e1c] pl-3">အစားအသောက် (Food)</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
+                        foodItems.forEach((p, i) => {
+                            html += `
+                            <div class="glass-card p-4 rounded-xl flex justify-between items-center hover:border-[#D97736]/50 transition-all duration-300 slide-up" style="animation-delay: ${i*0.1}s">
+                                <div>
+                                    <h3 class="text-base font-bold text-[#3b2a22]">${p.name}</h3>
+                                    <p class="text-[#D97736] font-mono text-sm font-semibold tracking-wide mt-1">${p.price.toLocaleString()} MMK</p>
+                                </div>
+                                <button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] shadow-sm transition-all duration-300">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                </button>
+                            </div>`;
+                        });
+                        html += `</div></div>`;
+                    }
+                    
+                    container.innerHTML = html;
                 }
-            });
-        }
+            }
 
-        // Initialize both scenes
-        // Use a scaleDivisor of 3.5 to fit nicely in the view.
-        create3DScene('canvas-1', "{{ url_for('static', filename='models/coffee_cup.glb') }}", 3.5, 'model1');
-        create3DScene('canvas-2', "{{ url_for('static', filename='models/base_coffee_cup.glb') }}", 3.5, 'model2');
+            // Coffee Modal Logic
+            let cvmCurrentProduct = null;
+            let cvmSelectedTemp = 'Hot';
+            let cvmSelectedFlavor = 'Normal';
 
-    </script>
+            function openCoffeeModal(name, price, image) {
+                cvmCurrentProduct = { name, price };
+                document.getElementById('cvm-image').src = image;
+                document.getElementById('cvm-name').innerText = name;
+                document.getElementById('cvm-price').innerText = price.toLocaleString() + ' MMK';
+                
+                selectCvmTemp('Hot');
+                selectCvmFlavor('Normal');
+                
+                document.getElementById('coffee-variant-modal').classList.remove('hidden');
+                document.getElementById('coffee-variant-modal').classList.add('flex');
+            }
+
+            function closeCoffeeModal() {
+                document.getElementById('coffee-variant-modal').classList.add('hidden');
+                document.getElementById('coffee-variant-modal').classList.remove('flex');
+            }
+
+            function selectCvmTemp(temp) {
+                cvmSelectedTemp = temp;
+                document.getElementById('btn-cvm-temp-Hot').className = temp === 'Hot' ? "flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all" : "flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all";
+                document.getElementById('btn-cvm-temp-Cold').className = temp === 'Cold' ? "flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all" : "flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all";
+            }
+
+            function selectCvmFlavor(flavor) {
+                cvmSelectedFlavor = flavor;
+                const flavors = ['Normal', 'Less Sweet', 'Vanilla', 'Caramel'];
+                flavors.forEach(f => {
+                    const id = 'btn-cvm-flv-' + f.replace(' ', '_');
+                    document.getElementById(id).className = flavor === f ? "py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] text-sm font-semibold transition-all" : "py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all";
+                });
+            }
+
+            function confirmCoffeeModal() {
+                if(!cvmCurrentProduct) return;
+                const finalName = `${cvmCurrentProduct.name} (${cvmSelectedTemp}, ${cvmSelectedFlavor})`;
+                addToCart(finalName, cvmCurrentProduct.price);
+                closeCoffeeModal();
+            }
+
+            // Cart Logic
+            function addToCart(name, price) {
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) { existingItem.qty += 1; }
+                else { cart.push({ name, price, qty: 1 }); }
+                updateCartUI();
+            }
+
+            function changeQty(name, amount) {
+                const item = cart.find(item => item.name === name);
+                if (item) {
+                    item.qty += amount;
+                    if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+                }
+                updateCartUI();
+            }
+
+            function updateCartUI() {
+                const cartContainer = document.getElementById('cart-items');
+                const totalContainer = document.getElementById('cart-total');
+                if (cart.length === 0) {
+                    cartContainer.innerHTML = '<p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>';
+                    totalContainer.innerText = '0 MMK';
+                    return;
+                }
+                let html = ''; let total = 0;
+                cart.forEach(item => {
+                    total += item.price * item.qty;
+                    html += `
+                    <div class="flex justify-between items-center glass-card p-3 rounded-xl border border-white/5 group hover:border-[#D4AF37]/40 transition-colors">
+                        <div>
+                            <p class="font-semibold text-sm text-[#3b2a22]">${item.name}</p>
+                            <p class="text-xs font-mono text-[#D4AF37] mt-1">${item.price.toLocaleString()} x ${item.qty}</p>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-black/40 p-1 rounded-lg border border-white/5">
+                            <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] transition-colors">-</button>
+                            <span class="text-xs font-bold w-4 text-center text-[#3b2a22]">${item.qty}</span>
+                            <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] transition-colors">+</button>
+                        </div>
+                    </div>`;
+                });
+                cartContainer.innerHTML = html;
+                totalContainer.innerText = total.toLocaleString() + ' MMK';
+            }
+
+            // Copy Feature
+            function copyText(text, btnElement) {
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = btnElement.innerText;
+                    btnElement.innerText = "COPIED";
+                    btnElement.classList.replace("bg-[#ffffff]", "bg-[#D4AF37]");
+                    btnElement.classList.replace("text-[#3b2a22]", "text-[#080808]");
+
+                    setTimeout(() => {
+                        btnElement.innerText = originalText;
+                        btnElement.classList.replace("bg-[#D4AF37]", "bg-[#ffffff]");
+                        btnElement.classList.replace("text-[#080808]", "text-[#3b2a22]");
+                    }, 2000);
+                }).catch(() => alert("Copy Failed."));
+            }
+
+            // Image Preview
+            function previewImage(event) {
+                const preview = document.getElementById('screenshot_preview');
+                const container = document.getElementById('preview-container');
+                if (event.target.files.length > 0) {
+                    preview.src = URL.createObjectURL(event.target.files[0]);
+                    container.classList.remove('hidden');
+                    container.classList.add('fade-in');
+                }
+            }
+
+            // Image Compression Helper
+            function compressImage(file, callback) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = event => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        const MAX_SIZE = 1000; // max width or height
+                        if (width > height && width > MAX_SIZE) {
+                            height *= MAX_SIZE / width;
+                            width = MAX_SIZE;
+                        } else if (height > MAX_SIZE) {
+                            width *= MAX_SIZE / height;
+                            height = MAX_SIZE;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob(blob => {
+                            callback(blob);
+                        }, 'image/jpeg', 0.6); // 60% quality JPEG
+                    };
+                };
+            }
+
+            // Submit Order
+            function submitOrder() {
+                const name = document.getElementById('cus_name').value.trim();
+                const phone = document.getElementById('cus_phone').value.trim();
+                const address = document.getElementById('cus_address').value.trim();
+                const fileInput = document.getElementById('payment_screenshot');
+                const submitBtn = document.getElementById('btn-submit');
+
+                if (cart.length === 0 || !name || !phone || !address || fileInput.files.length === 0)
+                    return alert('Please complete all details and upload the payment receipt.');
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<span class="animate-pulse">Processing Order...</span>`;
+
+                let orderTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                const receiptCart = JSON.parse(JSON.stringify(cart));
+
+                // Compress image before upload
+                compressImage(fileInput.files[0], (compressedBlob) => {
+                    const formData = new FormData();
+                    formData.append('customer_name', name);
+                    formData.append('customer_phone', phone);
+                    formData.append('customer_address', address);
+                    formData.append('items', JSON.stringify(cart));
+                    formData.append('screenshot', compressedBlob, 'screenshot.jpg');
+
+                    fetch('/api/order', { method: 'POST', body: formData })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                // We use the compressed blob for the receipt to be safe
+                                const screenshotUrl = URL.createObjectURL(compressedBlob);
+                                showReceipt(name, phone, receiptCart, orderTotal, data.order_id, screenshotUrl);
+                                cart = []; updateCartUI();
+                                document.getElementById('cus_name').value = ''; document.getElementById('cus_phone').value = ''; document.getElementById('cus_address').value = '';
+                                fileInput.value = ''; document.getElementById('preview-container').classList.add('hidden');
+                            } else { alert('System error occurred: ' + (data.message || 'Unknown error')); }
+                        })
+                        .catch((e) => alert('Server connection failed. Ensure backend is running. ' + e.message))
+                        .finally(() => {
+                            submitBtn.disabled = false;
+                            submitBtn.innerText = "အော်ဒါတင်မည်";
+                        });
+                });
+            }
+
+            let statusPollInterval;
+
+            // Receipt Logic
+            function showReceipt(name, phone, items, totalAmt, orderId, screenshotUrl) {
+                const now = new Date();
+                document.getElementById('receipt-date').innerText = now.toLocaleString('en-US');
+                document.getElementById('receipt-name').innerText = name;
+                document.getElementById('receipt-phone').innerText = phone;
+
+                if (screenshotUrl) {
+                    document.getElementById('receipt-screenshot').src = screenshotUrl;
+                }
+
+                let itemsHtml = '';
+                items.forEach(item => {
+                    itemsHtml += `
+                <div class="flex justify-between items-center">
+                    <span class="truncate pr-2">${item.qty}x ${item.name}</span>
+                    <span class="whitespace-nowrap">${(item.price * item.qty).toLocaleString()} MMK</span>
+                </div>`;
+                });
+                document.getElementById('receipt-items').innerHTML = itemsHtml;
+                document.getElementById('receipt-total').innerText = totalAmt.toLocaleString() + ' MMK';
+
+                // Disable actions while pending
+                document.getElementById('btn-receipt-download').disabled = true;
+                document.getElementById('btn-receipt-done').disabled = true;
+
+                // Reset and start polling
+                clearInterval(statusPollInterval);
+                const banner = document.getElementById('receipt-status-banner');
+                banner.className = "bg-yellow-500/20 text-[#8a6e1c] text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-yellow-500/30 print:hidden";
+                banner.innerHTML = '⏳ ဆိုင်မှ အတည်ပြုချက် စောင့်ဆိုင်းနေပါသည်...';
+
+                if (orderId) {
+                    statusPollInterval = setInterval(() => {
+                        fetch('/api/order/status/' + orderId)
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.status === 'done') {
+                                    banner.className = "bg-green-500/20 text-green-700 text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-green-500/30 print:hidden";
+                                    banner.innerHTML = '✅ အော်ဒါ လက်ခံလိုက်ပါပြီ';
+                                    clearInterval(statusPollInterval);
+                                    enableReceiptButtons();
+                                } else if (data.status === 'cancelled') {
+                                    banner.className = "bg-red-500/20 text-red-700 text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-red-500/30 print:hidden";
+                                    banner.innerHTML = '❌ အော်ဒါ ပယ်ဖျက်လိုက်ပါပြီ';
+                                    clearInterval(statusPollInterval);
+                                    enableReceiptButtons();
+                                }
+                            }).catch(err => console.error(err));
+                    }, 3000); // Check every 3 seconds
+                }
+
+                const modal = document.getElementById('receipt-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            function enableReceiptButtons() {
+                document.getElementById('btn-receipt-download').disabled = false;
+                document.getElementById('btn-receipt-done').disabled = false;
+            }
+
+            function downloadReceipt() {
+                const btn = document.getElementById('btn-receipt-download');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<span class="animate-pulse">DOWNLOADING...</span>`;
+                btn.disabled = true;
+
+                const targetArea = document.getElementById('receipt-snapshot-area');
+
+                html2canvas(targetArea, {
+                    scale: 2, // High resolution
+                    backgroundColor: '#fffaf0',
+                    useCORS: true,
+                    allowTaint: true
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = `CapaCafe_Voucher_${Date.now()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }).catch(err => {
+                    console.error("Screenshot error:", err);
+                    alert("Download failed: " + err.message);
+                }).finally(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }
+
+            function closeReceipt() {
+                clearInterval(statusPollInterval);
+                const modal = document.getElementById('receipt-modal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                switchTab('home');
+            }
+
+            // ════════════════════════════════════════════════════
+            // Geolocation Logic
+            // ════════════════════════════════════════════════════
+            function getLocation() {
+                const btn = document.getElementById('location-btn');
+                const addrInput = document.getElementById('cus_address');
+
+                if (navigator.geolocation) {
+                    // Show loading state
+                    btn.innerHTML = 'Getting location... <svg class="animate-spin ml-2 h-4 w-4 text-[#D4AF37]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+
+                    navigator.geolocation.getCurrentPosition(
+                        function (position) {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+                            const mapsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+
+                            // Append to the address input
+                            if (addrInput.value.trim() !== '') {
+                                addrInput.value += '\n' + mapsLink;
+                            } else {
+                                addrInput.value = mapsLink;
+                            }
+
+                            // Show success state
+                            btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Location Attached!';
+                            btn.classList.add('text-green-500', 'border-green-500');
+                            btn.classList.remove('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#d1c7b8]');
+
+                            // Reset button after 3 seconds
+                            setTimeout(() => {
+                                btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Use My Current Location';
+                                btn.classList.remove('text-green-500', 'border-green-500');
+                                btn.classList.add('text-[#D4AF37]', 'hover:border-[#D4AF37]', 'border-[#d1c7b8]');
+                            }, 3000);
+                        },
+                        function (error) {
+                            let errMsg = "Error getting location.";
+                            if (error.code === 1) errMsg = "Please allow location access in your browser to use this feature.";
+                            else if (error.code === 2) errMsg = "Location information is unavailable.";
+                            else if (error.code === 3) errMsg = "The request to get user location timed out.";
+                            alert(errMsg);
+
+                            // Reset button
+                            btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> Use My Current Location';
+                        },
+                        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+                    );
+                } else {
+                    alert("Geolocation is not supported by your browser.");
+                }
+            }
+        </script>
 </body>
 
 </html>

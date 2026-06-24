@@ -1,14 +1,51 @@
 [
     {
-        "id": "1781756982",
-        "name": "latte",
+        "id": "1",
+        "name": "Latte",
         "price": 5500,
-        "image": "https://i.ibb.co/hRf0YW0d/latte.jpg"
+        "category": "coffee",
+        "image": "../../static/images/Logo.png"
     },
     {
-        "id": "1781757063",
-        "name": "coffee",
-        "price": 5500,
-        "image": "https://i.ibb.co/zh4wYKrW/coffee.jpg"
+        "id": "2",
+        "name": "Americano",
+        "price": 4500,
+        "category": "coffee",
+        "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500"
+    },
+    {
+        "id": "3",
+        "name": "Mocha",
+        "price": 6000,
+        "category": "coffee",
+        "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=500"
+    },
+    {
+        "id": "4",
+        "name": "Chocolate Cake",
+        "price": 3500,
+        "category": "cake",
+        "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500"
+    },
+    {
+        "id": "5",
+        "name": "Cheese Cake",
+        "price": 4000,
+        "category": "cake",
+        "image": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=500"
+    },
+    {
+        "id": "6",
+        "name": "Fried Rice with Chicken",
+        "price": 6000,
+        "category": "food",
+        "image": ""
+    },
+    {
+        "id": "7",
+        "name": "Spaghetti Bolognese",
+        "price": 8500,
+        "category": "food",
+        "image": ""
     }
 ]
