@@ -1,39 +1,102 @@
 [
     {
-        "id": "1",
-        "name": "Latte",
-        "price": 5500,
-        "category": "coffee",
-        "image": "../../static/images/Logo.png",
-        "flavors": [
-            "Normal",
-            "Less Sweet",
-            "Vanilla",
-            "Caramel"
-        ]
-    },
-    {
-        "id": "2",
+        "id": "c1",
         "name": "Americano",
-        "price": 4500,
+        "price": 5000,
         "category": "coffee",
-        "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500",
+        "image": "../../static/images/coffee/Americano.jpg",
+        "temps": [
+            "Hot",
+            "Ice"
+        ],
         "flavors": [
-            "Normal",
-            "Less Sweet",
-            "Extra Strong"
+            "Normal"
         ]
     },
     {
-        "id": "3",
-        "name": "Mocha",
+        "id": "c2",
+        "name": "Latte",
         "price": 6000,
         "category": "coffee",
-        "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=500",
+        "image": "../../static/images/coffee/Latte.jpg",
+        "temps": [
+            "Hot",
+            "Ice"
+        ],
         "flavors": [
-            "Normal",
-            "Less Sweet",
-            "Extra Chocolate"
+            "Normal"
+        ]
+    },
+    {
+        "id": "c3",
+        "name": "Latte With",
+        "price": 6500,
+        "category": "coffee",
+        "image": "../../static/images/coffee/Latte_With.jpg",
+        "temps": [
+            "Hot",
+            "Ice"
+        ],
+        "flavors": [
+            "Caramel",
+            "Hazelnut",
+            "Vanilla",
+            "Coconut"
+        ]
+    },
+    {
+        "id": "c4",
+        "name": "Mocha",
+        "price": 6500,
+        "category": "coffee",
+        "image": "../../static/images/coffee/Mocha.jpg",
+        "temps": [
+            "Hot",
+            "Ice"
+        ],
+        "flavors": [
+            "Normal"
+        ]
+    },
+    {
+        "id": "c5",
+        "name": "Honey Black Coffee",
+        "price": 6500,
+        "category": "coffee",
+        "image": "../../static/images/coffee/Honey_Black_Coffee.jpg",
+        "temps": [
+            "Hot",
+            "Ice"
+        ],
+        "flavors": [
+            "Normal"
+        ]
+    },
+    {
+        "id": "c6",
+        "name": "Yogurt Coffee",
+        "price": 6500,
+        "category": "coffee",
+        "image": "../../static/images/coffee/Yogurt_Coffee.jpg",
+        "temps": [
+            "None"
+        ],
+        "flavors": [
+            "Normal"
+        ]
+    },
+    {
+        "id": "c7",
+        "name": "Capa နှပ်ကော်ဖီ",
+        "price": 4000,
+        "category": "coffee",
+        "image": "../../static/images/coffee/Capa_Drip.jpg",
+        "temps": [
+            "Hot",
+            "Ice"
+        ],
+        "flavors": [
+            "Normal"
         ]
     },
     {
