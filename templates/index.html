@@ -194,10 +194,10 @@
         </section>
 
         <!-- ================= ORDER / MENU PAGE ================= -->
-        <section id="page-order" class="hidden fade-in grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
+        <section id="page-order" class="hidden fade-in relative max-w-5xl mx-auto">
 
             <!-- Left: Product Grid -->
-            <div class="lg:col-span-2 space-y-10">
+            <div class="space-y-10 w-full">
                 <div class="flex justify-between items-end border-b border-[#e3dacc] pb-4">
                     <h2 class="text-2xl md:text-3xl font-bold sunset-text">တောင်သမန် အထူးအစီအစဉ်များ</h2>
                 </div>
@@ -215,100 +215,7 @@
                 </div>
             </div>
 
-            <!-- Right: Sticky Glass Cart -->
-            <div class="lg:sticky lg:top-32 h-fit">
-                <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
-                    <div
-                        class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#D4AF37] via-[#D97736] to-[#8a6e1c]">
-                    </div>
-
-                    <h2 class="text-xl font-bold mb-5 flex items-center gap-2 text-[#3b2a22]">
-                        <svg class="w-5 h-5 text-[#D97736]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                        သင့်ရဲ့အော်ဒါ
-                    </h2>
-
-                    <!-- Cart Items -->
-                    <div id="cart-items" class="space-y-3 max-h-48 overflow-y-auto no-scrollbar mb-6">
-                        <p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>
-                    </div>
-
-                    <!-- Total -->
-                    <div class="flex justify-between items-center py-4 border-t border-[#e3dacc] mb-6">
-                        <span class="text-[#6b584d] font-medium text-sm uppercase tracking-wider">စုစုပေါင်း
-                            ကျသင့်ငွေ</span>
-                        <span id="cart-total" class="text-xl font-bold sunset-text">0 MMK</span>
-                    </div>
-
-                    <!-- Checkout Form -->
-                    <div class="space-y-4">
-                        <div class="space-y-3">
-                            <input type="text" id="cus_name" placeholder="အမည်အပြည့်အစုံ"
-                                class="w-full glass-input rounded-xl px-4 py-3 text-sm">
-                            <input type="tel" id="cus_phone" placeholder="ဖုန်းနံပါတ်"
-                                class="w-full glass-input rounded-xl px-4 py-3 text-sm">
-                            <textarea id="cus_address" rows="2" placeholder="ပို့ဆောင်ရမည့် လိပ်စာ (အမရပူရမြို့တွင်း)"
-                                class="w-full glass-input rounded-xl px-4 py-3 text-sm resize-none"></textarea>
-                            <button type="button" onclick="getLocation()" id="location-btn"
-                                class="w-full flex items-center justify-center gap-2 bg-[#ffffff] border border-[#d1c7b8] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                Use My Current Location
-                            </button>
-                        </div>
-
-                        <!-- Payment Gateways -->
-                        <div class="glass-card p-4 rounded-xl border border-white/10 space-y-3">
-                            <p class="text-[10px] text-[#D97736] font-bold tracking-widest uppercase mb-2">Secure
-                                Payments</p>
-
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-[10px] text-[#6b584d]">KBZ Pay</p>
-                                    <p class="text-sm font-mono text-[#3b2a22]">09123456789</p>
-                                </div>
-                                <button type="button" onclick="copyText('09123456789', this)"
-                                    class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
-                            </div>
-
-                            <div class="w-full h-px bg-[#222]"></div>
-
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-[10px] text-[#6b584d]">Wave Pay</p>
-                                    <p class="text-sm font-mono text-[#3b2a22]">09987654321</p>
-                                </div>
-                                <button type="button" onclick="copyText('09987654321', this)"
-                                    class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
-                            </div>
-                        </div>
-
-                        <!-- Screenshot -->
-                        <div class="pt-2">
-                            <p class="text-[10px] text-[#6b584d] tracking-widest uppercase mb-2">Upload Receipt</p>
-                            <input type="file" id="payment_screenshot" accept="image/*" onchange="previewImage(event)"
-                                class="w-full text-xs text-[#6b584d]">
-                            <div id="preview-container"
-                                class="hidden mt-3 relative rounded-xl overflow-hidden border border-[#e3dacc]">
-                                <img id="screenshot_preview" class="w-full h-32 object-cover opacity-80">
-                            </div>
-                        </div>
-
-                        <button onclick="submitOrder()" id="btn-submit"
-                            class="w-full bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-[0_4px_20px_0_rgba(217,119,54,0.3)] uppercase tracking-wider text-sm mt-4">
-                            အော်ဒါတင်မည်
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
 
         <!-- ================= ABOUT US PAGE (U Bein Mood) ================= -->
         <section id="page-about" class="hidden fade-in max-w-4xl mx-auto py-10">
@@ -498,7 +405,99 @@
             </div>
         </div>
 
-        <!-- ================= JAVASCRIPT ================= -->
+        
+    <!-- ================= FLOATING CART BUTTON ================= -->
+    <button id="floating-cart-btn" onclick="openCartSidebar()" class="fixed bottom-6 right-6 z-[90] bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] p-4 rounded-full shadow-[0_10px_25px_rgba(217,119,54,0.5)] hover:scale-110 transition-transform duration-300 hidden">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        <span id="floating-cart-badge" class="absolute -top-1 -right-1 bg-white text-[#D97736] text-xs font-black w-6 h-6 flex items-center justify-center rounded-full border border-[#D97736] shadow-sm">0</span>
+    </button>
+
+    <!-- ================= SHOPPING CART SIDEBAR ================= -->
+    <div id="cart-sidebar-overlay" class="fixed inset-0 z-[110] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeCartSidebar()"></div>
+        <div id="cart-sidebar" class="absolute top-0 right-0 h-full w-full sm:w-[400px] bg-[#faf7f2] shadow-2xl transform translate-x-full transition-transform duration-500 overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold flex items-center gap-2 text-[#3b2a22]">
+                        <svg class="w-6 h-6 text-[#D97736]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        သင့်ရဲ့အော်ဒါ
+                    </h2>
+                    <button onclick="closeCartSidebar()" class="text-[#6b584d] hover:text-[#D97736] p-2 rounded-full hover:bg-black/5 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Cart Items -->
+                <div id="cart-items" class="space-y-3 max-h-[40vh] overflow-y-auto no-scrollbar mb-6">
+                    <p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>
+                </div>
+
+                <!-- Total -->
+                <div class="flex justify-between items-center py-4 border-t border-[#e3dacc] mb-6">
+                    <span class="text-[#6b584d] font-medium text-sm uppercase tracking-wider">စုစုပေါင်း ကျသင့်ငွေ</span>
+                    <span id="cart-total" class="text-xl font-bold sunset-text">0 MMK</span>
+                </div>
+
+                <!-- Checkout Form -->
+                <div class="space-y-4">
+                    <div class="space-y-3">
+                        <input type="text" id="cus_name" placeholder="အမည်အပြည့်အစုံ" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] focus:border-[#D4AF37] bg-white">
+                        <input type="tel" id="cus_phone" placeholder="ဖုန်းနံပါတ်" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] focus:border-[#D4AF37] bg-white">
+                        <textarea id="cus_address" rows="2" placeholder="ပို့ဆောင်ရမည့် လိပ်စာ (အမရပူရမြို့တွင်း)" class="w-full glass-input rounded-xl px-4 py-3 text-sm resize-none border-2 border-[#e3dacc] focus:border-[#D4AF37] bg-white"></textarea>
+                        <button type="button" onclick="getLocation()" id="location-btn" class="w-full flex items-center justify-center gap-2 bg-[#ffffff] border-2 border-[#e3dacc] hover:border-[#D4AF37] text-[#D4AF37] py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Use My Current Location
+                        </button>
+                    </div>
+
+                    <!-- Payment Gateways -->
+                    <div class="glass-card p-4 rounded-xl border border-black/5 space-y-3 bg-[#e3dacc]/20">
+                        <p class="text-[10px] text-[#D97736] font-bold tracking-widest uppercase mb-2">Secure Payments</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-[10px] text-[#6b584d] font-bold">KBZ Pay</p>
+                                <p class="text-sm font-mono text-[#3b2a22] font-semibold">09123456789</p>
+                            </div>
+                            <button type="button" onclick="copyText('09123456789', this)" class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
+                        </div>
+                        <div class="w-full h-px bg-[#d1c7b8]"></div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-[10px] text-[#6b584d] font-bold">Wave Pay</p>
+                                <p class="text-sm font-mono text-[#3b2a22] font-semibold">09987654321</p>
+                            </div>
+                            <button type="button" onclick="copyText('09987654321', this)" class="text-[#3b2a22] bg-[#ffffff] border border-[#d1c7b8] px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-[#080808] transition-all">Copy</button>
+                        </div>
+                    </div>
+
+                    <!-- Screenshot -->
+                    <div class="pt-2">
+                        <p class="text-[10px] text-[#6b584d] font-bold tracking-widest uppercase mb-2">Upload Receipt</p>
+                        <input type="file" id="payment_screenshot" accept="image/*" onchange="previewImage(event)" class="w-full text-xs text-[#6b584d] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-[#D4AF37] file:text-[#080808] hover:file:bg-[#D97736] transition-all">
+                        <div id="preview-container" class="hidden mt-3 relative rounded-xl overflow-hidden border border-[#e3dacc]">
+                            <img id="screenshot_preview" class="w-full h-32 object-cover opacity-90">
+                        </div>
+                    </div>
+
+                    <button onclick="submitOrder()" id="btn-submit" class="w-full bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-[0_4px_20px_0_rgba(217,119,54,0.3)] uppercase tracking-wider text-sm mt-4">
+                        အော်ဒါတင်မည်
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
         <script>
             window.onerror = function (message, source, lineno, colno, error) {
                 alert("JS Error: " + message + " at line " + lineno);
@@ -730,32 +729,65 @@
                 updateCartUI();
             }
 
+            // Sidebar Logic
+            function openCartSidebar() {
+                const overlay = document.getElementById('cart-sidebar-overlay');
+                const sidebar = document.getElementById('cart-sidebar');
+                overlay.classList.remove('hidden');
+                // slight delay to allow display:block to apply before transform
+                setTimeout(() => {
+                    sidebar.classList.remove('translate-x-full');
+                }, 10);
+            }
+
+            function closeCartSidebar() {
+                const overlay = document.getElementById('cart-sidebar-overlay');
+                const sidebar = document.getElementById('cart-sidebar');
+                sidebar.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 500); // Wait for transition
+            }
+
             function updateCartUI() {
                 const cartContainer = document.getElementById('cart-items');
                 const totalContainer = document.getElementById('cart-total');
+                const fab = document.getElementById('floating-cart-btn');
+                const fabBadge = document.getElementById('floating-cart-badge');
+
+                let totalItems = 0;
+                let total = 0;
+                
                 if (cart.length === 0) {
                     cartContainer.innerHTML = '<p class="text-[#8a7566] text-center py-8 text-sm font-light">နှစ်သက်ရာကို ရွေးချယ်ပါ။</p>';
                     totalContainer.innerText = '0 MMK';
+                    if(fab) fab.classList.add('hidden');
+                    if(fabBadge) fabBadge.innerText = '0';
                     return;
                 }
-                let html = ''; let total = 0;
+                
+                if(fab) fab.classList.remove('hidden');
+
+                let html = '';
                 cart.forEach(item => {
                     total += item.price * item.qty;
+                    totalItems += item.qty;
                     html += `
-                    <div class="flex justify-between items-center glass-card p-3 rounded-xl border border-white/5 group hover:border-[#D4AF37]/40 transition-colors">
+                    <div class="flex justify-between items-center glass-card p-3 rounded-xl border border-black/5 group hover:border-[#D4AF37]/40 transition-colors bg-white">
                         <div>
-                            <p class="font-semibold text-sm text-[#3b2a22]">${item.name}</p>
-                            <p class="text-xs font-mono text-[#D4AF37] mt-1">${item.price.toLocaleString()} x ${item.qty}</p>
+                            <p class="font-bold text-sm text-[#3b2a22]">${item.name}</p>
+                            <p class="text-xs font-mono font-bold text-[#D97736] mt-1">${item.price.toLocaleString()} x ${item.qty}</p>
                         </div>
-                        <div class="flex items-center space-x-2 bg-black/40 p-1 rounded-lg border border-white/5">
-                            <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] transition-colors">-</button>
+                        <div class="flex items-center space-x-2 bg-[#e3dacc]/30 p-1 rounded-lg border border-[#d1c7b8]">
+                            <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] font-bold transition-colors">-</button>
                             <span class="text-xs font-bold w-4 text-center text-[#3b2a22]">${item.qty}</span>
-                            <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] transition-colors">+</button>
+                            <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-[#6b584d] hover:text-[#D97736] font-bold transition-colors">+</button>
                         </div>
                     </div>`;
                 });
                 cartContainer.innerHTML = html;
                 totalContainer.innerText = total.toLocaleString() + ' MMK';
+                if(fabBadge) fabBadge.innerText = totalItems;
             }
 
             // Copy Feature
