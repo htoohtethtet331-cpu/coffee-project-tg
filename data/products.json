@@ -4,7 +4,7 @@
         "name": "Americano",
         "price": 5000,
         "category": "coffee",
-        "image": "../../static/images/coffee/Americano.jpg",
+        "image": "../../static/images/coffee/Americano.png",
         "temps": [
             "Hot",
             "Ice"
@@ -18,7 +18,7 @@
         "name": "Latte",
         "price": 6000,
         "category": "coffee",
-        "image": "../../static/images/coffee/Latte.jpg",
+        "image": "../../static/images/coffee/Latte.png",
         "temps": [
             "Hot",
             "Ice"
@@ -32,7 +32,7 @@
         "name": "Latte With",
         "price": 6500,
         "category": "coffee",
-        "image": "../../static/images/coffee/Latte_With.jpg",
+        "image": "../../static/images/coffee/Latte With.png",
         "temps": [
             "Hot",
             "Ice"
@@ -49,7 +49,7 @@
         "name": "Mocha",
         "price": 6500,
         "category": "coffee",
-        "image": "../../static/images/coffee/Mocha.jpg",
+        "image": "../../static/images/coffee/Mocha.png",
         "temps": [
             "Hot",
             "Ice"
@@ -63,7 +63,7 @@
         "name": "Honey Black Coffee",
         "price": 6500,
         "category": "coffee",
-        "image": "../../static/images/coffee/Honey_Black_Coffee.jpg",
+        "image": "../../static/images/coffee/Honey Black Coffee.png",
         "temps": [
             "Hot",
             "Ice"
@@ -77,7 +77,7 @@
         "name": "Yogurt Coffee",
         "price": 6500,
         "category": "coffee",
-        "image": "../../static/images/coffee/Yogurt_Coffee.jpg",
+        "image": "../../static/images/coffee/Yogurt Coffee.png",
         "temps": [
             "None"
         ],
@@ -90,7 +90,7 @@
         "name": "Capa နှပ်ကော်ဖီ",
         "price": 4000,
         "category": "coffee",
-        "image": "../../static/images/coffee/Capa_Drip.jpg",
+        "image": "../../static/images/coffee/နှပ်ကော်ဖီ.png",
         "temps": [
             "Hot",
             "Ice"
