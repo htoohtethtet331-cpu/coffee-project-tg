@@ -380,11 +380,11 @@
                     <!-- Options -->
                     <div class="mt-6 space-y-5">
                         <!-- Temperature -->
-                        <div>
+                        <div id="cvm-temp-container">
                             <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အပူ / အအေး (Temperature)</label>
                             <select id="cvm-temp-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 bg-white">
                                 <option value="Hot">အပူ (Hot)</option>
-                                <option value="Cold">အအေး (Cold)</option>
+                                <option value="Ice">အအေး (Ice)</option>
                             </select>
                         </div>
 
@@ -407,7 +407,7 @@
 
         
     <!-- ================= FLOATING CART BUTTON ================= -->
-    <button id="floating-cart-btn" onclick="openCartSidebar()" class="fixed bottom-6 right-6 z-[90] bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] p-4 rounded-full shadow-[0_10px_25px_rgba(217,119,54,0.5)] hover:scale-110 transition-transform duration-300 hidden">
+    <button id="floating-cart-btn" onclick="openCartSidebar()" class="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-[90] bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] p-4 rounded-full shadow-[0_10px_25px_rgba(217,119,54,0.5)] hover:scale-110 transition-transform duration-300 hidden">
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
         </svg>
@@ -638,8 +638,9 @@
                                     let actionBtn = '';
                                     if(cat.id === 'coffee' || p.flavors) {
                                         const flavorsStr = encodeURIComponent(JSON.stringify(p.flavors || ['Normal']));
-                                        imageHtml = p.image ? `<div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}')"><img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div></div>` : imageHtml;
-                                        actionBtn = `<button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image || ''}', '${flavorsStr}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider relative z-10">Select</button>`;
+                                        const tempsStr = encodeURIComponent(JSON.stringify(p.temps || ['Hot', 'Ice']));
+                                        imageHtml = p.image ? `<div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}', '${tempsStr}')"><img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div></div>` : imageHtml;
+                                        actionBtn = `<button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image || ''}', '${flavorsStr}', '${tempsStr}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider relative z-10">Select</button>`;
                                     } else {
                                         actionBtn = `<button onclick="addToCart('${p.name}', ${p.price})" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider">Add</button>`;
                                     }
@@ -669,7 +670,7 @@
             // Coffee Modal Logic
             let cvmCurrentProduct = null;
 
-            function openCoffeeModal(name, price, image, flavorsStr) {
+            function openCoffeeModal(name, price, image, flavorsStr, tempsStr) {
                 cvmCurrentProduct = { name, price };
                 document.getElementById('cvm-image').src = image;
                 document.getElementById('cvm-name').innerText = name;
@@ -692,7 +693,34 @@
                     }
                 }
                 
-                document.getElementById('cvm-temp-select').value = 'Hot';
+                // Populate dynamic temps
+                const tempContainer = document.getElementById('cvm-temp-container');
+                const tempSelect = document.getElementById('cvm-temp-select');
+                if (tempsStr && tempsStr !== 'undefined') {
+                    try {
+                        const temps = JSON.parse(decodeURIComponent(tempsStr));
+                        if (!temps || temps.length === 0 || temps[0] === 'None') {
+                            tempContainer.classList.add('hidden');
+                        } else {
+                            tempContainer.classList.remove('hidden');
+                            tempSelect.innerHTML = '';
+                            temps.forEach(t => {
+                                const option = document.createElement('option');
+                                option.value = t;
+                                option.innerText = t === 'Hot' ? 'အပူ (Hot)' : (t === 'Ice' ? 'အအေး (Ice)' : t);
+                                tempSelect.appendChild(option);
+                            });
+                            tempSelect.value = temps[0];
+                        }
+                    } catch(e) {
+                        console.error("Error parsing temps", e);
+                        tempContainer.classList.remove('hidden');
+                    }
+                } else {
+                    tempContainer.classList.remove('hidden');
+                    tempSelect.innerHTML = '<option value="Hot">အပူ (Hot)</option><option value="Ice">အအေး (Ice)</option>';
+                    tempSelect.value = 'Hot';
+                }
 
                 document.getElementById('coffee-variant-modal').classList.remove('hidden');
                 document.getElementById('coffee-variant-modal').classList.add('flex');
@@ -705,9 +733,23 @@
 
             function confirmCoffeeModal() {
                 if (!cvmCurrentProduct) return;
-                const temp = document.getElementById('cvm-temp-select').value;
+                const tempContainer = document.getElementById('cvm-temp-container');
                 const flavor = document.getElementById('cvm-flavor-select').value;
-                const finalName = `${cvmCurrentProduct.name} (${temp}, ${flavor})`;
+                let finalName = cvmCurrentProduct.name;
+                
+                if (!tempContainer.classList.contains('hidden')) {
+                    const temp = document.getElementById('cvm-temp-select').value;
+                    if (flavor && flavor !== 'Normal') {
+                        finalName = `${finalName} (${temp}, ${flavor})`;
+                    } else {
+                        finalName = `${finalName} (${temp})`;
+                    }
+                } else {
+                    if (flavor && flavor !== 'Normal') {
+                        finalName = `${finalName} (${flavor})`;
+                    }
+                }
+                
                 addToCart(finalName, cvmCurrentProduct.price);
                 closeCoffeeModal();
             }
