@@ -25,30 +25,30 @@
     },
     {
         "id": "4",
-        "name": "Chocolate Cake",
-        "price": 3500,
+        "name": "Cake Box",
+        "price": 3000,
         "category": "cake",
-        "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500"
+        "image": "../../static/images/cake/Cake Box - 3000.png"
     },
     {
         "id": "5",
-        "name": "Cheese Cake",
-        "price": 4000,
+        "name": "Egg Tart",
+        "price": 2000,
         "category": "cake",
-        "image": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=500"
+        "image": "../../static/images/cake/Egg Tart - 2000.png"
     },
     {
         "id": "6",
-        "name": "Fried Rice with Chicken",
-        "price": 6000,
-        "category": "food",
-        "image": ""
+        "name": "Pillow",
+        "price": 3500,
+        "category": "cake",
+        "image": "../../static/images/cake/Pillow - 3500.png"
     },
     {
         "id": "7",
-        "name": "Spaghetti Bolognese",
-        "price": 8500,
+        "name": "Sandwich",
+        "price": 2500,
         "category": "food",
-        "image": ""
+        "image": "../../static/images/cake/Sandwich - 2500.png"
     }
 ]
