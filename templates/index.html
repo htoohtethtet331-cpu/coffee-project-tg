@@ -203,7 +203,7 @@
                 </div>
 
                 <!-- Category Navigation -->
-                <div class="sticky top-20 z-40 bg-[#faf7f2]/95 backdrop-blur-md py-4 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0">
+                <div class="sticky top-[110px] md:top-[88px] z-40 bg-[#faf7f2]/95 backdrop-blur-md py-4 shadow-sm -mx-4 px-4 sm:mx-0 sm:px-0">
                     <div class="flex overflow-x-auto no-scrollbar gap-3 pb-2 snap-x" id="category-nav">
                         <!-- Navigation items will be injected by JS -->
                     </div>
@@ -548,7 +548,7 @@
                 function scrollToCategory(catId) {
                     const el = document.getElementById(`section-${catId}`);
                     if (el) {
-                        const yOffset = -120; // Adjust for sticky header
+                        const yOffset = window.innerWidth < 768 ? -180 : -140; // Adjust for taller sticky headers
                         const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
                         window.scrollTo({top: y, behavior: 'smooth'});
                     }
