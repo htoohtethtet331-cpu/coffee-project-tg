@@ -439,57 +439,60 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- ================= COFFEE VARIANT MODAL ================= -->
-    <div id="coffee-variant-modal" class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/50 backdrop-blur-md p-4">
-        <div class="bg-[#faf7f2] w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out]">
-            <!-- Header Image -->
-            <div class="h-32 w-full relative">
-                <img id="cvm-image" src="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#faf7f2] to-transparent"></div>
-                <button onclick="closeCoffeeModal()" class="absolute top-3 right-3 w-8 h-8 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <div class="p-5 relative z-10 -mt-6 bg-[#faf7f2] rounded-t-2xl">
-                <h2 id="cvm-name" class="text-2xl font-bold text-[#3b2a22]">Coffee Name</h2>
-                <p id="cvm-price" class="text-[#D97736] font-mono font-semibold mt-1">0 MMK</p>
-                
-                <!-- Options -->
-                <div class="mt-6 space-y-5">
-                    <!-- Temperature -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အပူ / အအေး (Temperature)</label>
-                        <select id="cvm-temp-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 appearance-none bg-white">
-                            <option value="Hot">အပူ (Hot)</option>
-                            <option value="Cold">အအေး (Cold)</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Flavor -->
-                    <div>
-                        <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အရသာ (Flavor Options)</label>
-                        <select id="cvm-flavor-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 appearance-none bg-white">
-                            <option value="Normal">ပုံမှန် (Normal)</option>
-                            <option value="Less Sweet">အချိုလျှော့ (Less Sweet)</option>
-                            <option value="Vanilla">ဗာနီလာ (Vanilla)</option>
-                            <option value="Caramel">ကာရာမဲလ် (Caramel)</option>
-                        </select>
-                    </div>
+        <!-- ================= COFFEE VARIANT MODAL ================= -->
+        <div id="coffee-variant-modal"
+            class="fixed inset-0 z-[110] hidden items-center justify-center bg-black/50 backdrop-blur-md p-4">
+            <div
+                class="bg-[#faf7f2] w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-[slideUp_0.3s_ease-out]">
+                <!-- Header Image -->
+                <div class="h-32 w-full relative">
+                    <img id="cvm-image" src="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#faf7f2] to-transparent"></div>
+                    <button onclick="closeCoffeeModal()"
+                        class="absolute top-3 right-3 w-8 h-8 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/50">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                 </div>
-                
-                <button onclick="confirmCoffeeModal()" class="w-full mt-8 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition-all uppercase tracking-wide">
-                    Add to Cart
-                </button>
+
+                <div class="p-5 relative z-10 -mt-6 bg-[#faf7f2] rounded-t-2xl">
+                    <h2 id="cvm-name" class="text-2xl font-bold text-[#3b2a22]">Coffee Name</h2>
+                    <p id="cvm-price" class="text-[#D97736] font-mono font-semibold mt-1">0 MMK</p>
+
+                    <!-- Options -->
+                    <div class="mt-6 space-y-5">
+                        <!-- Temperature -->
+                        <div>
+                            <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အပူ / အအေး (Temperature)</label>
+                            <select id="cvm-temp-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 appearance-none bg-white">
+                                <option value="Hot">အပူ (Hot)</option>
+                                <option value="Cold">အအေး (Cold)</option>
+                            </select>
+                        </div>
+
+                        <!-- Flavor -->
+                        <div>
+                            <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အရသာ (Flavor Options)</label>
+                            <select id="cvm-flavor-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 appearance-none bg-white">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="confirmCoffeeModal()"
+                        class="w-full mt-8 bg-gradient-to-r from-[#D4AF37] to-[#D97736] text-[#080808] font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition-all uppercase tracking-wide">
+                        Add to Cart
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
         <!-- ================= JAVASCRIPT ================= -->
         <script>
-            window.onerror = function(message, source, lineno, colno, error) {
+            window.onerror = function (message, source, lineno, colno, error) {
                 alert("JS Error: " + message + " at line " + lineno);
                 return true;
             };
@@ -524,8 +527,8 @@
             // Fetch Products with Dummy Data Fallback for Preview
             function loadProductsFromServer() {
                 const dummyData = [
-                    { name: "Sunset Gold Espresso", price: 4500, category: "coffee", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500" },
-                    { name: "Taung Tha Man Latte", price: 5500, category: "coffee", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=500" },
+                    { name: "Sunset Gold Espresso", price: 4500, category: "coffee", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500", flavors: ["Normal", "Less Sweet"] },
+                    { name: "Taung Tha Man Latte", price: 5500, category: "coffee", image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=500", flavors: ["Normal", "Vanilla", "Caramel"] },
                     { name: "Chocolate Cake", price: 3500, category: "cake", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=500" },
                     { name: "Fried Rice with Chicken", price: 6000, category: "food", image: "" }
                 ];
@@ -547,9 +550,10 @@
                     if (coffeeItems.length > 0) {
                         html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D4AF37] pl-3">ကော်ဖီ (Coffee)</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
                         coffeeItems.forEach((p, i) => {
+                            const flavorsStr = encodeURIComponent(JSON.stringify(p.flavors || ['Normal']));
                             html += `
-                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i*0.1}s">
-                                <div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}')">
+                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i * 0.1}s">
+                                <div class="relative h-48 md:h-56 overflow-hidden cursor-pointer" onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}')">
                                     <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                                 </div>
@@ -557,7 +561,7 @@
                                     <h3 class="text-lg font-bold text-[#3b2a22] group-hover:text-[#D4AF37] transition-colors">${p.name}</h3>
                                     <div class="flex justify-between items-center mt-4">
                                         <span class="text-[#D97736] font-mono text-sm font-semibold tracking-wide">${p.price.toLocaleString()} MMK</span>
-                                        <button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider relative z-10">Select</button>
+                                        <button onclick="openCoffeeModal('${p.name}', ${p.price}, '${p.image}', '${flavorsStr}')" class="bg-[#ffffff] border border-[#d1c7b8] text-[#3b2a22] px-4 py-2 rounded-xl text-xs font-bold hover:bg-[#D4AF37] hover:text-[#080808] hover:border-[#D4AF37] transition-all duration-300 uppercase tracking-wider relative z-10">Select</button>
                                     </div>
                                 </div>
                             </div>`;
@@ -570,7 +574,7 @@
                         html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#D97736] pl-3">ကိတ်မုန့် (Cakes)</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-5">`;
                         cakeItems.forEach((p, i) => {
                             html += `
-                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i*0.1}s">
+                            <div class="group glass-card rounded-2xl overflow-hidden hover:border-[#D97736]/50 transition-all duration-500 hover:shadow-[0_10px_30px_rgba(217,119,54,0.15)] slide-up" style="animation-delay: ${i * 0.1}s">
                                 <div class="relative h-48 md:h-56 overflow-hidden">
                                     <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover sepia-[20%] group-hover:sepia-0 group-hover:scale-110 transition-all duration-700">
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
@@ -592,7 +596,7 @@
                         html += `<div><h3 class="text-xl font-bold text-[#3b2a22] mb-4 border-l-4 border-[#8a6e1c] pl-3">အစားအသောက် (Food)</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4">`;
                         foodItems.forEach((p, i) => {
                             html += `
-                            <div class="glass-card p-4 rounded-xl flex justify-between items-center hover:border-[#D97736]/50 transition-all duration-300 slide-up" style="animation-delay: ${i*0.1}s">
+                            <div class="glass-card p-4 rounded-xl flex justify-between items-center hover:border-[#D97736]/50 transition-all duration-300 slide-up" style="animation-delay: ${i * 0.1}s">
                                 <div>
                                     <h3 class="text-base font-bold text-[#3b2a22]">${p.name}</h3>
                                     <p class="text-[#D97736] font-mono text-sm font-semibold tracking-wide mt-1">${p.price.toLocaleString()} MMK</p>
@@ -604,23 +608,25 @@
                         });
                         html += `</div></div>`;
                     }
-                    
+
                     container.innerHTML = html;
                 }
             }
 
             // Coffee Modal Logic
             let cvmCurrentProduct = null;
+            let cvmSelectedTemp = 'Hot';
+            let cvmSelectedFlavor = 'Normal';
 
             function openCoffeeModal(name, price, image) {
                 cvmCurrentProduct = { name, price };
                 document.getElementById('cvm-image').src = image;
                 document.getElementById('cvm-name').innerText = name;
                 document.getElementById('cvm-price').innerText = price.toLocaleString() + ' MMK';
-                
-                document.getElementById('cvm-temp-select').value = 'Hot';
-                document.getElementById('cvm-flavor-select').value = 'Normal';
-                
+
+                selectCvmTemp('Hot');
+                selectCvmFlavor('Normal');
+
                 document.getElementById('coffee-variant-modal').classList.remove('hidden');
                 document.getElementById('coffee-variant-modal').classList.add('flex');
             }
@@ -630,11 +636,24 @@
                 document.getElementById('coffee-variant-modal').classList.remove('flex');
             }
 
+            function selectCvmTemp(temp) {
+                cvmSelectedTemp = temp;
+                document.getElementById('btn-cvm-temp-Hot').className = temp === 'Hot' ? "flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all" : "flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all";
+                document.getElementById('btn-cvm-temp-Cold').className = temp === 'Cold' ? "flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all" : "flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all";
+            }
+
+            function selectCvmFlavor(flavor) {
+                cvmSelectedFlavor = flavor;
+                const flavors = ['Normal', 'Less Sweet', 'Vanilla', 'Caramel'];
+                flavors.forEach(f => {
+                    const id = 'btn-cvm-flv-' + f.replace(' ', '_');
+                    document.getElementById(id).className = flavor === f ? "py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] text-sm font-semibold transition-all" : "py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all";
+                });
+            }
+
             function confirmCoffeeModal() {
-                if(!cvmCurrentProduct) return;
-                const temp = document.getElementById('cvm-temp-select').value;
-                const flavor = document.getElementById('cvm-flavor-select').value;
-                const finalName = `${cvmCurrentProduct.name} (${temp}, ${flavor})`;
+                if (!cvmCurrentProduct) return;
+                const finalName = `${cvmCurrentProduct.name} (${cvmSelectedTemp}, ${cvmSelectedFlavor})`;
                 addToCart(finalName, cvmCurrentProduct.price);
                 closeCoffeeModal();
             }

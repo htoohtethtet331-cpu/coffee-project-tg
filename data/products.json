@@ -4,21 +4,24 @@
         "name": "Latte",
         "price": 5500,
         "category": "coffee",
-        "image": "../../static/images/Logo.png"
+        "image": "../../static/images/Logo.png",
+        "flavors": ["Normal", "Less Sweet", "Vanilla", "Caramel"]
     },
     {
         "id": "2",
         "name": "Americano",
         "price": 4500,
         "category": "coffee",
-        "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500"
+        "image": "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=500",
+        "flavors": ["Normal", "Less Sweet", "Extra Strong"]
     },
     {
         "id": "3",
         "name": "Mocha",
         "price": 6000,
         "category": "coffee",
-        "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=500"
+        "image": "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=500",
+        "flavors": ["Normal", "Less Sweet", "Extra Chocolate"]
     },
     {
         "id": "4",
