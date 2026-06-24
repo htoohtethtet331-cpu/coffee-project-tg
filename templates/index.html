@@ -461,21 +461,21 @@
                     <!-- Temperature -->
                     <div>
                         <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အပူ / အအေး (Temperature)</label>
-                        <div class="flex gap-3">
-                            <button type="button" onclick="selectCvmTemp('Hot')" id="btn-cvm-temp-Hot" class="flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all">အပူ (Hot)</button>
-                            <button type="button" onclick="selectCvmTemp('Cold')" id="btn-cvm-temp-Cold" class="flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all">အအေး (Cold)</button>
-                        </div>
+                        <select id="cvm-temp-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 appearance-none bg-white">
+                            <option value="Hot">အပူ (Hot)</option>
+                            <option value="Cold">အအေး (Cold)</option>
+                        </select>
                     </div>
                     
                     <!-- Flavor -->
                     <div>
                         <label class="block text-xs font-bold text-[#6b584d] uppercase tracking-wider mb-2">အရသာ (Flavor Options)</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button type="button" onclick="selectCvmFlavor('Normal')" id="btn-cvm-flv-Normal" class="py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] text-sm font-semibold transition-all">ပုံမှန် (Normal)</button>
-                            <button type="button" onclick="selectCvmFlavor('Less Sweet')" id="btn-cvm-flv-Less_Sweet" class="py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all">အချိုလျှော့</button>
-                            <button type="button" onclick="selectCvmFlavor('Vanilla')" id="btn-cvm-flv-Vanilla" class="py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all">ဗာနီလာ</button>
-                            <button type="button" onclick="selectCvmFlavor('Caramel')" id="btn-cvm-flv-Caramel" class="py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all">ကာရာမဲလ်</button>
-                        </div>
+                        <select id="cvm-flavor-select" class="w-full glass-input rounded-xl px-4 py-3 text-sm border-2 border-[#e3dacc] text-[#3b2a22] font-semibold focus:border-[#D4AF37] focus:ring-0 appearance-none bg-white">
+                            <option value="Normal">ပုံမှန် (Normal)</option>
+                            <option value="Less Sweet">အချိုလျှော့ (Less Sweet)</option>
+                            <option value="Vanilla">ဗာနီလာ (Vanilla)</option>
+                            <option value="Caramel">ကာရာမဲလ် (Caramel)</option>
+                        </select>
                     </div>
                 </div>
                 
@@ -610,8 +610,6 @@
 
             // Coffee Modal Logic
             let cvmCurrentProduct = null;
-            let cvmSelectedTemp = 'Hot';
-            let cvmSelectedFlavor = 'Normal';
 
             function openCoffeeModal(name, price, image) {
                 cvmCurrentProduct = { name, price };
@@ -619,8 +617,8 @@
                 document.getElementById('cvm-name').innerText = name;
                 document.getElementById('cvm-price').innerText = price.toLocaleString() + ' MMK';
                 
-                selectCvmTemp('Hot');
-                selectCvmFlavor('Normal');
+                document.getElementById('cvm-temp-select').value = 'Hot';
+                document.getElementById('cvm-flavor-select').value = 'Normal';
                 
                 document.getElementById('coffee-variant-modal').classList.remove('hidden');
                 document.getElementById('coffee-variant-modal').classList.add('flex');
@@ -631,24 +629,11 @@
                 document.getElementById('coffee-variant-modal').classList.remove('flex');
             }
 
-            function selectCvmTemp(temp) {
-                cvmSelectedTemp = temp;
-                document.getElementById('btn-cvm-temp-Hot').className = temp === 'Hot' ? "flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all" : "flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all";
-                document.getElementById('btn-cvm-temp-Cold').className = temp === 'Cold' ? "flex-1 py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] font-semibold transition-all" : "flex-1 py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] font-semibold hover:border-[#D4AF37] transition-all";
-            }
-
-            function selectCvmFlavor(flavor) {
-                cvmSelectedFlavor = flavor;
-                const flavors = ['Normal', 'Less Sweet', 'Vanilla', 'Caramel'];
-                flavors.forEach(f => {
-                    const id = 'btn-cvm-flv-' + f.replace(' ', '_');
-                    document.getElementById(id).className = flavor === f ? "py-2 rounded-lg border-2 border-[#D4AF37] bg-[#D4AF37]/10 text-[#3b2a22] text-sm font-semibold transition-all" : "py-2 rounded-lg border-2 border-[#e3dacc] text-[#6b584d] text-sm font-semibold hover:border-[#D4AF37] transition-all";
-                });
-            }
-
             function confirmCoffeeModal() {
                 if(!cvmCurrentProduct) return;
-                const finalName = `${cvmCurrentProduct.name} (${cvmSelectedTemp}, ${cvmSelectedFlavor})`;
+                const temp = document.getElementById('cvm-temp-select').value;
+                const flavor = document.getElementById('cvm-flavor-select').value;
+                const finalName = `${cvmCurrentProduct.name} (${temp}, ${flavor})`;
                 addToCart(finalName, cvmCurrentProduct.price);
                 closeCoffeeModal();
             }
