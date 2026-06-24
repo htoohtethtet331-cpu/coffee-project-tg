@@ -452,7 +452,7 @@
                 </button>
             </div>
             
-            <div class="p-5 relative -mt-6">
+            <div class="p-5 relative z-10 -mt-6 bg-[#faf7f2] rounded-t-2xl">
                 <h2 id="cvm-name" class="text-2xl font-bold text-[#3b2a22]">Coffee Name</h2>
                 <p id="cvm-price" class="text-[#D97736] font-mono font-semibold mt-1">0 MMK</p>
                 
@@ -488,6 +488,11 @@
 
         <!-- ================= JAVASCRIPT ================= -->
         <script>
+            window.onerror = function(message, source, lineno, colno, error) {
+                alert("JS Error: " + message + " at line " + lineno);
+                return true;
+            };
+
             let cart = [];
 
             // Smooth Tab Switching
