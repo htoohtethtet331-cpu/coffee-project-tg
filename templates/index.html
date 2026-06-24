@@ -848,7 +848,10 @@
                 if (orderId) {
                     statusPollInterval = setInterval(() => {
                         fetch('/api/order/status/' + orderId)
-                            .then(res => res.json())
+                            .then(res => {
+                                if (!res.ok) throw new Error('Not OK');
+                                return res.json();
+                            })
                             .then(data => {
                                 if (data.status === 'done') {
                                     banner.className = "bg-green-500/20 text-green-700 text-center py-2 text-[10px] font-bold uppercase tracking-widest border-b border-green-500/30 print:hidden";

@@ -318,10 +318,12 @@ def serve_first():
     return render_template('First.html')
 
 @app.route('/api/products', methods=['GET'])
+@limiter.exempt
 def get_products():
     return jsonify(load_products()), 200
 
 @app.route('/api/order/status/<order_id>', methods=['GET'])
+@limiter.exempt
 def get_order_status(order_id):
     orders = load_orders()
     for o in orders:
