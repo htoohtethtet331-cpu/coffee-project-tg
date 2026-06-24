@@ -2,14 +2,27 @@ import requests
 import json
 import os
 import time
+import html
 from flask import Flask, request, jsonify, send_from_directory, render_template
+from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+load_dotenv()
 
 app = Flask(__name__)
 
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
+
 # ==================== [ ⚠️ API KEYS CONFIGURATION ] ====================
-TELEGRAM_BOT_TOKEN = "8947073943:AAEUOXzSnXpXWYg4p60ohdsmownW5dU0wsw"   
-TELEGRAM_CHAT_ID = "1967155608"       
-IMGBB_API_KEY = "371d33f4a13209017e739a26fdb50c89"             
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")   
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")       
+IMGBB_API_KEY = os.environ.get("IMGBB_API_KEY")             
 # =====================================================================
 
 import os
@@ -317,10 +330,11 @@ def get_order_status(order_id):
     return jsonify({"status": "not_found"}), 404
 
 @app.route('/api/order', methods=['POST'])
+@limiter.limit("5 per minute")
 def handle_order():
-    name = request.form.get('customer_name')
-    phone = request.form.get('customer_phone')
-    address = request.form.get('customer_address')
+    name = html.escape(request.form.get('customer_name', '').strip())
+    phone = html.escape(request.form.get('customer_phone', '').strip())
+    address = html.escape(request.form.get('customer_address', '').strip())
     items = json.loads(request.form.get('items', '[]'))
     screenshot_file = request.files.get('screenshot')
 
